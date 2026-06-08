@@ -1,5 +1,9 @@
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 namespace MoaiGolf
 {
     public sealed class MoaiGolfStageView : MonoBehaviour
@@ -14,12 +18,15 @@ namespace MoaiGolf
 
             var stage = runState.Stage;
             CreatePixelPerfectSprite("Background Visual", MoaiGolfSpriteCatalog.Background, Vector2.zero, Color.white, -10);
-            CreateBox("Ground Collider", stage.GroundCenter, stage.GroundSize, new Color(0.39f, 0.65f, 0.29f, 0.28f), true, false, 0);
+            CreateTerrainCollider();
             var launchPedestalCenter = new Vector2(runState.LaunchPosition.x, stage.LaunchPosition.y);
             CreateSprite("Golf Club Visual", MoaiGolfSpriteCatalog.GolfClub, launchPedestalCenter + new Vector2(-1.05f, -0.18f), new Vector2(0.55f, 0.55f), Color.white, 3);
             CreateBox("Launch Pedestal Collider", launchPedestalCenter, new Vector2(MoaiGolfWorldSettings.LaunchPedestalWidth, MoaiGolfWorldSettings.LaunchPedestalHeight), new Color(0.45f, 0.34f, 0.25f, 0.45f), true, false, 1);
-            CreateSprite("Target Moai Visual", MoaiGolfSpriteCatalog.GetMoai(MoaiGolfMoaiKind.Sunglasses), stage.TargetMoaiPosition + new Vector2(-0.48f, -0.65f), new Vector2(1.6f, 1.6f), Color.white, 2);
-            CreateBox("Target Moai Collider", stage.TargetMoaiPosition, new Vector2(0.95f, 1.35f), new Color(0.38f, 0.35f, 0.31f, 0.15f), true, false, 2);
+            CreateTargetMoai(MoaiGolfMoaiKind.Sunglasses, 43.5f, 2);
+            CreateTargetMoai(MoaiGolfMoaiKind.Ribbon, 46.0f, 2);
+            CreateTargetMoai(MoaiGolfMoaiKind.Snowman, 48.4f, 2);
+            CreateTargetMoai(MoaiGolfMoaiKind.Sunglasses, 56.5f, 2);
+            CreateTargetMoai(MoaiGolfMoaiKind.Macho, 60.0f, 2);
             CreateBox("Success Zone Trigger", stage.SuccessZone.center, stage.SuccessZone.size, new Color(1f, 0.1f, 0.08f, 0.32f), true, true, 3);
             CreateAimMarker(stage);
             CreateLaunchMoai(runState);
@@ -52,6 +59,17 @@ namespace MoaiGolf
             }
 
             return box;
+        }
+
+        private void CreateTerrainCollider()
+        {
+            var terrainObject = new GameObject("Terrain Black Line Collider");
+            terrainObject.transform.SetParent(transform);
+            terrainObject.transform.position = Vector3.zero;
+
+            var collider = terrainObject.AddComponent<EdgeCollider2D>();
+            collider.points = MoaiGolfTerrainProfile.ColliderPoints;
+            collider.edgeRadius = 0.035f;
         }
 
         private GameObject CreateSprite(string objectName, Sprite sprite, Vector2 bottomLeft, Vector2 scale, Color color, int sortingOrder)
@@ -111,6 +129,23 @@ namespace MoaiGolf
             arrow.transform.rotation = Quaternion.Euler(0f, 0f, 180f);
         }
 
+        private void CreateTargetMoai(MoaiGolfMoaiKind kind, float x, int sortingOrder)
+        {
+            var spec = MoaiGolfMoaiSpec.Get(kind);
+            var centerY = MoaiGolfTerrainProfile.GetY(x) + spec.ColliderSize.y * 0.5f + 0.02f;
+            var moai = new GameObject($"Target Moai {kind}");
+            moai.transform.SetParent(transform);
+            moai.transform.position = new Vector2(x, centerY);
+            CreateSpriteChild("Target Moai Visual", moai.transform, MoaiGolfSpriteCatalog.GetMoai(kind), new Vector2(-0.45f, -0.52f), spec.VisualScale, Color.white, sortingOrder);
+
+            var collider = moai.AddComponent<CapsuleCollider2D>();
+            collider.size = spec.ColliderSize;
+            collider.direction = CapsuleDirection2D.Vertical;
+
+            var body = moai.AddComponent<Rigidbody2D>();
+            body.bodyType = RigidbodyType2D.Static;
+        }
+
         private void CreateLaunchMoai(MoaiGolfRunState runState)
         {
             var spec = MoaiGolfMoaiSpec.Get(runState.LaunchMoaiKind);
@@ -164,4 +199,48 @@ namespace MoaiGolf
             };
         }
     }
+
+#if UNITY_EDITOR
+    public static class MoaiGolfMoaiPrefabUtility
+    {
+        private const string PrefabPath = "Assets/Prefabs/Moai.prefab";
+
+        [InitializeOnLoadMethod]
+        private static void EnsurePrefabAssetOnLoad()
+        {
+            if (!System.IO.File.Exists(PrefabPath))
+            {
+                CreatePrefabAsset();
+            }
+        }
+
+        [MenuItem("Moai Golf/Create Moai Prefab")]
+        public static void CreatePrefabAsset()
+        {
+            var spec = MoaiGolfMoaiSpec.Get(MoaiGolfMoaiKind.Sunglasses);
+            var root = new GameObject("Moai");
+
+            var visual = new GameObject("Visual");
+            visual.transform.SetParent(root.transform);
+            visual.transform.localPosition = new Vector3(-0.45f, -0.52f, 0f);
+            visual.transform.localScale = new Vector3(spec.VisualScale.x, spec.VisualScale.y, 1f);
+            var renderer = visual.AddComponent<SpriteRenderer>();
+            renderer.sprite = MoaiGolfSpriteCatalog.GetMoai(MoaiGolfMoaiKind.Sunglasses);
+            renderer.sortingOrder = 4;
+
+            var collider = root.AddComponent<CapsuleCollider2D>();
+            collider.size = spec.ColliderSize;
+            collider.direction = CapsuleDirection2D.Vertical;
+
+            var body = root.AddComponent<Rigidbody2D>();
+            body.mass = spec.Mass;
+            body.bodyType = RigidbodyType2D.Dynamic;
+
+            System.IO.Directory.CreateDirectory("Assets/Prefabs");
+            PrefabUtility.SaveAsPrefabAsset(root, PrefabPath);
+            Object.DestroyImmediate(root);
+            AssetDatabase.ImportAsset(PrefabPath, ImportAssetOptions.ForceUpdate);
+        }
+    }
+#endif
 }

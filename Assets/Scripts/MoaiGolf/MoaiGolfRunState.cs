@@ -23,7 +23,9 @@ namespace MoaiGolf
             LaunchMoaiKind = (MoaiGolfMoaiKind)Random.Range(0, 4);
             var spec = MoaiGolfMoaiSpec.Get(LaunchMoaiKind);
             var pedestalCenter = stage.LaunchPosition + LaunchPositionOffsets[Random.Range(0, LaunchPositionOffsets.Length)];
-            var pedestalTop = pedestalCenter.y + MoaiGolfWorldSettings.LaunchPedestalHeight * 0.5f;
+            var terrainY = MoaiGolfTerrainProfile.GetY(pedestalCenter.x);
+            pedestalCenter = new Vector2(pedestalCenter.x, terrainY + MoaiGolfWorldSettings.LaunchPedestalHeight * 0.5f);
+            var pedestalTop = terrainY + MoaiGolfWorldSettings.LaunchPedestalHeight;
             LaunchPosition = new Vector2(pedestalCenter.x, pedestalTop + spec.ColliderSize.y * 0.5f + 0.02f);
             AttemptIndex = 1;
         }
