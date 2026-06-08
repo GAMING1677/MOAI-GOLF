@@ -29,6 +29,7 @@ namespace MoaiGolf
             var runState = EnsureRunState();
             EnsureGameController();
             EnsureMouseInput();
+            EnsureHud();
             EnsureStageView(runState);
         }
 
@@ -101,6 +102,14 @@ namespace MoaiGolf
             if (FindAnyObjectByType<MoaiGolfMousePowerInput>() == null)
             {
                 gameObject.AddComponent<MoaiGolfMousePowerInput>();
+            }
+        }
+
+        private void EnsureHud()
+        {
+            if (FindAnyObjectByType<MoaiGolfHud>() == null)
+            {
+                gameObject.AddComponent<MoaiGolfHud>();
             }
         }
     }
