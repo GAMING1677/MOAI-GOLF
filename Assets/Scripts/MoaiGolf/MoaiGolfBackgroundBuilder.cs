@@ -12,9 +12,9 @@ namespace MoaiGolf
         public const string SourceAPath = "Assets/Textures/background.png";
         public const string SourceBPath = "Assets/Textures/background_2.png";
         public const string GeneratedPath = "Assets/Textures/generated/background_fullscreen.png";
-        public const int SourceSegmentWidth = MoaiGolfWorldSettings.ReferenceWidthPixels;
-        public const int OutputWidth = MoaiGolfWorldSettings.ReferenceWidthPixels * 2;
-        public const int OutputHeight = MoaiGolfWorldSettings.ReferenceHeightPixels;
+        public const int SourceSegmentWidth = MoaiGolfWorldSettings.SourceBackgroundWidthPixels;
+        public const int OutputWidth = MoaiGolfWorldSettings.BackgroundWidthPixels;
+        public const int OutputHeight = MoaiGolfWorldSettings.BackgroundHeightPixels;
 
 #if UNITY_EDITOR
         [MenuItem("Moai Golf/Generate Fullscreen Background")]

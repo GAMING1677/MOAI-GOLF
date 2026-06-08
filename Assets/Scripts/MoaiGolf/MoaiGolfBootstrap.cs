@@ -23,12 +23,18 @@ namespace MoaiGolf
             Screen.autorotateToPortraitUpsideDown = false;
             Screen.autorotateToLandscapeLeft = true;
             Screen.autorotateToLandscapeRight = true;
+            Screen.SetResolution(
+                MoaiGolfWorldSettings.ViewportWidthPixels,
+                MoaiGolfWorldSettings.ViewportHeightPixels,
+                FullScreenMode.FullScreenWindow
+            );
 
             ApplyPhysicsBaseline();
             ApplyCameraBaseline();
             var runState = EnsureRunState();
             EnsureGameController();
             EnsureMouseInput();
+            EnsureCameraController();
             EnsureHud();
             EnsureStageView(runState);
         }
@@ -51,7 +57,6 @@ namespace MoaiGolf
             }
 
             mainCamera.orthographic = true;
-            mainCamera.aspect = MoaiGolfWorldSettings.ReferenceAspect;
             mainCamera.orthographicSize = MoaiGolfWorldSettings.CameraOrthographicSize;
             mainCamera.transform.position = new Vector3(
                 MoaiGolfWorldSettings.CameraCenterX,
@@ -111,6 +116,14 @@ namespace MoaiGolf
             if (FindAnyObjectByType<MoaiGolfHud>() == null)
             {
                 gameObject.AddComponent<MoaiGolfHud>();
+            }
+        }
+
+        private void EnsureCameraController()
+        {
+            if (FindAnyObjectByType<MoaiGolfCameraController>() == null)
+            {
+                gameObject.AddComponent<MoaiGolfCameraController>();
             }
         }
     }
