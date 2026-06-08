@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace MoaiGolf
 {
@@ -171,19 +172,40 @@ namespace MoaiGolf
 
         private void ApplyManualScroll()
         {
-            var horizontal = Input.GetAxisRaw("Horizontal");
+            var keyboard = Keyboard.current;
+            var horizontal = 0f;
+            if (keyboard != null)
+            {
+                if (keyboard.aKey.isPressed || keyboard.leftArrowKey.isPressed)
+                {
+                    horizontal -= 1f;
+                }
+
+                if (keyboard.dKey.isPressed || keyboard.rightArrowKey.isPressed)
+                {
+                    horizontal += 1f;
+                }
+            }
+
             if (Mathf.Abs(horizontal) > 0.01f)
             {
                 mainCamera.transform.position += Vector3.right * horizontal * KeyboardScrollSpeed * Time.unscaledDeltaTime;
             }
 
-            if (Input.GetMouseButtonDown(1))
+            var mouse = Mouse.current;
+            if (mouse == null)
             {
-                lastMousePosition = Input.mousePosition;
+                isDragging = false;
+                return;
+            }
+
+            if (mouse.rightButton.wasPressedThisFrame)
+            {
+                lastMousePosition = mouse.position.ReadValue();
                 isDragging = true;
             }
 
-            if (Input.GetMouseButtonUp(1))
+            if (mouse.rightButton.wasReleasedThisFrame)
             {
                 isDragging = false;
             }
@@ -193,7 +215,7 @@ namespace MoaiGolf
                 return;
             }
 
-            var currentMousePosition = Input.mousePosition;
+            var currentMousePosition = (Vector3)mouse.position.ReadValue();
             var deltaPixels = currentMousePosition - lastMousePosition;
             lastMousePosition = currentMousePosition;
 

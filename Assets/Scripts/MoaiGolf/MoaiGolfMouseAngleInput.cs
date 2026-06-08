@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace MoaiGolf
 {
@@ -22,14 +23,20 @@ namespace MoaiGolf
                 return;
             }
 
-            var mouseWorld = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            var mouse = Mouse.current;
+            if (mouse == null)
+            {
+                return;
+            }
+
+            var mouseWorld = mainCamera.ScreenToWorldPoint(mouse.position.ReadValue());
             var aimVector = (Vector2)mouseWorld - runState.LaunchPosition;
             if (aimVector.sqrMagnitude > 0.01f)
             {
                 gameController.SetAngle(Mathf.Atan2(aimVector.y, aimVector.x) * Mathf.Rad2Deg);
             }
 
-            if (Input.GetMouseButtonDown(0))
+            if (mouse.leftButton.wasPressedThisFrame)
             {
                 gameController.ConfirmAngle();
             }

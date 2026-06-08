@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace MoaiGolf
 {
@@ -23,19 +24,26 @@ namespace MoaiGolf
                 return;
             }
 
-            if (Input.GetMouseButtonDown(0))
+            var mouse = Mouse.current;
+            if (mouse == null)
             {
-                dragStart = Input.mousePosition;
+                isDragging = false;
+                return;
+            }
+
+            if (mouse.leftButton.wasPressedThisFrame)
+            {
+                dragStart = mouse.position.ReadValue();
                 isDragging = true;
             }
 
-            if (isDragging && Input.GetMouseButton(0))
+            if (isDragging && mouse.leftButton.isPressed)
             {
-                var dragDistance = Vector2.Distance(dragStart, Input.mousePosition);
+                var dragDistance = Vector2.Distance(dragStart, mouse.position.ReadValue());
                 gameController.SetPower(dragDistance / DragPixelsForFullPower);
             }
 
-            if (Input.GetMouseButtonUp(0))
+            if (mouse.leftButton.wasReleasedThisFrame)
             {
                 isDragging = false;
             }
