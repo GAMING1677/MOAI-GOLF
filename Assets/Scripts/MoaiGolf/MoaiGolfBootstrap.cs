@@ -28,6 +28,7 @@ namespace MoaiGolf
             ApplyCameraBaseline();
             var runState = EnsureRunState();
             EnsureGameController();
+            EnsureMouseInput();
             EnsureStageView(runState);
         }
 
@@ -87,6 +88,14 @@ namespace MoaiGolf
             if (FindAnyObjectByType<MoaiGolfGameController>() == null)
             {
                 gameObject.AddComponent<MoaiGolfGameController>();
+            }
+        }
+
+        private void EnsureMouseInput()
+        {
+            if (FindAnyObjectByType<MoaiGolfMouseAngleInput>() == null)
+            {
+                gameObject.AddComponent<MoaiGolfMouseAngleInput>();
             }
         }
     }
