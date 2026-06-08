@@ -6,7 +6,7 @@ namespace MoaiGolf
     {
         public const int SourceBackgroundWidthPixels = 3840;
         public const int SourceBackgroundHeightPixels = 1200;
-        public const int BackgroundWidthPixels = SourceBackgroundWidthPixels * 2;
+        public const int BackgroundWidthPixels = SourceBackgroundWidthPixels;
         public const int BackgroundHeightPixels = SourceBackgroundHeightPixels;
         public const int ViewportWidthPixels = 1920;
         public const int ViewportHeightPixels = 1080;
@@ -33,8 +33,8 @@ namespace MoaiGolf
         public const float FixedTimestep = 1f / 60f;
         public const float StopVelocityThreshold = 0.08f;
         public const float StopAngularVelocityThreshold = 4f;
-        public const float MinimumLaunchSpeed = 7.5f;
-        public const float MaximumLaunchSpeed = 18f;
+        public const float MinimumLaunchSpeed = 10f;
+        public const float MaximumLaunchSpeed = 24f;
         public const float LaunchAngularVelocity = -520f;
     }
 }

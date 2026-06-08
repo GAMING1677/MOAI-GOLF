@@ -1,10 +1,14 @@
+using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 
 namespace MoaiGolf
 {
     public static class MoaiGolfTerrainProfile
     {
-        private static readonly Vector2[] Points =
+        private const string ResourcePath = "MoaiGolfTerrainProfile";
+
+        private static readonly Vector2[] FallbackPoints =
         {
             new Vector2(0f, 2.25f),
             new Vector2(3.2f, 2.42f),
@@ -19,19 +23,40 @@ namespace MoaiGolf
             new Vector2(MoaiGolfWorldSettings.WorldRight, 4.25f)
         };
 
-        public static Vector2[] ColliderPoints => Points;
+        private static Vector2[] cachedPoints;
+
+        public static Vector2[] ColliderPoints
+        {
+            get
+            {
+                if (cachedPoints != null)
+                {
+                    return cachedPoints;
+                }
+
+                var loaded = LoadGeneratedPoints();
+                if (loaded == null)
+                {
+                    return FallbackPoints;
+                }
+
+                cachedPoints = loaded;
+                return cachedPoints;
+            }
+        }
 
         public static float GetY(float x)
         {
-            if (x <= Points[0].x)
+            var points = ColliderPoints;
+            if (x <= points[0].x)
             {
-                return Points[0].y;
+                return points[0].y;
             }
 
-            for (var index = 1; index < Points.Length; index++)
+            for (var index = 1; index < points.Length; index++)
             {
-                var previous = Points[index - 1];
-                var next = Points[index];
+                var previous = points[index - 1];
+                var next = points[index];
                 if (x > next.x)
                 {
                     continue;
@@ -41,7 +66,43 @@ namespace MoaiGolf
                 return Mathf.Lerp(previous.y, next.y, segmentT);
             }
 
-            return Points[^1].y;
+            return points[^1].y;
+        }
+
+        private static Vector2[] LoadGeneratedPoints()
+        {
+            var asset = Resources.Load<TextAsset>(ResourcePath);
+            if (asset == null || string.IsNullOrEmpty(asset.text))
+            {
+                return null;
+            }
+
+            var lines = asset.text.Split('\n');
+            var points = new List<Vector2>(lines.Length);
+            foreach (var rawLine in lines)
+            {
+                var line = rawLine.Trim();
+                if (line.Length == 0)
+                {
+                    continue;
+                }
+
+                var parts = line.Split(',');
+                if (parts.Length != 2)
+                {
+                    continue;
+                }
+
+                if (!float.TryParse(parts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out var x)
+                    || !float.TryParse(parts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out var y))
+                {
+                    continue;
+                }
+
+                points.Add(new Vector2(x, y));
+            }
+
+            return points.Count >= 2 ? points.ToArray() : null;
         }
     }
 
@@ -91,8 +152,8 @@ namespace MoaiGolf
                 new Vector2(MoaiGolfWorldSettings.CameraCenterX, MoaiGolfTerrainProfile.GetY(MoaiGolfWorldSettings.CameraCenterX)),
                 new Vector2(MoaiGolfWorldSettings.WorldWidth, 0.35f),
                 new Vector2(3.2f, MoaiGolfTerrainProfile.GetY(3.2f) + MoaiGolfWorldSettings.LaunchPedestalHeight * 0.5f),
-                new Vector2(48.4f, MoaiGolfTerrainProfile.GetY(48.4f) + 0.68f),
-                new Rect(53.6f, MoaiGolfTerrainProfile.GetY(53.6f), 1.35f, 2.3f)
+                new Vector2(32.75f, 7.2f + 0.68f),
+                new Rect(32.075f, 7.2f, 1.35f, 2.3f)
             );
         }
     }

@@ -4,17 +4,13 @@ namespace MoaiGolf
 {
     public sealed class MoaiGolfRunState : MonoBehaviour
     {
-        private static readonly Vector2[] LaunchPositionOffsets =
-        {
-            new Vector2(0f, 0f),
-            new Vector2(0.35f, 0f),
-            new Vector2(-0.25f, 0f),
-            new Vector2(0.15f, 0f)
-        };
+        private const float LaunchOffsetRangePixels = 400f;
+        private const float MoaiTextureWorldHeight = 1.5f;
 
         public MoaiGolfStageDefinition Stage { get; private set; }
         public MoaiGolfMoaiKind LaunchMoaiKind { get; private set; }
         public Vector2 LaunchPosition { get; private set; }
+        public Vector2 LaunchPedestalCenter { get; private set; }
         public int AttemptIndex { get; private set; }
 
         public void InitializeNewRun(MoaiGolfStageDefinition stage)
@@ -22,11 +18,18 @@ namespace MoaiGolf
             Stage = stage;
             LaunchMoaiKind = (MoaiGolfMoaiKind)Random.Range(0, 4);
             var spec = MoaiGolfMoaiSpec.Get(LaunchMoaiKind);
-            var pedestalCenter = stage.LaunchPosition + LaunchPositionOffsets[Random.Range(0, LaunchPositionOffsets.Length)];
-            var terrainY = MoaiGolfTerrainProfile.GetY(pedestalCenter.x);
-            pedestalCenter = new Vector2(pedestalCenter.x, terrainY + MoaiGolfWorldSettings.LaunchPedestalHeight * 0.5f);
+            var halfRangePixels = LaunchOffsetRangePixels * 0.5f;
+            var offsetX = Random.Range(-halfRangePixels, halfRangePixels) / MoaiGolfWorldSettings.PixelsPerUnit;
+            var pedestalCenterX = Mathf.Clamp(
+                stage.LaunchPosition.x + offsetX,
+                MoaiGolfWorldSettings.WorldLeft + MoaiGolfWorldSettings.LaunchPedestalWidth * 0.5f,
+                MoaiGolfWorldSettings.WorldRight - MoaiGolfWorldSettings.LaunchPedestalWidth * 0.5f
+            );
+            var terrainY = MoaiGolfTerrainProfile.GetY(pedestalCenterX);
+            LaunchPedestalCenter = new Vector2(pedestalCenterX, terrainY + MoaiGolfWorldSettings.LaunchPedestalHeight * 0.5f);
             var pedestalTop = terrainY + MoaiGolfWorldSettings.LaunchPedestalHeight;
-            LaunchPosition = new Vector2(pedestalCenter.x, pedestalTop + spec.ColliderSize.y * 0.5f + 0.02f);
+            var visualHalfHeight = MoaiTextureWorldHeight * spec.VisualScale.y * 0.5f;
+            LaunchPosition = new Vector2(pedestalCenterX, pedestalTop + visualHalfHeight + 0.02f);
             AttemptIndex = 1;
         }
 

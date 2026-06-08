@@ -8,6 +8,11 @@ namespace MoaiGolf
 {
     public sealed class MoaiGolfStageView : MonoBehaviour
     {
+        private const float RightPedestalLeftX = 29.0f;
+        private const float RightPedestalRightX = 35.28f;
+        private const float RightPedestalTopY = 7.2f;
+        private const float RightPedestalBaseY = 4.2f;
+
         private static Sprite whiteSprite;
 
         public Rigidbody2D LaunchBody { get; private set; }
@@ -19,14 +24,15 @@ namespace MoaiGolf
             var stage = runState.Stage;
             CreatePixelPerfectSprite("Background Visual", MoaiGolfSpriteCatalog.Background, Vector2.zero, Color.white, -10);
             CreateTerrainCollider();
-            var launchPedestalCenter = new Vector2(runState.LaunchPosition.x, stage.LaunchPosition.y);
+            var launchPedestalCenter = runState.LaunchPedestalCenter;
             CreateSprite("Golf Club Visual", MoaiGolfSpriteCatalog.GolfClub, launchPedestalCenter + new Vector2(-1.05f, -0.18f), new Vector2(0.55f, 0.55f), Color.white, 3);
             CreateBox("Launch Pedestal Collider", launchPedestalCenter, new Vector2(MoaiGolfWorldSettings.LaunchPedestalWidth, MoaiGolfWorldSettings.LaunchPedestalHeight), new Color(0.45f, 0.34f, 0.25f, 0.45f), true, false, 1);
-            CreateTargetMoai(MoaiGolfMoaiKind.Sunglasses, 43.5f, 2);
-            CreateTargetMoai(MoaiGolfMoaiKind.Ribbon, 46.0f, 2);
-            CreateTargetMoai(MoaiGolfMoaiKind.Snowman, 48.4f, 2);
-            CreateTargetMoai(MoaiGolfMoaiKind.Sunglasses, 56.5f, 2);
-            CreateTargetMoai(MoaiGolfMoaiKind.Macho, 60.0f, 2);
+            CreateTargetPedestalCollider();
+            CreateTargetMoaiOnPedestal(MoaiGolfMoaiKind.Sunglasses, 29.6f, 2);
+            CreateTargetMoaiOnPedestal(MoaiGolfMoaiKind.Ribbon, 30.7f, 2);
+            CreateTargetMoaiOnPedestal(MoaiGolfMoaiKind.Snowman, 31.8f, 2);
+            CreateTargetMoaiOnPedestal(MoaiGolfMoaiKind.Sunglasses, 33.7f, 2);
+            CreateTargetMoaiOnPedestal(MoaiGolfMoaiKind.Macho, 34.8f, 2);
             CreateBox("Success Zone Trigger", stage.SuccessZone.center, stage.SuccessZone.size, new Color(1f, 0.1f, 0.08f, 0.32f), true, true, 3);
             CreateAimMarker(stage);
             CreateLaunchMoai(runState);
@@ -106,6 +112,22 @@ namespace MoaiGolf
             return CreateSprite(objectName, sprite, bottomLeft, Vector2.one, color, sortingOrder);
         }
 
+        private GameObject CreateCenteredSprite(string objectName, Sprite sprite, Vector2 center, Vector2 scale, Color color, int sortingOrder)
+        {
+            var spriteObject = new GameObject(objectName);
+            spriteObject.transform.SetParent(transform);
+            spriteObject.transform.localScale = new Vector3(scale.x, scale.y, 1f);
+
+            var renderer = spriteObject.AddComponent<SpriteRenderer>();
+            renderer.sprite = sprite != null ? sprite : GetWhiteSprite();
+            renderer.color = color;
+            renderer.sortingOrder = sortingOrder;
+
+            var boundsCenter = renderer.sprite.bounds.center;
+            spriteObject.transform.position = new Vector3(center.x - boundsCenter.x * scale.x, center.y - boundsCenter.y * scale.y, 0f);
+            return spriteObject;
+        }
+
         private GameObject CreateSpriteChild(string objectName, Transform parent, Sprite sprite, Vector2 localBottomLeft, Vector2 scale, Color color, int sortingOrder)
         {
             var spriteObject = new GameObject(objectName);
@@ -120,23 +142,41 @@ namespace MoaiGolf
             return spriteObject;
         }
 
-        private void CreateAimMarker(MoaiGolfStageDefinition stage)
+        private GameObject CreateCenteredSpriteChild(string objectName, Transform parent, Sprite sprite, Vector2 scale, Color color, int sortingOrder)
         {
-            var markerX = stage.SuccessZone.center.x;
-            var markerTop = stage.SuccessZone.yMax;
-            CreateSprite("Here Label Visual", MoaiGolfSpriteCatalog.Here, new Vector2(markerX - 0.55f, markerTop + 0.62f), new Vector2(2.2f, 2.2f), Color.white, 5);
-            var arrow = CreateSprite("Arrow Visual", MoaiGolfSpriteCatalog.Arrow, new Vector2(markerX - 0.38f, markerTop + 0.18f), new Vector2(1.1f, 1.1f), Color.white, 5);
-            arrow.transform.rotation = Quaternion.Euler(0f, 0f, 180f);
+            var spriteObject = new GameObject(objectName);
+            spriteObject.transform.SetParent(parent);
+            spriteObject.transform.localScale = new Vector3(scale.x, scale.y, 1f);
+
+            var renderer = spriteObject.AddComponent<SpriteRenderer>();
+            renderer.sprite = sprite != null ? sprite : GetWhiteSprite();
+            renderer.color = color;
+            renderer.sortingOrder = sortingOrder;
+
+            var boundsCenter = renderer.sprite.bounds.center;
+            spriteObject.transform.localPosition = new Vector3(-boundsCenter.x * scale.x, -boundsCenter.y * scale.y, 0f);
+            return spriteObject;
         }
 
-        private void CreateTargetMoai(MoaiGolfMoaiKind kind, float x, int sortingOrder)
+        private void CreateAimMarker(MoaiGolfStageDefinition stage)
+        {
+            var markerCenterX = stage.SuccessZone.center.x;
+            var zoneTop = stage.SuccessZone.yMax;
+            CreateCenteredSprite("Arrow Visual", MoaiGolfSpriteCatalog.Arrow, new Vector2(markerCenterX, zoneTop + 0.5f), new Vector2(0.7f, 0.7f), Color.white, 5)
+                .transform.rotation = Quaternion.Euler(0f, 0f, 180f);
+            CreateCenteredSprite("Here Label Visual", MoaiGolfSpriteCatalog.Here, new Vector2(markerCenterX, zoneTop + 1.75f), new Vector2(1.1f, 1.1f), Color.white, 5);
+        }
+
+        private void CreateTargetMoai(MoaiGolfMoaiKind kind, float x, float groundY, int sortingOrder)
         {
             var spec = MoaiGolfMoaiSpec.Get(kind);
-            var centerY = MoaiGolfTerrainProfile.GetY(x) + spec.ColliderSize.y * 0.5f + 0.02f;
+            var sprite = MoaiGolfSpriteCatalog.GetMoai(kind);
+            var visualHalfHeight = sprite.bounds.size.y * spec.VisualScale.y * 0.5f;
+            var centerY = groundY + visualHalfHeight + 0.02f;
             var moai = new GameObject($"Target Moai {kind}");
             moai.transform.SetParent(transform);
             moai.transform.position = new Vector2(x, centerY);
-            CreateSpriteChild("Target Moai Visual", moai.transform, MoaiGolfSpriteCatalog.GetMoai(kind), new Vector2(-0.45f, -0.52f), spec.VisualScale, Color.white, sortingOrder);
+            CreateCenteredSpriteChild("Target Moai Visual", moai.transform, sprite, spec.VisualScale, Color.white, sortingOrder);
 
             var collider = moai.AddComponent<CapsuleCollider2D>();
             collider.size = spec.ColliderSize;
@@ -146,13 +186,37 @@ namespace MoaiGolf
             body.bodyType = RigidbodyType2D.Static;
         }
 
+        private void CreateTargetMoaiOnPedestal(MoaiGolfMoaiKind kind, float x, int sortingOrder)
+        {
+            CreateTargetMoai(kind, x, RightPedestalTopY, sortingOrder);
+        }
+
+        private void CreateTargetPedestalCollider()
+        {
+            var centerX = (RightPedestalLeftX + RightPedestalRightX) * 0.5f;
+            var centerY = (RightPedestalBaseY + RightPedestalTopY) * 0.5f;
+            var width = RightPedestalRightX - RightPedestalLeftX;
+            var height = RightPedestalTopY - RightPedestalBaseY;
+
+            var pedestal = new GameObject("Target Pedestal Collider");
+            pedestal.transform.SetParent(transform);
+            pedestal.transform.position = new Vector3(centerX, centerY, 0f);
+
+            var collider = pedestal.AddComponent<BoxCollider2D>();
+            collider.size = new Vector2(width, height);
+            collider.isTrigger = false;
+
+            var body = pedestal.AddComponent<Rigidbody2D>();
+            body.bodyType = RigidbodyType2D.Static;
+        }
+
         private void CreateLaunchMoai(MoaiGolfRunState runState)
         {
             var spec = MoaiGolfMoaiSpec.Get(runState.LaunchMoaiKind);
             var moai = new GameObject("Launch Moai Collider");
             moai.transform.SetParent(transform);
             moai.transform.position = runState.LaunchPosition;
-            CreateSpriteChild("Launch Moai Visual", moai.transform, MoaiGolfSpriteCatalog.GetMoai(runState.LaunchMoaiKind), new Vector2(-0.45f, -0.52f), spec.VisualScale, Color.white, 4);
+            CreateCenteredSpriteChild("Launch Moai Visual", moai.transform, MoaiGolfSpriteCatalog.GetMoai(runState.LaunchMoaiKind), spec.VisualScale, Color.white, 4);
 
             var collider = moai.AddComponent<CapsuleCollider2D>();
             collider.size = spec.ColliderSize;
@@ -222,11 +286,12 @@ namespace MoaiGolf
 
             var visual = new GameObject("Visual");
             visual.transform.SetParent(root.transform);
-            visual.transform.localPosition = new Vector3(-0.45f, -0.52f, 0f);
             visual.transform.localScale = new Vector3(spec.VisualScale.x, spec.VisualScale.y, 1f);
             var renderer = visual.AddComponent<SpriteRenderer>();
             renderer.sprite = MoaiGolfSpriteCatalog.GetMoai(MoaiGolfMoaiKind.Sunglasses);
             renderer.sortingOrder = 4;
+            var visualSize = renderer.sprite != null ? renderer.sprite.bounds.size : new Vector3(1f, 1f, 0f);
+            visual.transform.localPosition = new Vector3(-visualSize.x * spec.VisualScale.x * 0.5f, -visualSize.y * spec.VisualScale.y * 0.5f, 0f);
 
             var collider = root.AddComponent<CapsuleCollider2D>();
             collider.size = spec.ColliderSize;

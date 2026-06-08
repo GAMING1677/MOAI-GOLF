@@ -16,14 +16,15 @@ namespace MoaiGolf
 
         public static Sprite GetMoai(MoaiGolfMoaiKind kind)
         {
-            return kind switch
+            var path = kind switch
             {
-                MoaiGolfMoaiKind.Sunglasses => LoadSprite("Assets/Textures/moai.png", "moai_1"),
-                MoaiGolfMoaiKind.Ribbon => LoadSprite("Assets/Textures/moai2.png", "moai2_0"),
-                MoaiGolfMoaiKind.Macho => LoadSprite("Assets/Textures/moai3.png", "moai3_0"),
-                MoaiGolfMoaiKind.Snowman => LoadSprite("Assets/Textures/moai4.png", "moai4_0"),
-                _ => LoadSprite("Assets/Textures/moai.png", "moai_1")
+                MoaiGolfMoaiKind.Sunglasses => "Assets/Textures/moai.png",
+                MoaiGolfMoaiKind.Ribbon => "Assets/Textures/moai2.png",
+                MoaiGolfMoaiKind.Macho => "Assets/Textures/moai3.png",
+                MoaiGolfMoaiKind.Snowman => "Assets/Textures/moai4.png",
+                _ => "Assets/Textures/moai.png"
             };
+            return LoadWholeTextureSprite(path, MoaiGolfWorldSettings.PixelsPerUnit);
         }
 
         private static Sprite LoadSprite(string assetPath, string spriteName)

@@ -9,10 +9,8 @@ namespace MoaiGolf
 {
     public static class MoaiGolfBackgroundBuilder
     {
-        public const string SourceAPath = "Assets/Textures/background.png";
-        public const string SourceBPath = "Assets/Textures/background_2.png";
+        public const string SourcePath = "Assets/Textures/background.png";
         public const string GeneratedPath = "Assets/Textures/generated/background_fullscreen.png";
-        public const int SourceSegmentWidth = MoaiGolfWorldSettings.SourceBackgroundWidthPixels;
         public const int OutputWidth = MoaiGolfWorldSettings.BackgroundWidthPixels;
         public const int OutputHeight = MoaiGolfWorldSettings.BackgroundHeightPixels;
 
@@ -22,16 +20,11 @@ namespace MoaiGolf
         {
             Directory.CreateDirectory(Path.GetDirectoryName(GeneratedPath));
 
-            var first = LoadReadableTexture(SourceAPath);
-            var second = File.Exists(SourceBPath) ? LoadReadableTexture(SourceBPath) : first;
-            var output = Build(first, second, SourceSegmentWidth, OutputHeight);
+            var source = LoadReadableTexture(SourcePath);
+            var output = Build(source, OutputWidth, OutputHeight);
             File.WriteAllBytes(GeneratedPath, output.EncodeToPNG());
             Object.DestroyImmediate(output);
-            Object.DestroyImmediate(first);
-            if (second != first)
-            {
-                Object.DestroyImmediate(second);
-            }
+            Object.DestroyImmediate(source);
 
             AssetDatabase.ImportAsset(GeneratedPath, ImportAssetOptions.ForceUpdate);
             ConfigureGeneratedImporter();
@@ -70,17 +63,14 @@ namespace MoaiGolf
         }
 #endif
 
-        public static Texture2D Build(Texture2D first, Texture2D second, int segmentWidth, int outputHeight)
+        public static Texture2D Build(Texture2D source, int outputWidth, int outputHeight)
         {
-            var outputWidth = segmentWidth * 2;
             var output = new Texture2D(outputWidth, outputHeight, TextureFormat.RGBA32, false);
             for (var y = 0; y < outputHeight; y++)
             {
                 for (var x = 0; x < outputWidth; x++)
                 {
-                    var source = x < segmentWidth ? first : second;
-                    var sourceX = x < segmentWidth ? x : x - segmentWidth;
-                    output.SetPixel(x, y, Sample(source, sourceX, segmentWidth, y, outputHeight));
+                    output.SetPixel(x, y, Sample(source, x, outputWidth, y, outputHeight));
                 }
             }
 

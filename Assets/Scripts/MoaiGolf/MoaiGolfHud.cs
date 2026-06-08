@@ -7,12 +7,14 @@ namespace MoaiGolf
         private MoaiGolfGameController gameController;
         private MoaiGolfRunState runState;
         private MoaiGolfStageView stageView;
+        private MoaiGolfCameraController cameraController;
 
         private void Start()
         {
             gameController = FindAnyObjectByType<MoaiGolfGameController>();
             runState = FindAnyObjectByType<MoaiGolfRunState>();
             stageView = FindAnyObjectByType<MoaiGolfStageView>();
+            cameraController = FindAnyObjectByType<MoaiGolfCameraController>();
         }
 
         private void OnGUI()
@@ -26,15 +28,6 @@ namespace MoaiGolf
             GUI.Label(new Rect(36f, 34f, 260f, 24f), $"Phase: {gameController.Phase}");
             GUI.Label(new Rect(36f, 60f, 260f, 24f), $"Angle: {gameController.AngleDegrees:0} deg");
             GUI.Label(new Rect(36f, 86f, 260f, 24f), $"Power: {gameController.Power01 * 100f:0}%");
-
-            if (gameController.Phase == MoaiGolfGamePhase.PowerSelect && GUI.Button(new Rect(36f, 112f, 120f, 36f), "OK"))
-            {
-                stageView ??= FindAnyObjectByType<MoaiGolfStageView>();
-                if (stageView?.LaunchBody != null)
-                {
-                    gameController.Launch(stageView.LaunchBody);
-                }
-            }
 
             if (gameController.Phase == MoaiGolfGamePhase.Result)
             {
@@ -52,6 +45,7 @@ namespace MoaiGolf
         {
             runState ??= FindAnyObjectByType<MoaiGolfRunState>();
             stageView ??= FindAnyObjectByType<MoaiGolfStageView>();
+            cameraController ??= FindAnyObjectByType<MoaiGolfCameraController>();
             if (runState == null || stageView == null)
             {
                 return;
@@ -60,6 +54,7 @@ namespace MoaiGolf
             runState.RetryCurrentRun();
             gameController.ResetForRetry();
             stageView.Build(runState);
+            cameraController?.ResetToInitial();
         }
     }
 }

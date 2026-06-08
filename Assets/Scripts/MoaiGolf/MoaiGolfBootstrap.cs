@@ -148,6 +148,22 @@ namespace MoaiGolf
             ClampCamera();
         }
 
+        public void ResetToInitial()
+        {
+            mainCamera ??= Camera.main;
+            if (mainCamera == null)
+            {
+                return;
+            }
+
+            isDragging = false;
+            mainCamera.transform.position = new Vector3(
+                MoaiGolfWorldSettings.CameraCenterX,
+                MoaiGolfWorldSettings.CameraCenterY,
+                MoaiGolfWorldSettings.CameraZ
+            );
+        }
+
         private void LateUpdate()
         {
             if (mainCamera == null)

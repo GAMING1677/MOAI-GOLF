@@ -5,47 +5,58 @@ namespace MoaiGolf
 {
     public sealed class MoaiGolfMousePowerInput : MonoBehaviour
     {
-        private const float DragPixelsForFullPower = 420f;
+        private const float PixelsForFullPower = 360f;
 
         private MoaiGolfGameController gameController;
-        private Vector2 dragStart;
-        private bool isDragging;
+        private MoaiGolfStageView stageView;
+        private Vector2 anchorScreenPosition;
+        private bool hasAnchor;
 
         private void Start()
         {
             gameController = FindAnyObjectByType<MoaiGolfGameController>();
+            stageView = FindAnyObjectByType<MoaiGolfStageView>();
         }
 
         private void Update()
         {
-            if (gameController == null || gameController.Phase != MoaiGolfGamePhase.PowerSelect)
+            if (gameController == null)
             {
-                isDragging = false;
+                return;
+            }
+
+            if (gameController.Phase != MoaiGolfGamePhase.PowerSelect)
+            {
+                hasAnchor = false;
                 return;
             }
 
             var mouse = Mouse.current;
             if (mouse == null)
             {
-                isDragging = false;
                 return;
             }
 
-            if (mouse.leftButton.wasPressedThisFrame)
+            var screenPosition = mouse.position.ReadValue();
+            var anchorJustSet = false;
+            if (!hasAnchor)
             {
-                dragStart = mouse.position.ReadValue();
-                isDragging = true;
+                anchorScreenPosition = screenPosition;
+                hasAnchor = true;
+                anchorJustSet = true;
             }
 
-            if (isDragging && mouse.leftButton.isPressed)
-            {
-                var dragDistance = Vector2.Distance(dragStart, mouse.position.ReadValue());
-                gameController.SetPower(dragDistance / DragPixelsForFullPower);
-            }
+            var distancePixels = Vector2.Distance(anchorScreenPosition, screenPosition);
+            gameController.SetPower(distancePixels / PixelsForFullPower);
 
-            if (mouse.leftButton.wasReleasedThisFrame)
+            if (!anchorJustSet && mouse.leftButton.wasPressedThisFrame)
             {
-                isDragging = false;
+                stageView ??= FindAnyObjectByType<MoaiGolfStageView>();
+                if (stageView?.LaunchBody != null)
+                {
+                    gameController.Launch(stageView.LaunchBody);
+                }
+                hasAnchor = false;
             }
         }
     }
