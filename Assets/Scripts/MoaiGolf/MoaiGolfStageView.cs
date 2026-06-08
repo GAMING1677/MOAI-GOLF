@@ -76,6 +76,7 @@ namespace MoaiGolf
             LaunchBody.bodyType = RigidbodyType2D.Dynamic;
             LaunchBody.Sleep();
             moai.AddComponent<MoaiGolfWorldBoundsBounce>();
+            moai.AddComponent<MoaiGolfLandingJudge>();
         }
 
         private static Sprite GetWhiteSprite()
