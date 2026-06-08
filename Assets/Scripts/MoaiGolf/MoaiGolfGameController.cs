@@ -54,6 +54,7 @@ namespace MoaiGolf
 
             launchBody.WakeUp();
             launchBody.linearVelocity = MoaiGolfLaunchPhysics.CalculateInitialVelocity(AngleDegrees, Power01);
+            launchBody.angularVelocity = MoaiGolfWorldSettings.LaunchAngularVelocity;
             BeginFlying();
         }
 
