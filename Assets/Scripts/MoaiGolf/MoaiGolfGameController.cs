@@ -45,6 +45,18 @@ namespace MoaiGolf
             }
         }
 
+        public void Launch(Rigidbody2D launchBody)
+        {
+            if (Phase != MoaiGolfGamePhase.PowerSelect)
+            {
+                return;
+            }
+
+            launchBody.WakeUp();
+            launchBody.linearVelocity = MoaiGolfLaunchPhysics.CalculateInitialVelocity(AngleDegrees, Power01);
+            BeginFlying();
+        }
+
         public void BeginJudging()
         {
             if (Phase == MoaiGolfGamePhase.Flying)

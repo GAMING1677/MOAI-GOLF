@@ -20,5 +20,7 @@ namespace MoaiGolf
         public const float FixedTimestep = 1f / 60f;
         public const float StopVelocityThreshold = 0.08f;
         public const float StopAngularVelocityThreshold = 4f;
+        public const float MinimumLaunchSpeed = 7.5f;
+        public const float MaximumLaunchSpeed = 18f;
     }
 }
