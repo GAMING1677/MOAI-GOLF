@@ -26,6 +26,7 @@ namespace MoaiGolf
 
             ApplyPhysicsBaseline();
             ApplyCameraBaseline();
+            EnsureRunState();
         }
 
         private static void ApplyPhysicsBaseline()
@@ -53,6 +54,17 @@ namespace MoaiGolf
                 MoaiGolfWorldSettings.CameraZ
             );
             mainCamera.backgroundColor = new Color(0.19f, 0.3f, 0.47f);
+        }
+
+        private void EnsureRunState()
+        {
+            var runState = FindAnyObjectByType<MoaiGolfRunState>();
+            if (runState == null)
+            {
+                runState = gameObject.AddComponent<MoaiGolfRunState>();
+            }
+
+            runState.InitializeNewRun(MoaiGolfStageDefinition.CreateFirstStage());
         }
     }
 }
