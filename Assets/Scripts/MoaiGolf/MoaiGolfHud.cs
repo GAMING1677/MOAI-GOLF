@@ -5,11 +5,13 @@ namespace MoaiGolf
     public sealed class MoaiGolfHud : MonoBehaviour
     {
         private MoaiGolfGameController gameController;
+        private MoaiGolfRunState runState;
         private MoaiGolfStageView stageView;
 
         private void Start()
         {
             gameController = FindAnyObjectByType<MoaiGolfGameController>();
+            runState = FindAnyObjectByType<MoaiGolfRunState>();
             stageView = FindAnyObjectByType<MoaiGolfStageView>();
         }
 
@@ -39,6 +41,25 @@ namespace MoaiGolf
                 var label = gameController.LastResultSucceeded == true ? "SUCCESS" : "FAILED";
                 GUI.Box(new Rect(Screen.width * 0.5f - 110f, 24f, 220f, 56f), label);
             }
+
+            if (GUI.Button(new Rect(Screen.width - 140f, 20f, 120f, 40f), "Retry"))
+            {
+                Retry();
+            }
+        }
+
+        private void Retry()
+        {
+            runState ??= FindAnyObjectByType<MoaiGolfRunState>();
+            stageView ??= FindAnyObjectByType<MoaiGolfStageView>();
+            if (runState == null || stageView == null)
+            {
+                return;
+            }
+
+            runState.RetryCurrentRun();
+            gameController.ResetForRetry();
+            stageView.Build(runState);
         }
     }
 }
