@@ -51,6 +51,7 @@ namespace MoaiGolf
             }
 
             mainCamera.orthographic = true;
+            mainCamera.aspect = MoaiGolfWorldSettings.ReferenceAspect;
             mainCamera.orthographicSize = MoaiGolfWorldSettings.CameraOrthographicSize;
             mainCamera.transform.position = new Vector3(
                 MoaiGolfWorldSettings.CameraCenterX,

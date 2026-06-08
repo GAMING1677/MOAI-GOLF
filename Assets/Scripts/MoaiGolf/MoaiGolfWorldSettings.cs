@@ -6,6 +6,7 @@ namespace MoaiGolf
     {
         public const int ReferenceWidthPixels = 3840;
         public const int ReferenceHeightPixels = 1200;
+        public const float ReferenceAspect = (float)ReferenceWidthPixels / ReferenceHeightPixels;
         public const float PixelsPerUnit = 100f;
         public const float WorldWidth = ReferenceWidthPixels / PixelsPerUnit;
         public const float WorldHeight = ReferenceHeightPixels / PixelsPerUnit;
