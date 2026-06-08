@@ -160,11 +160,28 @@ namespace MoaiGolf
 
         private void CreateAimMarker(MoaiGolfStageDefinition stage)
         {
-            var markerCenterX = stage.SuccessZone.center.x;
-            var zoneTop = stage.SuccessZone.yMax;
-            CreateCenteredSprite("Arrow Visual", MoaiGolfSpriteCatalog.Arrow, new Vector2(markerCenterX, zoneTop + 0.5f), new Vector2(0.7f, 0.7f), Color.white, 5)
-                .transform.rotation = Quaternion.Euler(0f, 0f, 180f);
-            CreateCenteredSprite("Here Label Visual", MoaiGolfSpriteCatalog.Here, new Vector2(markerCenterX, zoneTop + 1.75f), new Vector2(1.1f, 1.1f), Color.white, 5);
+            var zone = stage.SuccessZone;
+            var hereSprite = MoaiGolfSpriteCatalog.Here;
+            var spriteSize = hereSprite.bounds.size;
+
+            // here.png の左側の破線枠（テクスチャ内で約 1.3 x 1.1 ワールド単位、
+            // スプライト中心から左に 0.25 ずれた位置にある）が成功ゾーンを囲うように
+            // 非等倍スケールで引き伸ばし、右に寄せて配置する。
+            var dashedBoxSize = new Vector2(1.3f, 1.1f);
+            var dashedBoxOffsetFromCenter = new Vector2(-0.25f, 0f);
+            var padding = new Vector2(0.6f, 0.5f);
+
+            var scale = new Vector2(
+                (zone.width + padding.x) / dashedBoxSize.x,
+                (zone.height + padding.y) / dashedBoxSize.y
+            );
+
+            var center = zone.center - new Vector2(
+                dashedBoxOffsetFromCenter.x * scale.x,
+                dashedBoxOffsetFromCenter.y * scale.y
+            );
+
+            CreateCenteredSprite("Here Label Visual", hereSprite, center, scale, Color.white, 5);
         }
 
         private void CreateTargetMoai(MoaiGolfMoaiKind kind, float x, float groundY, int sortingOrder)
