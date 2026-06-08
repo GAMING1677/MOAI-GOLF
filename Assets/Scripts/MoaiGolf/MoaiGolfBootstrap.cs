@@ -97,6 +97,11 @@ namespace MoaiGolf
             {
                 gameObject.AddComponent<MoaiGolfMouseAngleInput>();
             }
+
+            if (FindAnyObjectByType<MoaiGolfMousePowerInput>() == null)
+            {
+                gameObject.AddComponent<MoaiGolfMousePowerInput>();
+            }
         }
     }
 }
