@@ -47,8 +47,8 @@ namespace MoaiGolf
                 ),
                 new Vector2(MoaiGolfWorldSettings.CameraCenterX, MoaiGolfWorldSettings.GroundY),
                 new Vector2(MoaiGolfWorldSettings.WorldWidth, 0.35f),
-                new Vector2(3.2f, 2.25f),
-                new Vector2(31.2f, 2.15f),
+                new Vector2(3.2f, MoaiGolfWorldSettings.GroundY + MoaiGolfWorldSettings.LaunchPedestalHeight * 0.5f),
+                new Vector2(31.2f, 2.0f),
                 new Rect(29.9f, 1.15f, 1.35f, 2.3f)
             );
         }

@@ -13,10 +13,11 @@ namespace MoaiGolf
             ClearExistingStage();
 
             var stage = runState.Stage;
-            CreateSprite("Background Visual", MoaiGolfSpriteCatalog.Background, stage.WorldBounds.position, Vector2.one, Color.white, -10);
+            CreateSpriteFitted("Background Visual", MoaiGolfSpriteCatalog.Background, stage.WorldBounds.position, stage.WorldBounds.size, Color.white, -10);
             CreateBox("Ground Collider", stage.GroundCenter, stage.GroundSize, new Color(0.39f, 0.65f, 0.29f, 0.28f), true, false, 0);
-            CreateSprite("Golf Club Visual", MoaiGolfSpriteCatalog.GolfClub, runState.LaunchPosition + new Vector2(-1.05f, -0.72f), new Vector2(0.55f, 0.55f), Color.white, 3);
-            CreateBox("Launch Pedestal Collider", runState.LaunchPosition + new Vector2(0f, -0.55f), new Vector2(1.3f, 0.35f), new Color(0.45f, 0.34f, 0.25f, 0.45f), true, false, 1);
+            var launchPedestalCenter = new Vector2(runState.LaunchPosition.x, stage.LaunchPosition.y);
+            CreateSprite("Golf Club Visual", MoaiGolfSpriteCatalog.GolfClub, launchPedestalCenter + new Vector2(-1.05f, -0.18f), new Vector2(0.55f, 0.55f), Color.white, 3);
+            CreateBox("Launch Pedestal Collider", launchPedestalCenter, new Vector2(MoaiGolfWorldSettings.LaunchPedestalWidth, MoaiGolfWorldSettings.LaunchPedestalHeight), new Color(0.45f, 0.34f, 0.25f, 0.45f), true, false, 1);
             CreateSprite("Target Moai Visual", MoaiGolfSpriteCatalog.GetMoai(MoaiGolfMoaiKind.Sunglasses), stage.TargetMoaiPosition + new Vector2(-0.48f, -0.65f), new Vector2(1.6f, 1.6f), Color.white, 2);
             CreateBox("Target Moai Collider", stage.TargetMoaiPosition, new Vector2(0.95f, 1.35f), new Color(0.38f, 0.35f, 0.31f, 0.15f), true, false, 2);
             CreateBox("Success Zone Trigger", stage.SuccessZone.center, stage.SuccessZone.size, new Color(1f, 0.1f, 0.08f, 0.32f), true, true, 3);
@@ -64,6 +65,21 @@ namespace MoaiGolf
             renderer.sprite = sprite != null ? sprite : GetWhiteSprite();
             renderer.color = color;
             renderer.sortingOrder = sortingOrder;
+            return spriteObject;
+        }
+
+        private GameObject CreateSpriteFitted(string objectName, Sprite sprite, Vector2 bottomLeft, Vector2 worldSize, Color color, int sortingOrder)
+        {
+            var spriteObject = CreateSprite(objectName, sprite, bottomLeft, Vector2.one, color, sortingOrder);
+            var renderer = spriteObject.GetComponent<SpriteRenderer>();
+            if (renderer.sprite == null)
+            {
+                spriteObject.transform.localScale = new Vector3(worldSize.x, worldSize.y, 1f);
+                return spriteObject;
+            }
+
+            var spriteSize = renderer.sprite.bounds.size;
+            spriteObject.transform.localScale = new Vector3(worldSize.x / spriteSize.x, worldSize.y / spriteSize.y, 1f);
             return spriteObject;
         }
 

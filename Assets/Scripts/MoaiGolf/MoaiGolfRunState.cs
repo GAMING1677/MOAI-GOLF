@@ -8,8 +8,8 @@ namespace MoaiGolf
         {
             new Vector2(0f, 0f),
             new Vector2(0.35f, 0f),
-            new Vector2(0f, 0.25f),
-            new Vector2(0.35f, 0.25f)
+            new Vector2(-0.25f, 0f),
+            new Vector2(0.15f, 0f)
         };
 
         public MoaiGolfStageDefinition Stage { get; private set; }
@@ -21,7 +21,10 @@ namespace MoaiGolf
         {
             Stage = stage;
             LaunchMoaiKind = (MoaiGolfMoaiKind)Random.Range(0, 4);
-            LaunchPosition = stage.LaunchPosition + LaunchPositionOffsets[Random.Range(0, LaunchPositionOffsets.Length)];
+            var spec = MoaiGolfMoaiSpec.Get(LaunchMoaiKind);
+            var pedestalCenter = stage.LaunchPosition + LaunchPositionOffsets[Random.Range(0, LaunchPositionOffsets.Length)];
+            var pedestalTop = pedestalCenter.y + MoaiGolfWorldSettings.LaunchPedestalHeight * 0.5f;
+            LaunchPosition = new Vector2(pedestalCenter.x, pedestalTop + spec.ColliderSize.y * 0.5f + 0.02f);
             AttemptIndex = 1;
         }
 
