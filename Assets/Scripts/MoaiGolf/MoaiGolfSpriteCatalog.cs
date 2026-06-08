@@ -9,7 +9,7 @@ namespace MoaiGolf
 {
     public static class MoaiGolfSpriteCatalog
     {
-        public static Sprite Background => LoadSprite("Assets/Textures/background.png", "background_0");
+        public static Sprite Background => LoadWholeTextureSprite(MoaiGolfBackgroundBuilder.GeneratedPath, MoaiGolfWorldSettings.PixelsPerUnit);
         public static Sprite GolfClub => LoadSprite("Assets/Textures/golfClub.png", "golfClub_0");
         public static Sprite Arrow => LoadSprite("Assets/Textures/arrow.png", "arrow_0");
         public static Sprite Here => LoadWholeTextureSprite("Assets/Textures/here.png", 100f);
@@ -41,6 +41,11 @@ namespace MoaiGolf
         private static Sprite LoadWholeTextureSprite(string assetPath, float pixelsPerUnit)
         {
 #if UNITY_EDITOR
+            if (assetPath == MoaiGolfBackgroundBuilder.GeneratedPath)
+            {
+                MoaiGolfBackgroundBuilder.EnsureGeneratedAsset();
+            }
+
             var texture = AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath);
             if (texture == null)
             {

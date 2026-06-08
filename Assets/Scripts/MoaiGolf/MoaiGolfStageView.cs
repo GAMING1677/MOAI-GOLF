@@ -13,7 +13,7 @@ namespace MoaiGolf
             ClearExistingStage();
 
             var stage = runState.Stage;
-            CreateSpriteFitted("Background Visual", MoaiGolfSpriteCatalog.Background, stage.WorldBounds.position, stage.WorldBounds.size, Color.white, -10);
+            CreatePixelPerfectSprite("Background Visual", MoaiGolfSpriteCatalog.Background, Vector2.zero, Color.white, -10);
             CreateBox("Ground Collider", stage.GroundCenter, stage.GroundSize, new Color(0.39f, 0.65f, 0.29f, 0.28f), true, false, 0);
             var launchPedestalCenter = new Vector2(runState.LaunchPosition.x, stage.LaunchPosition.y);
             CreateSprite("Golf Club Visual", MoaiGolfSpriteCatalog.GolfClub, launchPedestalCenter + new Vector2(-1.05f, -0.18f), new Vector2(0.55f, 0.55f), Color.white, 3);
@@ -81,6 +81,11 @@ namespace MoaiGolf
             var spriteSize = renderer.sprite.bounds.size;
             spriteObject.transform.localScale = new Vector3(worldSize.x / spriteSize.x, worldSize.y / spriteSize.y, 1f);
             return spriteObject;
+        }
+
+        private GameObject CreatePixelPerfectSprite(string objectName, Sprite sprite, Vector2 bottomLeft, Color color, int sortingOrder)
+        {
+            return CreateSprite(objectName, sprite, bottomLeft, Vector2.one, color, sortingOrder);
         }
 
         private GameObject CreateSpriteChild(string objectName, Transform parent, Sprite sprite, Vector2 localBottomLeft, Vector2 scale, Color color, int sortingOrder)
