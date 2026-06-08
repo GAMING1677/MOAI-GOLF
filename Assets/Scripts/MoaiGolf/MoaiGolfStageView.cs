@@ -8,14 +8,46 @@ namespace MoaiGolf
 {
     public sealed class MoaiGolfStageView : MonoBehaviour
     {
-        private const float RightPedestalLeftX = 29.0f;
-        private const float RightPedestalRightX = 35.28f;
-        private const float RightPedestalTopY = 7.2f;
-        private const float RightPedestalBaseY = 4.2f;
+        // 背景画像に描かれている台座本体の左端 x にあわせる
+        public const float RightPedestalLeftX = 26.7f;
+        public const float RightPedestalRightX = 35.28f;
+        public const float RightPedestalTopY = 7.2f;
+        // ティキ面が描かれている下段部分まで当たり判定を伸ばすため、地面付近まで下げる
+        public const float RightPedestalBaseY = 3.0f;
+        // 背景の手描き台座に沿わせるため、見た目の足元だけ少し持ち上げる
+        private const float TargetMoaiVisualFeetLift = 0.08f;
+
+        private static readonly Vector2[] TargetPedestalTopSurfacePoints =
+        {
+            new Vector2(26.7f, 6.95f),
+            new Vector2(27.2f, 7.02f),
+            new Vector2(28.5f, 7.1f),
+            new Vector2(29.3f, 7.18f),
+            new Vector2(30.0f, 7.65f),
+            new Vector2(31.2f, 7.76f),
+            new Vector2(32.4f, 7.86f),
+            new Vector2(34.2f, 7.96f),
+            new Vector2(35.28f, 8.02f)
+        };
 
         private static Sprite whiteSprite;
 
         public Rigidbody2D LaunchBody { get; private set; }
+        public Transform LaunchVisual { get; private set; }
+        public Transform GolfClubPivot { get; private set; }
+        public Vector2 LaunchVisualFocusPosition
+        {
+            get
+            {
+                if (LaunchVisual == null)
+                {
+                    return LaunchBody != null ? LaunchBody.position : Vector2.zero;
+                }
+
+                var renderer = LaunchVisual.GetComponent<SpriteRenderer>();
+                return renderer != null ? (Vector2)renderer.bounds.center : (Vector2)LaunchVisual.position;
+            }
+        }
 
         public void Build(MoaiGolfRunState runState)
         {
@@ -25,14 +57,17 @@ namespace MoaiGolf
             CreatePixelPerfectSprite("Background Visual", MoaiGolfSpriteCatalog.Background, Vector2.zero, Color.white, -10);
             CreateTerrainCollider();
             var launchPedestalCenter = runState.LaunchPedestalCenter;
-            CreateSprite("Golf Club Visual", MoaiGolfSpriteCatalog.GolfClub, launchPedestalCenter + new Vector2(-1.05f, -0.18f), new Vector2(0.55f, 0.55f), Color.white, 3);
+            GolfClubPivot = CreateGolfClub(runState).transform;
             CreateBox("Launch Pedestal Collider", launchPedestalCenter, new Vector2(MoaiGolfWorldSettings.LaunchPedestalWidth, MoaiGolfWorldSettings.LaunchPedestalHeight), new Color(0.45f, 0.34f, 0.25f, 0.45f), true, false, 1);
             CreateTargetPedestalCollider();
-            CreateTargetMoaiOnPedestal(MoaiGolfMoaiKind.Sunglasses, 29.6f, 2);
-            CreateTargetMoaiOnPedestal(MoaiGolfMoaiKind.Ribbon, 30.7f, 2);
-            CreateTargetMoaiOnPedestal(MoaiGolfMoaiKind.Snowman, 31.8f, 2);
-            CreateTargetMoaiOnPedestal(MoaiGolfMoaiKind.Sunglasses, 33.7f, 2);
-            CreateTargetMoaiOnPedestal(MoaiGolfMoaiKind.Macho, 34.8f, 2);
+            CreateTargetMoaiLineupOnPedestal(new[]
+            {
+                MoaiGolfMoaiKind.Sunglasses,
+                MoaiGolfMoaiKind.Ribbon,
+                MoaiGolfMoaiKind.Snowman,
+                MoaiGolfMoaiKind.Sunglasses,
+                MoaiGolfMoaiKind.Macho,
+            }, stage, 2);
             CreateBox("Success Zone Trigger", stage.SuccessZone.center, stage.SuccessZone.size, new Color(1f, 0.1f, 0.08f, 0.32f), true, true, 3);
             CreateAimMarker(stage);
             CreateLaunchMoai(runState);
@@ -158,17 +193,46 @@ namespace MoaiGolf
             return spriteObject;
         }
 
+        private GameObject CreateGolfClub(MoaiGolfRunState runState)
+        {
+            // golfClub.png は 347x333 / pivot 左下。右上をモアイ中心の約 200px 上に固定し、
+            // 子のスプライトを逆方向にオフセットして親 Transform の回転だけで振る。
+            var spriteScale = MoaiGolfLaunchAnimator.ClubSpriteScale;
+            var anchorLocal = new Vector2(
+                MoaiGolfLaunchAnimator.ClubAnchorLocalXPixels,
+                MoaiGolfLaunchAnimator.ClubAnchorLocalYPixels
+            ) / MoaiGolfWorldSettings.PixelsPerUnit * spriteScale;
+
+            var pivot = new GameObject("Golf Club Pivot");
+            pivot.transform.SetParent(transform, false);
+
+            var pivotPos = runState.LaunchPosition + MoaiGolfLaunchAnimator.ClubAnchorOffsetFromMoai;
+            pivot.transform.position = new Vector3(pivotPos.x, pivotPos.y, 0f);
+            pivot.transform.rotation = Quaternion.Euler(0f, 0f, MoaiGolfLaunchAnimator.ClubWindupAngleDeg);
+
+            var visual = new GameObject("Golf Club Visual");
+            visual.transform.SetParent(pivot.transform, false);
+            visual.transform.localPosition = new Vector3(-anchorLocal.x, -anchorLocal.y, 0f);
+            visual.transform.localRotation = Quaternion.identity;
+            visual.transform.localScale = new Vector3(spriteScale, spriteScale, 1f);
+
+            var renderer = visual.AddComponent<SpriteRenderer>();
+            renderer.sprite = MoaiGolfSpriteCatalog.GolfClub;
+            renderer.sortingOrder = 3;
+            return pivot;
+        }
+
         private void CreateAimMarker(MoaiGolfStageDefinition stage)
         {
             var zone = stage.SuccessZone;
             var hereSprite = MoaiGolfSpriteCatalog.Here;
             var spriteSize = hereSprite.bounds.size;
 
-            // here.png の左側の破線枠（テクスチャ内で約 1.3 x 1.1 ワールド単位、
-            // スプライト中心から左に 0.25 ずれた位置にある）が成功ゾーンを囲うように
-            // 非等倍スケールで引き伸ばし、右に寄せて配置する。
-            var dashedBoxSize = new Vector2(1.3f, 1.1f);
-            var dashedBoxOffsetFromCenter = new Vector2(-0.25f, 0f);
+            // here.png の左側の破線枠の実測値（200x150 px テクスチャ内で x=[15..102] y=[28..145]、
+            // PPU=100 でワールド単位に換算すると 0.87 x 1.17、スプライト中心からのオフセットは (-0.415, -0.115)）。
+            // この破線枠が成功ゾーンを囲うように非等倍スケールで引き伸ばす。
+            var dashedBoxSize = new Vector2(0.87f, 1.17f);
+            var dashedBoxOffsetFromCenter = new Vector2(-0.415f, -0.115f);
             var padding = new Vector2(0.6f, 0.5f);
 
             var scale = new Vector2(
@@ -184,12 +248,14 @@ namespace MoaiGolf
             CreateCenteredSprite("Here Label Visual", hereSprite, center, scale, Color.white, 5);
         }
 
-        private void CreateTargetMoai(MoaiGolfMoaiKind kind, float x, float groundY, int sortingOrder)
+        private void CreateTargetMoai(MoaiGolfMoaiKind kind, float x, float visualFeetY, int sortingOrder)
         {
             var spec = MoaiGolfMoaiSpec.Get(kind);
             var sprite = MoaiGolfSpriteCatalog.GetMoai(kind);
             var visualHalfHeight = sprite.bounds.size.y * spec.VisualScale.y * 0.5f;
-            var centerY = groundY + visualHalfHeight + 0.02f;
+            // 各テクスチャの下端透明余白 (FeetOffset) を相殺して、どのモアイも見た目の足元が visualFeetY に揃うようにする
+            var feetOffsetWorld = spec.FeetOffset * spec.VisualScale.y;
+            var centerY = visualFeetY + visualHalfHeight - feetOffsetWorld;
             var moai = new GameObject($"Target Moai {kind}");
             moai.transform.SetParent(transform);
             moai.transform.position = new Vector2(x, centerY);
@@ -205,26 +271,123 @@ namespace MoaiGolf
 
         private void CreateTargetMoaiOnPedestal(MoaiGolfMoaiKind kind, float x, int sortingOrder)
         {
-            CreateTargetMoai(kind, x, RightPedestalTopY, sortingOrder);
+            CreateTargetMoai(kind, x, GetTargetPedestalTopY(x) + TargetMoaiVisualFeetLift, sortingOrder);
+        }
+
+        private void CreateTargetMoaiLineupOnPedestal(MoaiGolfMoaiKind[] kinds, MoaiGolfStageDefinition stage, int sortingOrder)
+        {
+            if (kinds == null || kinds.Length == 0)
+            {
+                return;
+            }
+
+            const float leftEdgeMargin = 0.55f;
+            const float rightEdgeMargin = 1.15f;
+            const float zoneGap = 0.45f;
+
+            var leftEdge = RightPedestalLeftX + leftEdgeMargin;
+            var rightEdge = RightPedestalRightX - rightEdgeMargin;
+            var zoneLeft = Mathf.Max(leftEdge, stage.SuccessZone.xMin - zoneGap);
+            var zoneRight = Mathf.Min(rightEdge, stage.SuccessZone.xMax + zoneGap);
+
+            var leftSpan = Mathf.Max(0f, zoneLeft - leftEdge);
+            var rightSpan = Mathf.Max(0f, rightEdge - zoneRight);
+            var totalSpan = leftSpan + rightSpan;
+
+            if (totalSpan <= 0f)
+            {
+                // 成功ゾーンが台座全幅を覆ってしまう場合のフォールバック（左から順に詰める）
+                PlaceMoaiAcrossRange(kinds, 0, kinds.Length, leftEdge, rightEdge, sortingOrder);
+                return;
+            }
+
+            // 左右の空き幅に比例して個数を割り振りつつ、可能なら片側 0 を避ける
+            var leftCount = Mathf.RoundToInt(kinds.Length * (leftSpan / totalSpan));
+            if (kinds.Length >= 2)
+            {
+                if (rightSpan > 0f)
+                {
+                    leftCount = Mathf.Clamp(leftCount, 1, kinds.Length - 1);
+                }
+                else
+                {
+                    leftCount = kinds.Length;
+                }
+            }
+            else
+            {
+                leftCount = leftSpan >= rightSpan ? 1 : 0;
+            }
+            var rightCount = kinds.Length - leftCount;
+
+            PlaceMoaiAcrossRange(kinds, 0, leftCount, leftEdge, zoneLeft, sortingOrder);
+            PlaceMoaiAcrossRange(kinds, leftCount, rightCount, zoneRight, rightEdge, sortingOrder);
+        }
+
+        private void PlaceMoaiAcrossRange(MoaiGolfMoaiKind[] kinds, int startIndex, int count, float leftX, float rightX, int sortingOrder)
+        {
+            if (count <= 0)
+            {
+                return;
+            }
+
+            var span = rightX - leftX;
+            for (var index = 0; index < count; index++)
+            {
+                var t = count == 1 ? 0.5f : (float)index / (count - 1);
+                var x = leftX + span * t;
+                CreateTargetMoaiOnPedestal(kinds[startIndex + index], x, sortingOrder);
+            }
         }
 
         private void CreateTargetPedestalCollider()
         {
-            var centerX = (RightPedestalLeftX + RightPedestalRightX) * 0.5f;
-            var centerY = (RightPedestalBaseY + RightPedestalTopY) * 0.5f;
-            var width = RightPedestalRightX - RightPedestalLeftX;
-            var height = RightPedestalTopY - RightPedestalBaseY;
-
             var pedestal = new GameObject("Target Pedestal Collider");
             pedestal.transform.SetParent(transform);
-            pedestal.transform.position = new Vector3(centerX, centerY, 0f);
+            pedestal.transform.position = Vector3.zero;
 
-            var collider = pedestal.AddComponent<BoxCollider2D>();
-            collider.size = new Vector2(width, height);
+            var collider = pedestal.AddComponent<PolygonCollider2D>();
+            collider.points = new[]
+            {
+                new Vector2(RightPedestalLeftX, RightPedestalBaseY),
+                new Vector2(RightPedestalRightX, RightPedestalBaseY),
+                new Vector2(RightPedestalRightX, TargetPedestalTopSurfacePoints[^1].y),
+                TargetPedestalTopSurfacePoints[7],
+                TargetPedestalTopSurfacePoints[6],
+                TargetPedestalTopSurfacePoints[5],
+                TargetPedestalTopSurfacePoints[4],
+                TargetPedestalTopSurfacePoints[3],
+                TargetPedestalTopSurfacePoints[2],
+                TargetPedestalTopSurfacePoints[1],
+                TargetPedestalTopSurfacePoints[0]
+            };
             collider.isTrigger = false;
 
             var body = pedestal.AddComponent<Rigidbody2D>();
             body.bodyType = RigidbodyType2D.Static;
+        }
+
+        private static float GetTargetPedestalTopY(float x)
+        {
+            if (x <= TargetPedestalTopSurfacePoints[0].x)
+            {
+                return TargetPedestalTopSurfacePoints[0].y;
+            }
+
+            for (var index = 1; index < TargetPedestalTopSurfacePoints.Length; index++)
+            {
+                var previous = TargetPedestalTopSurfacePoints[index - 1];
+                var next = TargetPedestalTopSurfacePoints[index];
+                if (x > next.x)
+                {
+                    continue;
+                }
+
+                var t = Mathf.InverseLerp(previous.x, next.x, x);
+                return Mathf.Lerp(previous.y, next.y, t);
+            }
+
+            return TargetPedestalTopSurfacePoints[^1].y;
         }
 
         private void CreateLaunchMoai(MoaiGolfRunState runState)
@@ -233,7 +396,7 @@ namespace MoaiGolf
             var moai = new GameObject("Launch Moai Collider");
             moai.transform.SetParent(transform);
             moai.transform.position = runState.LaunchPosition;
-            CreateCenteredSpriteChild("Launch Moai Visual", moai.transform, MoaiGolfSpriteCatalog.GetMoai(runState.LaunchMoaiKind), spec.VisualScale, Color.white, 4);
+            LaunchVisual = CreateCenteredSpriteChild("Launch Moai Visual", moai.transform, MoaiGolfSpriteCatalog.GetMoai(runState.LaunchMoaiKind), spec.VisualScale, Color.white, 4).transform;
 
             var collider = moai.AddComponent<CapsuleCollider2D>();
             collider.size = spec.ColliderSize;

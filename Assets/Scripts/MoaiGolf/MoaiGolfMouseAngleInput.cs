@@ -7,17 +7,25 @@ namespace MoaiGolf
     {
         private MoaiGolfGameController gameController;
         private MoaiGolfRunState runState;
+        private MoaiGolfHud hud;
         private Camera mainCamera;
 
         private void Start()
         {
             gameController = FindAnyObjectByType<MoaiGolfGameController>();
             runState = FindAnyObjectByType<MoaiGolfRunState>();
+            hud = FindAnyObjectByType<MoaiGolfHud>();
             mainCamera = Camera.main;
         }
 
         private void Update()
         {
+            hud ??= FindAnyObjectByType<MoaiGolfHud>();
+            if (hud != null && hud.IsMenuOpen)
+            {
+                return;
+            }
+
             if (gameController == null || runState == null || mainCamera == null || gameController.Phase != MoaiGolfGamePhase.AngleSelect)
             {
                 return;

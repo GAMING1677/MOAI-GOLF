@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace MoaiGolf
@@ -7,12 +8,15 @@ namespace MoaiGolf
     {
         private const float MinimumFlightTime = 0.75f;
         private const float MaxFlightTime = 12f;
+        private const float TrajectorySampleIntervalSeconds = 0.05f;
 
         private Rigidbody2D body;
         private Collider2D bodyCollider;
         private MoaiGolfGameController gameController;
         private MoaiGolfRunState runState;
         private float flyingSeconds;
+        private float lastSampleSeconds;
+        private readonly List<Vector2> trajectorySamples = new();
 
         private void Awake()
         {
@@ -33,7 +37,19 @@ namespace MoaiGolf
                 return;
             }
 
+            if (trajectorySamples.Count == 0)
+            {
+                trajectorySamples.Add(body.position);
+                lastSampleSeconds = 0f;
+            }
+
             flyingSeconds += Time.fixedDeltaTime;
+            if (flyingSeconds - lastSampleSeconds >= TrajectorySampleIntervalSeconds)
+            {
+                trajectorySamples.Add(body.position);
+                lastSampleSeconds = flyingSeconds;
+            }
+
             if (flyingSeconds >= MaxFlightTime)
             {
                 CompleteJudgement(false);
@@ -50,17 +66,26 @@ namespace MoaiGolf
 
         private bool IsStopped()
         {
+            // 速度が閾値以下
             return body.linearVelocity.magnitude <= MoaiGolfWorldSettings.StopVelocityThreshold
                 && Mathf.Abs(body.angularVelocity) <= MoaiGolfWorldSettings.StopAngularVelocityThreshold;
         }
 
         private bool IsSuccessfulLanding()
         {
-            return runState.Stage.SuccessZone.Contains(body.position) && bodyCollider.IsTouchingLayers();
+            // 中心点が成功枠内 + 接地中 (速度判定は IsStopped で済み)
+            var successZone = runState.Stage.SuccessZone;
+            return successZone.Contains(body.position)
+                && bodyCollider.IsTouchingLayers();
         }
 
         private void CompleteJudgement(bool succeeded)
         {
+            // 着地点と軌道を履歴へ
+            trajectorySamples.Add(body.position);
+            runState.RecordAttempt(trajectorySamples.ToArray(), body.position);
+            trajectorySamples.Clear();
+
             gameController.BeginJudging();
             gameController.ShowResult(succeeded);
         }

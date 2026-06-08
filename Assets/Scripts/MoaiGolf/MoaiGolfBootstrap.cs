@@ -37,7 +37,25 @@ namespace MoaiGolf
             EnsureMouseInput();
             EnsureCameraController();
             EnsureHud();
+            EnsureGuideOverlay();
+            EnsureLaunchAnimator();
             EnsureStageView(runState);
+        }
+
+        private void EnsureGuideOverlay()
+        {
+            if (FindAnyObjectByType<MoaiGolfGuideOverlay>() == null)
+            {
+                gameObject.AddComponent<MoaiGolfGuideOverlay>();
+            }
+        }
+
+        private void EnsureLaunchAnimator()
+        {
+            if (FindAnyObjectByType<MoaiGolfLaunchAnimator>() == null)
+            {
+                gameObject.AddComponent<MoaiGolfLaunchAnimator>();
+            }
         }
 
         private static void ApplyPhysicsBaseline()
@@ -137,6 +155,7 @@ namespace MoaiGolf
         private Camera mainCamera;
         private MoaiGolfGameController gameController;
         private MoaiGolfStageView stageView;
+        private MoaiGolfLaunchAnimator launchAnimator;
         private Vector3 lastMousePosition;
         private bool isDragging;
 
@@ -145,6 +164,7 @@ namespace MoaiGolf
             mainCamera = Camera.main;
             gameController = FindAnyObjectByType<MoaiGolfGameController>();
             stageView = FindAnyObjectByType<MoaiGolfStageView>();
+            launchAnimator = FindAnyObjectByType<MoaiGolfLaunchAnimator>();
             ClampCamera();
         }
 
@@ -173,10 +193,17 @@ namespace MoaiGolf
 
             stageView ??= FindAnyObjectByType<MoaiGolfStageView>();
             gameController ??= FindAnyObjectByType<MoaiGolfGameController>();
+            launchAnimator ??= FindAnyObjectByType<MoaiGolfLaunchAnimator>();
+
+            // 射出アニメ中はアニメーターがカメラを直接操作するので何もしない
+            if (launchAnimator != null && launchAnimator.IsPlaying)
+            {
+                return;
+            }
 
             if (gameController != null && gameController.Phase == MoaiGolfGamePhase.Flying && stageView?.LaunchBody != null)
             {
-                FollowLaunchBody();
+                FollowLaunchVisual();
             }
             else
             {
@@ -239,9 +266,9 @@ namespace MoaiGolf
             mainCamera.transform.position -= new Vector3(deltaPixels.x * worldUnitsPerPixel, deltaPixels.y * worldUnitsPerPixel, 0f);
         }
 
-        private void FollowLaunchBody()
+        private void FollowLaunchVisual()
         {
-            var target = stageView.LaunchBody.position;
+            var target = stageView.LaunchVisualFocusPosition;
             var current = mainCamera.transform.position;
             var desired = new Vector3(target.x, Mathf.Clamp(target.y, MoaiGolfWorldSettings.CameraMinY, MoaiGolfWorldSettings.CameraMaxY), current.z);
             mainCamera.transform.position = Vector3.Lerp(current, desired, 1f - Mathf.Exp(-FollowLerp * Time.deltaTime));
