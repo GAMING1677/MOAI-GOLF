@@ -27,6 +27,7 @@ namespace MoaiGolf
             ApplyPhysicsBaseline();
             ApplyCameraBaseline();
             var runState = EnsureRunState();
+            EnsureGameController();
             EnsureStageView(runState);
         }
 
@@ -79,6 +80,14 @@ namespace MoaiGolf
             }
 
             stageView.Build(runState);
+        }
+
+        private void EnsureGameController()
+        {
+            if (FindAnyObjectByType<MoaiGolfGameController>() == null)
+            {
+                gameObject.AddComponent<MoaiGolfGameController>();
+            }
         }
     }
 }
