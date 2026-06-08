@@ -16,5 +16,9 @@ namespace MoaiGolf
         public const float CameraCenterX = WorldWidth * 0.5f;
         public const float CameraCenterY = WorldHeight * 0.5f;
         public const float CameraZ = -10f;
+        public const float GravityY = -9.81f;
+        public const float FixedTimestep = 1f / 60f;
+        public const float StopVelocityThreshold = 0.08f;
+        public const float StopAngularVelocityThreshold = 4f;
     }
 }

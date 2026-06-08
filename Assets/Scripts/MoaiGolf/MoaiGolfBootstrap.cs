@@ -24,7 +24,14 @@ namespace MoaiGolf
             Screen.autorotateToLandscapeLeft = true;
             Screen.autorotateToLandscapeRight = true;
 
+            ApplyPhysicsBaseline();
             ApplyCameraBaseline();
+        }
+
+        private static void ApplyPhysicsBaseline()
+        {
+            Physics2D.gravity = new Vector2(0f, MoaiGolfWorldSettings.GravityY);
+            Time.fixedDeltaTime = MoaiGolfWorldSettings.FixedTimestep;
         }
 
         private static void ApplyCameraBaseline()
