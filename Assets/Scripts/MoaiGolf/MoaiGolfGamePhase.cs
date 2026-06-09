@@ -4,6 +4,7 @@ namespace MoaiGolf
     {
         AngleSelect,
         PowerSelect,
+        LaunchAnimation,
         Flying,
         Judging,
         Result

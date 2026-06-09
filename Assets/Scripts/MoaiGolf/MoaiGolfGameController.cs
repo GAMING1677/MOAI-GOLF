@@ -39,15 +39,23 @@ namespace MoaiGolf
 
         public void BeginFlying()
         {
-            if (Phase == MoaiGolfGamePhase.PowerSelect)
+            if (Phase == MoaiGolfGamePhase.LaunchAnimation)
             {
                 Phase = MoaiGolfGamePhase.Flying;
             }
         }
 
-        public void Launch(Rigidbody2D launchBody)
+        public void BeginLaunchAnimation()
         {
-            if (Phase != MoaiGolfGamePhase.PowerSelect)
+            if (Phase == MoaiGolfGamePhase.PowerSelect)
+            {
+                Phase = MoaiGolfGamePhase.LaunchAnimation;
+            }
+        }
+
+        public void FinishLaunchAnimation(Rigidbody2D launchBody)
+        {
+            if (Phase != MoaiGolfGamePhase.LaunchAnimation)
             {
                 return;
             }

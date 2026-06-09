@@ -7,17 +7,27 @@ namespace MoaiGolf
     {
         private MoaiGolfGameController gameController;
         private MoaiGolfRunState runState;
+        private MoaiGolfHud hud;
+        private MoaiGolfCameraController cameraController;
         private Camera mainCamera;
 
         private void Start()
         {
             gameController = FindAnyObjectByType<MoaiGolfGameController>();
             runState = FindAnyObjectByType<MoaiGolfRunState>();
+            hud = FindAnyObjectByType<MoaiGolfHud>();
+            cameraController = FindAnyObjectByType<MoaiGolfCameraController>();
             mainCamera = Camera.main;
         }
 
         private void Update()
         {
+            hud ??= FindAnyObjectByType<MoaiGolfHud>();
+            if (hud != null && hud.IsMenuOpen)
+            {
+                return;
+            }
+
             if (gameController == null || runState == null || mainCamera == null || gameController.Phase != MoaiGolfGamePhase.AngleSelect)
             {
                 return;
@@ -36,7 +46,8 @@ namespace MoaiGolf
                 gameController.SetAngle(Mathf.Atan2(aimVector.y, aimVector.x) * Mathf.Rad2Deg);
             }
 
-            if (mouse.leftButton.wasPressedThisFrame)
+            cameraController ??= FindAnyObjectByType<MoaiGolfCameraController>();
+            if (mouse.leftButton.wasReleasedThisFrame && (cameraController == null || !cameraController.IsPointerPanning))
             {
                 gameController.ConfirmAngle();
             }
