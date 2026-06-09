@@ -37,7 +37,6 @@ namespace MoaiGolf
         private const float ZoomTargetYOffset = 0.3f;
         private const float LaunchReadyCameraMoveDuration = 0.38f;
         private const float LaunchReadyCameraYOffset = 0.7f;
-        private static readonly Vector2 ImpactParticleOffsetFromMoai = new Vector2(-0.7f, 0.18f);
 
         private MoaiGolfGameController gameController;
         private MoaiGolfRunState runState;
@@ -178,7 +177,7 @@ namespace MoaiGolf
             Time.fixedDeltaTime = originalFixedDt;
             HoldLaunchBodyAt(launchBody, moaiCenter);
             MoaiGolfImpactBlurOverlay.Pulse(mainCamera);
-            MoaiGolfImpactParticles.Emit(moaiCenter + ImpactParticleOffsetFromMoai);
+            MoaiGolfImpactParticles.Emit(moaiCenter);
 
             Time.timeScale = originalTimeScale;
             Time.fixedDeltaTime = originalFixedDt;
@@ -476,7 +475,11 @@ namespace MoaiGolf
 
     internal static class MoaiGolfImpactParticles
     {
-        private const int ParticleCount = 34;
+        private const int ParticleCount = 96;
+        private static readonly Color ParticleYellow = new Color(1f, 0.9f, 0.02f, 1f);
+        private static readonly Color ParticleYellowLight = new Color(1f, 1f, 0.28f, 1f);
+        private static readonly Color ParticleRed = new Color(1f, 0.06f, 0.02f, 1f);
+        private static Material particleMaterial;
 
         public static void Emit(Vector2 position)
         {
@@ -490,10 +493,11 @@ namespace MoaiGolf
             main.playOnAwake = false;
             main.duration = 0.28f;
             main.loop = false;
-            main.startLifetime = new ParticleSystem.MinMaxCurve(0.14f, 0.36f);
+            main.startLifetime = new ParticleSystem.MinMaxCurve(0.22f, 0.62f);
             main.startSpeed = 0f;
-            main.startSize = new ParticleSystem.MinMaxCurve(0.06f, 0.18f);
-            main.startColor = new ParticleSystem.MinMaxGradient(new Color(1f, 0.92f, 0.35f, 1f), new Color(1f, 0.45f, 0.14f, 1f));
+            main.startSize = new ParticleSystem.MinMaxCurve(0.05f, 0.16f);
+            main.startColor = ParticleYellow;
+            main.gravityModifier = 0.6f;
             main.simulationSpace = ParticleSystemSimulationSpace.World;
             main.useUnscaledTime = true;
 
@@ -504,25 +508,54 @@ namespace MoaiGolf
             shape.enabled = false;
 
             var renderer = particles.GetComponent<ParticleSystemRenderer>();
+            var material = GetParticleMaterial();
+            if (material != null)
+            {
+                renderer.material = material;
+            }
             renderer.sortingOrder = 1100;
 
             for (var index = 0; index < ParticleCount; index++)
             {
-                var angleDeg = Random.Range(-36f, 42f);
-                var speed = Random.Range(2.2f, 6.8f);
-                var direction = new Vector2(Mathf.Cos(angleDeg * Mathf.Deg2Rad), Mathf.Sin(angleDeg * Mathf.Deg2Rad));
+                var angleRad = Random.Range(0f, Mathf.PI * 2f);
+                var direction = new Vector2(Mathf.Cos(angleRad), Mathf.Sin(angleRad));
+                var speed = Random.Range(2.4f, 7.8f);
                 var emitParams = new ParticleSystem.EmitParams
                 {
-                    position = position + Random.insideUnitCircle * 0.08f,
-                    velocity = direction * speed + Vector2.up * Random.Range(0.35f, 1.1f),
-                    startLifetime = Random.Range(0.16f, 0.38f),
-                    startSize = Random.Range(0.07f, 0.2f),
-                    startColor = Color.Lerp(new Color(1f, 0.94f, 0.35f, 1f), new Color(1f, 0.38f, 0.08f, 1f), Random.value)
+                    position = position + direction * Random.Range(0f, 0.12f),
+                    velocity = direction * speed + Random.insideUnitCircle * 0.35f,
+                    startLifetime = Random.Range(0.24f, 0.66f),
+                    startSize = Random.Range(0.055f, 0.17f),
+                    startColor = Random.value < 0.14f ? ParticleRed : Color.Lerp(ParticleYellow, ParticleYellowLight, Random.value)
                 };
                 particles.Emit(emitParams, 1);
             }
 
-            Object.Destroy(particleObject, 1.1f);
+            Object.Destroy(particleObject, 1.4f);
+        }
+
+        private static Material GetParticleMaterial()
+        {
+            if (particleMaterial != null)
+            {
+                return particleMaterial;
+            }
+
+            var shader = Shader.Find("Sprites/Default");
+            if (shader == null)
+            {
+                shader = Shader.Find("Universal Render Pipeline/Particles/Unlit");
+            }
+            if (shader == null)
+            {
+                return null;
+            }
+
+            particleMaterial = new Material(shader)
+            {
+                color = Color.white
+            };
+            return particleMaterial;
         }
     }
 }

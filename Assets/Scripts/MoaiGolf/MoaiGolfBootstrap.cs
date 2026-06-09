@@ -329,7 +329,7 @@ namespace MoaiGolf
 
         private bool CanStartLeftDrag(Vector2 mousePosition)
         {
-            if (hud != null && hud.IsMenuOpen)
+            if (hud != null && hud.ShouldBlockWorldInput)
             {
                 return false;
             }

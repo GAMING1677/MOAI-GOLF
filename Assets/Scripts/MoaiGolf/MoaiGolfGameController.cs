@@ -8,6 +8,9 @@ namespace MoaiGolf
         public float AngleDegrees { get; private set; } = 38f;
         public float Power01 { get; private set; } = 0.55f;
         public bool? LastResultSucceeded { get; private set; }
+        public bool HasPreviousLaunch { get; private set; }
+        public float PreviousLaunchAngleDegrees { get; private set; }
+        public float PreviousLaunchPower01 { get; private set; }
 
         public void SetAngle(float angleDegrees)
         {
@@ -49,6 +52,9 @@ namespace MoaiGolf
         {
             if (Phase == MoaiGolfGamePhase.PowerSelect)
             {
+                PreviousLaunchAngleDegrees = AngleDegrees;
+                PreviousLaunchPower01 = Power01;
+                HasPreviousLaunch = true;
                 Phase = MoaiGolfGamePhase.LaunchAnimation;
             }
         }

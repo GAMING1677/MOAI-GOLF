@@ -11,6 +11,8 @@ namespace MoaiGolf
         private const float HistoryDotSize = 0.11f;
         private const float AngleArrowWorldLength = 1.1f;
         private const float AngleArrowMoaiClearance = 1.0f;
+        private const float LaunchButtonLabelCharacterSize = 0.075f;
+        private const float PreviousLaunchArrowAlpha = 0.6f;
 
         private static readonly Color TrajectoryColor = new(1f, 1f, 1f, 0.85f);
         private static readonly Color PowerFilledColor = new(0.92f, 0.22f, 0.18f);
@@ -29,6 +31,8 @@ namespace MoaiGolf
 
         private Transform angleArrowPivot;
         private SpriteRenderer angleArrowRenderer;
+        private Transform previousAngleArrowPivot;
+        private SpriteRenderer previousAngleArrowRenderer;
         private GameObject[] trajectoryDots;
         private GameObject powerGaugeRoot;
         private Transform powerGaugeFillTransform;
@@ -61,6 +65,7 @@ namespace MoaiGolf
             var phase = gameController.Phase;
 
             UpdateAngleArrow(phase == MoaiGolfGamePhase.AngleSelect);
+            UpdatePreviousAngleArrow(phase == MoaiGolfGamePhase.AngleSelect);
             UpdatePowerGauge(phase == MoaiGolfGamePhase.PowerSelect);
             UpdateLaunchButton(phase == MoaiGolfGamePhase.PowerSelect);
             UpdatePredictedTrajectory(phase == MoaiGolfGamePhase.PowerSelect);
@@ -72,6 +77,11 @@ namespace MoaiGolf
             if (angleArrowPivot == null)
             {
                 CreateAngleArrow();
+            }
+
+            if (previousAngleArrowPivot == null)
+            {
+                CreatePreviousAngleArrow();
             }
 
             if (trajectoryDots == null)
@@ -99,20 +109,37 @@ namespace MoaiGolf
 
         private void CreateAngleArrow()
         {
-            var pivot = new GameObject("Angle Arrow Pivot");
-            pivot.transform.SetParent(transform);
-            angleArrowPivot = pivot.transform;
+            angleArrowPivot = CreateAngleArrowVisual("Angle Arrow Pivot", "Angle Arrow", 6, Color.white, out angleArrowRenderer);
+        }
 
-            var spriteObj = new GameObject("Angle Arrow");
+        private void CreatePreviousAngleArrow()
+        {
+            previousAngleArrowPivot = CreateAngleArrowVisual(
+                "Previous Angle Arrow Pivot",
+                "Previous Angle Arrow",
+                5,
+                new Color(1f, 1f, 1f, PreviousLaunchArrowAlpha),
+                out previousAngleArrowRenderer
+            );
+            previousAngleArrowPivot.gameObject.SetActive(false);
+        }
+
+        private Transform CreateAngleArrowVisual(string pivotName, string spriteName, int sortingOrder, Color color, out SpriteRenderer renderer)
+        {
+            var pivot = new GameObject(pivotName);
+            pivot.transform.SetParent(transform);
+
+            var spriteObj = new GameObject(spriteName);
             spriteObj.transform.SetParent(pivot.transform);
             var arrowSprite = MoaiGolfSpriteCatalog.Arrow;
-            angleArrowRenderer = spriteObj.AddComponent<SpriteRenderer>();
-            angleArrowRenderer.sprite = arrowSprite != null ? arrowSprite : GetWhitePixelSprite();
-            angleArrowRenderer.sortingOrder = 6;
+            renderer = spriteObj.AddComponent<SpriteRenderer>();
+            renderer.sprite = arrowSprite != null ? arrowSprite : GetWhitePixelSprite();
+            renderer.color = color;
+            renderer.sortingOrder = sortingOrder;
             // arrow.png は上向きの赤矢印（ピボット左下、bounds は (~0.96, ~1.45)）。
             // 子スプライトをローカル -90° 回し、頭がローカル +X 方向を向くようにする。
             // 親 (Pivot) を Z 軸で AngleDegrees だけ回せば、その向きに矢印が伸びる。
-            var renderedSprite = angleArrowRenderer.sprite;
+            var renderedSprite = renderer.sprite;
             var spriteSize = renderedSprite != null ? renderedSprite.bounds.size : new Vector3(1f, 1f, 0f);
             var scale = AngleArrowWorldLength / Mathf.Max(spriteSize.y, 0.001f);
             spriteObj.transform.localScale = new Vector3(scale, scale, 1f);
@@ -120,6 +147,7 @@ namespace MoaiGolf
             // -90° 回転後、矢印は (0, -spriteSize.x*scale) → (spriteSize.y*scale, 0) の範囲。
             // 矢印の縦方向中央 (元の x 中心 = spriteSize.x*0.5) が原点と並ぶよう Y を補正する。
             spriteObj.transform.localPosition = new Vector3(0f, spriteSize.x * scale * 0.5f, 0f);
+            return pivot.transform;
         }
 
         private void CreateTrajectoryDots()
@@ -203,8 +231,8 @@ namespace MoaiGolf
             label.text = "発射";
             label.anchor = TextAnchor.MiddleCenter;
             label.alignment = TextAlignment.Center;
-            label.characterSize = 0.22f;
-            label.fontSize = 64;
+            label.characterSize = LaunchButtonLabelCharacterSize;
+            label.fontSize = 56;
             label.color = LaunchButtonTextColor;
             var labelRenderer = labelObject.GetComponent<MeshRenderer>();
             labelRenderer.sortingOrder = 9;
@@ -223,10 +251,41 @@ namespace MoaiGolf
                 return;
             }
 
+            ApplyAngleArrowTransform(angleArrowPivot, gameController.AngleDegrees, gameController.Power01);
+        }
+
+        private void UpdatePreviousAngleArrow(bool visible)
+        {
+            if (previousAngleArrowPivot == null)
+            {
+                return;
+            }
+
+            visible = visible && gameController.HasPreviousLaunch;
+            previousAngleArrowPivot.gameObject.SetActive(visible);
+            if (!visible)
+            {
+                return;
+            }
+
+            ApplyAngleArrowTransform(
+                previousAngleArrowPivot,
+                gameController.PreviousLaunchAngleDegrees,
+                gameController.PreviousLaunchPower01
+            );
+        }
+
+        private void ApplyAngleArrowTransform(Transform arrowPivot, float angleDegrees, float power01)
+        {
+            if (arrowPivot == null)
+            {
+                return;
+            }
+
             // 矢印を予測放物線そのものに沿わせる。
             // 重力込みでミニシミュレーションし、モアイから AngleArrowMoaiClearance だけ進んだ地点に
             // 矢印の尾を置き、その時点の速度ベクトルの向きに矢印を回す。
-            var velocity = MoaiGolfLaunchPhysics.CalculateThrustVelocity(gameController.AngleDegrees, gameController.Power01);
+            var velocity = MoaiGolfLaunchPhysics.CalculateThrustVelocity(angleDegrees, power01);
             var gravity = new Vector2(0f, MoaiGolfWorldSettings.GravityY);
             var start = runState.LaunchPosition;
             var pos = start;
@@ -243,8 +302,8 @@ namespace MoaiGolf
                 velocity += gravity * dt;
             }
             var arrowAngleDeg = Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg;
-            angleArrowPivot.position = new Vector3(pos.x, pos.y, 0f);
-            angleArrowPivot.rotation = Quaternion.Euler(0f, 0f, arrowAngleDeg);
+            arrowPivot.position = new Vector3(pos.x, pos.y, 0f);
+            arrowPivot.rotation = Quaternion.Euler(0f, 0f, arrowAngleDeg);
         }
 
         private void UpdatePowerGauge(bool visible)

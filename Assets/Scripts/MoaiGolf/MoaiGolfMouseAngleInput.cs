@@ -23,7 +23,7 @@ namespace MoaiGolf
         private void Update()
         {
             hud ??= FindAnyObjectByType<MoaiGolfHud>();
-            if (hud != null && hud.IsMenuOpen)
+            if (hud != null && hud.ShouldBlockWorldInput)
             {
                 return;
             }

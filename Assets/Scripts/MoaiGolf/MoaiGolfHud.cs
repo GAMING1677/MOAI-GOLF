@@ -12,8 +12,11 @@ namespace MoaiGolf
         private MoaiGolfLaunchAnimator launchAnimator;
         private MoaiGolfBgmController bgmController;
         private bool isMenuOpen;
+        private int blockWorldInputUntilFrame = -1;
 
         public bool IsMenuOpen => isMenuOpen;
+        public bool ShouldBlockWorldInput =>
+            isMenuOpen || gameController?.Phase == MoaiGolfGamePhase.Result || Time.frameCount <= blockWorldInputUntilFrame;
 
         private void Start()
         {
@@ -117,6 +120,7 @@ namespace MoaiGolf
             if (GUI.Button(new Rect(buttonX, buttonY, buttonWidth, buttonHeight), "続ける", buttonStyle))
             {
                 isMenuOpen = false;
+                BlockWorldInputBriefly();
             }
 
             buttonY += buttonHeight + buttonGap;
@@ -283,11 +287,17 @@ namespace MoaiGolf
         private void RebuildAfterRetry()
         {
             isMenuOpen = false;
+            BlockWorldInputBriefly();
             ApplyBgmMenuDucking();
             launchAnimator?.CancelLaunchSequence();
             gameController.ResetForRetry();
             stageView.Build(runState);
             cameraController?.ResetToInitial();
+        }
+
+        private void BlockWorldInputBriefly()
+        {
+            blockWorldInputUntilFrame = Time.frameCount + 1;
         }
     }
 }
