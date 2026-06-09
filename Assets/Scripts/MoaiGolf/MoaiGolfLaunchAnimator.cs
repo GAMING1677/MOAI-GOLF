@@ -15,6 +15,7 @@ namespace MoaiGolf
         private static float ClubSlowReleaseAngleDeg => ClubStrikeAngleDeg - SlowReleaseDegreesBeforeImpact;
         private static float ClubStrikeAngleDeg => 0f;
         private static float ClubFollowThroughAngleDeg => ClubStrikeAngleDeg + FollowThroughDegrees;
+        private static float ClubFullSpinFollowThroughAngleDeg => ClubFollowThroughAngleDeg + FullSpinFollowThroughDegrees;
 
         private const float RotationsPerSecond = 6f;
         private const float SpinupDuration = 1f;
@@ -22,17 +23,21 @@ namespace MoaiGolf
         private const float SlowStartDegreesBeforeImpact = 120f;
         private const float SlowReleaseDegreesBeforeImpact = 8f;
         private const float FollowThroughDegrees = 42f;
-        private const float SlowApproachDuration = 0.52f;
+        private const float FullSpinFollowThroughDegrees = 360f;
+        private const float SlowApproachDuration = 1.45f;
         private const float FinalImpactDuration = SlowReleaseDegreesBeforeImpact / (RotationsPerSecond * 360f);
-        private const float HitStopDuration = 0.08f;
+        private const float HitStopDuration = 0.6f;
         private const float HitStopShakeAmplitude = 0.06f;
         private const float HitStopShakeFrequency = 85f;
-        private const float FastFollowThroughDuration = 0.08f;
+        private const float FastFollowThroughDuration = 0.18f;
         private const float LaunchVelocityMultiplier = 1.18f;
 
-        private const float SlowApproachTimeScale = 0.1f;
+        private const float SlowApproachTimeScale = 0.015f;
         private const float ZoomOrthoSizeFactor = 0.5f;
         private const float ZoomTargetYOffset = 0.3f;
+        private const float LaunchReadyCameraMoveDuration = 0.38f;
+        private const float LaunchReadyCameraYOffset = 0.7f;
+        private static readonly Vector2 ImpactParticleOffsetFromMoai = new Vector2(-0.7f, 0.18f);
 
         private MoaiGolfGameController gameController;
         private MoaiGolfRunState runState;
@@ -72,6 +77,7 @@ namespace MoaiGolf
             }
 
             gameController.BeginLaunchAnimation();
+            IsPlaying = true;
             StartCoroutine(PlaySequence());
         }
 
@@ -92,12 +98,14 @@ namespace MoaiGolf
         {
             IsPlaying = true;
             var club = stageView.GolfClubPivot;
+            var visualFocus = stageView.LaunchVisualFocusPosition;
+
+            yield return MoveCameraToLaunchReadyPosition(visualFocus);
 
             // クラブ右上の座標をモアイ中心の約 200px 上に固定し、親 Transform の回転だけで振る。
             var moaiCenter = runState.LaunchPosition;
             var launchBody = stageView.LaunchBody;
             HoldLaunchBodyAt(launchBody, moaiCenter);
-            var visualFocus = stageView.LaunchVisualFocusPosition;
             var clubAnchorPos = moaiCenter + ClubAnchorOffsetFromMoai;
             if (club != null)
             {
@@ -112,18 +120,16 @@ namespace MoaiGolf
             var originalCameraPos = mainCamera.transform.position;
             var targetCameraPos = new Vector3(visualFocus.x, visualFocus.y + ZoomTargetYOffset, originalCameraPos.z);
             var targetSize = originalCameraSize * ZoomOrthoSizeFactor;
-            mainCamera.orthographicSize = targetSize;
-            mainCamera.transform.position = targetCameraPos;
 
             yield return SpinClubAndCamera(
                 mainCamera,
                 club,
                 ClubWindupAngleDeg,
                 ClubSlowStartAngleDeg,
-                targetSize,
-                targetSize,
-                targetCameraPos,
-                targetCameraPos,
+                originalCameraSize,
+                originalCameraSize,
+                originalCameraPos,
+                originalCameraPos,
                 SpinupDuration,
                 lockedLaunchBody: launchBody,
                 lockedLaunchPosition: moaiCenter
@@ -137,9 +143,9 @@ namespace MoaiGolf
                 club,
                 ClubSlowStartAngleDeg,
                 ClubSlowReleaseAngleDeg,
+                originalCameraSize,
                 targetSize,
-                targetSize,
-                targetCameraPos,
+                originalCameraPos,
                 targetCameraPos,
                 SlowApproachDuration,
                 lockedLaunchBody: launchBody,
@@ -171,6 +177,30 @@ namespace MoaiGolf
             Time.timeScale = originalTimeScale;
             Time.fixedDeltaTime = originalFixedDt;
             HoldLaunchBodyAt(launchBody, moaiCenter);
+            MoaiGolfImpactBlurOverlay.Pulse(mainCamera);
+            MoaiGolfImpactParticles.Emit(moaiCenter + ImpactParticleOffsetFromMoai);
+
+            Time.timeScale = originalTimeScale;
+            Time.fixedDeltaTime = originalFixedDt;
+
+            yield return SpinClubAndCamera(
+                mainCamera,
+                club,
+                ClubStrikeAngleDeg,
+                ClubFullSpinFollowThroughAngleDeg,
+                targetSize,
+                targetSize,
+                targetCameraPos,
+                targetCameraPos,
+                FastFollowThroughDuration,
+                lockedLaunchBody: launchBody,
+                lockedLaunchPosition: moaiCenter
+            );
+
+            if (club != null)
+            {
+                club.rotation = Quaternion.Euler(0f, 0f, ClubFullSpinFollowThroughAngleDeg);
+            }
 
             Time.timeScale = 0f;
             Time.fixedDeltaTime = originalFixedDt;
@@ -206,23 +236,6 @@ namespace MoaiGolf
                 launchBody.angularVelocity *= LaunchVelocityMultiplier;
             }
 
-            yield return SpinClubAndCamera(
-                mainCamera,
-                club,
-                ClubStrikeAngleDeg,
-                ClubFollowThroughAngleDeg,
-                targetSize,
-                targetSize,
-                targetCameraPos,
-                targetCameraPos,
-                FastFollowThroughDuration
-            );
-
-            if (club != null)
-            {
-                club.rotation = Quaternion.Euler(0f, 0f, ClubFollowThroughAngleDeg);
-            }
-
             Time.timeScale = originalTimeScale;
             Time.fixedDeltaTime = originalFixedDt;
             mainCamera.orthographicSize = originalCameraSize;
@@ -232,6 +245,33 @@ namespace MoaiGolf
             }
 
             IsPlaying = false;
+        }
+
+        private IEnumerator MoveCameraToLaunchReadyPosition(Vector2 visualFocus)
+        {
+            if (mainCamera == null)
+            {
+                yield break;
+            }
+
+            var fromPosition = mainCamera.transform.position;
+            var targetPosition = new Vector3(
+                Mathf.Clamp(visualFocus.x, MoaiGolfWorldSettings.CameraMinX, MoaiGolfWorldSettings.CameraMaxX),
+                Mathf.Clamp(visualFocus.y + LaunchReadyCameraYOffset, MoaiGolfWorldSettings.CameraMinY, MoaiGolfWorldSettings.CameraMaxY),
+                fromPosition.z
+            );
+
+            var elapsed = 0f;
+            while (elapsed < LaunchReadyCameraMoveDuration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                var t = Mathf.Clamp01(elapsed / LaunchReadyCameraMoveDuration);
+                var eased = Mathf.SmoothStep(0f, 1f, t);
+                mainCamera.transform.position = Vector3.Lerp(fromPosition, targetPosition, eased);
+                yield return null;
+            }
+
+            mainCamera.transform.position = targetPosition;
         }
 
         private static void HoldLaunchBodyAt(Rigidbody2D launchBody, Vector2 position)
@@ -258,10 +298,6 @@ namespace MoaiGolf
             Vector3 fromCameraPos,
             Vector3 toCameraPos,
             float duration,
-            bool increaseSlowMotion = false,
-            float fromTimeScale = 1f,
-            float toTimeScale = 1f,
-            float originalFixedDt = MoaiGolfWorldSettings.FixedTimestep,
             Rigidbody2D lockedLaunchBody = null,
             Vector2 lockedLaunchPosition = default(Vector2)
         )
@@ -273,28 +309,220 @@ namespace MoaiGolf
                 HoldLaunchBodyAt(lockedLaunchBody, lockedLaunchPosition);
                 var t = Mathf.Clamp01(elapsed / duration);
                 var eased = Mathf.SmoothStep(0f, 1f, t);
-                var clubT = increaseSlowMotion ? 1f - Mathf.Pow(1f - t, 2.35f) : t;
                 if (club != null)
                 {
-                    var rotZ = Mathf.LerpUnclamped(fromAngleDeg, toAngleDeg, clubT);
+                    var rotZ = Mathf.LerpUnclamped(fromAngleDeg, toAngleDeg, t);
                     club.rotation = Quaternion.Euler(0f, 0f, rotZ);
-                }
-
-                if (increaseSlowMotion)
-                {
-                    var timeScale = Mathf.Lerp(fromTimeScale, toTimeScale, eased);
-                    Time.timeScale = timeScale;
-                    Time.fixedDeltaTime = originalFixedDt * timeScale;
                 }
 
                 if (camera != null)
                 {
-                    camera.orthographicSize = toCameraSize;
-                    camera.transform.position = toCameraPos;
+                    camera.orthographicSize = Mathf.Lerp(fromCameraSize, toCameraSize, eased);
+                    camera.transform.position = Vector3.Lerp(fromCameraPos, toCameraPos, eased);
                 }
 
                 yield return null;
             }
+        }
+    }
+
+    internal sealed class MoaiGolfImpactBlurOverlay : MonoBehaviour
+    {
+        private const float Duration = 0.16f;
+        private const int StreakCount = 9;
+        private static readonly float[] StreakY =
+        {
+            -0.46f, -0.34f, -0.22f, -0.1f, 0.04f, 0.17f, 0.29f, 0.4f, 0.48f
+        };
+
+        private static readonly float[] StreakHeight =
+        {
+            0.035f, 0.018f, 0.028f, 0.02f, 0.04f, 0.024f, 0.03f, 0.017f, 0.025f
+        };
+
+        private static readonly float[] StreakShift =
+        {
+            -0.06f, 0.05f, -0.035f, 0.02f, -0.05f, 0.04f, -0.025f, 0.055f, -0.045f
+        };
+
+        private static Sprite whiteSprite;
+
+        private Camera targetCamera;
+        private Transform streakRoot;
+        private SpriteRenderer[] streaks;
+        private float remaining;
+
+        public static void Pulse(Camera camera)
+        {
+            if (camera == null)
+            {
+                return;
+            }
+
+            var overlay = camera.GetComponent<MoaiGolfImpactBlurOverlay>();
+            if (overlay == null)
+            {
+                overlay = camera.gameObject.AddComponent<MoaiGolfImpactBlurOverlay>();
+            }
+
+            overlay.Play(camera);
+        }
+
+        private void Awake()
+        {
+            EnsureStreaks();
+            SetVisible(false);
+        }
+
+        private void LateUpdate()
+        {
+            if (targetCamera == null || remaining <= 0f)
+            {
+                SetVisible(false);
+                enabled = false;
+                return;
+            }
+
+            remaining -= Time.unscaledDeltaTime;
+            var t = Mathf.Clamp01(remaining / Duration);
+            var alpha = Mathf.SmoothStep(0f, 1f, t) * 0.16f;
+            UpdateStreakLayout(alpha);
+        }
+
+        private void Play(Camera camera)
+        {
+            targetCamera = camera;
+            remaining = Duration;
+            EnsureStreaks();
+            SetVisible(true);
+            enabled = true;
+            UpdateStreakLayout(0.16f);
+        }
+
+        private void EnsureStreaks()
+        {
+            if (streaks != null)
+            {
+                return;
+            }
+
+            streakRoot = new GameObject("Impact Blur Overlay").transform;
+            streakRoot.SetParent(transform, false);
+            streakRoot.localPosition = new Vector3(0f, 0f, Mathf.Abs(transform.position.z));
+            streakRoot.localRotation = Quaternion.identity;
+            streakRoot.localScale = Vector3.one;
+
+            streaks = new SpriteRenderer[StreakCount];
+            for (var index = 0; index < streaks.Length; index++)
+            {
+                var streak = new GameObject($"Impact Blur Streak {index + 1}");
+                streak.transform.SetParent(streakRoot, false);
+                var renderer = streak.AddComponent<SpriteRenderer>();
+                renderer.sprite = GetWhiteSprite();
+                renderer.sortingOrder = 1000 + index;
+                streaks[index] = renderer;
+            }
+        }
+
+        private void UpdateStreakLayout(float alpha)
+        {
+            var cameraHeight = targetCamera.orthographicSize * 2f;
+            var cameraWidth = cameraHeight * targetCamera.aspect;
+            streakRoot.localPosition = new Vector3(0f, 0f, Mathf.Abs(targetCamera.transform.position.z));
+
+            for (var index = 0; index < streaks.Length; index++)
+            {
+                var transformRef = streaks[index].transform;
+                var width = cameraWidth * (1.08f + index * 0.018f);
+                var height = cameraHeight * StreakHeight[index];
+                transformRef.localScale = new Vector3(width, height, 1f);
+                transformRef.localPosition = new Vector3(cameraWidth * StreakShift[index] * alpha * 7f, cameraHeight * StreakY[index], 0f);
+
+                var warm = index % 2 == 0 ? 1f : 0.85f;
+                streaks[index].color = new Color(1f, warm, 0.52f, alpha * (0.55f + index * 0.025f));
+            }
+        }
+
+        private void SetVisible(bool visible)
+        {
+            if (streaks == null)
+            {
+                return;
+            }
+
+            foreach (var streak in streaks)
+            {
+                if (streak != null)
+                {
+                    streak.enabled = visible;
+                }
+            }
+        }
+
+        private static Sprite GetWhiteSprite()
+        {
+            if (whiteSprite != null)
+            {
+                return whiteSprite;
+            }
+
+            var texture = new Texture2D(1, 1);
+            texture.SetPixel(0, 0, Color.white);
+            texture.Apply();
+            whiteSprite = Sprite.Create(texture, new Rect(0f, 0f, 1f, 1f), new Vector2(0.5f, 0.5f), 1f);
+            return whiteSprite;
+        }
+    }
+
+    internal static class MoaiGolfImpactParticles
+    {
+        private const int ParticleCount = 34;
+
+        public static void Emit(Vector2 position)
+        {
+            var particleObject = new GameObject("Launch Impact Particles");
+            particleObject.transform.position = new Vector3(position.x, position.y, 0f);
+
+            var particles = particleObject.AddComponent<ParticleSystem>();
+            particles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+
+            var main = particles.main;
+            main.playOnAwake = false;
+            main.duration = 0.28f;
+            main.loop = false;
+            main.startLifetime = new ParticleSystem.MinMaxCurve(0.14f, 0.36f);
+            main.startSpeed = 0f;
+            main.startSize = new ParticleSystem.MinMaxCurve(0.06f, 0.18f);
+            main.startColor = new ParticleSystem.MinMaxGradient(new Color(1f, 0.92f, 0.35f, 1f), new Color(1f, 0.45f, 0.14f, 1f));
+            main.simulationSpace = ParticleSystemSimulationSpace.World;
+            main.useUnscaledTime = true;
+
+            var emission = particles.emission;
+            emission.enabled = false;
+
+            var shape = particles.shape;
+            shape.enabled = false;
+
+            var renderer = particles.GetComponent<ParticleSystemRenderer>();
+            renderer.sortingOrder = 1100;
+
+            for (var index = 0; index < ParticleCount; index++)
+            {
+                var angleDeg = Random.Range(-36f, 42f);
+                var speed = Random.Range(2.2f, 6.8f);
+                var direction = new Vector2(Mathf.Cos(angleDeg * Mathf.Deg2Rad), Mathf.Sin(angleDeg * Mathf.Deg2Rad));
+                var emitParams = new ParticleSystem.EmitParams
+                {
+                    position = position + Random.insideUnitCircle * 0.08f,
+                    velocity = direction * speed + Vector2.up * Random.Range(0.35f, 1.1f),
+                    startLifetime = Random.Range(0.16f, 0.38f),
+                    startSize = Random.Range(0.07f, 0.2f),
+                    startColor = Color.Lerp(new Color(1f, 0.94f, 0.35f, 1f), new Color(1f, 0.38f, 0.08f, 1f), Random.value)
+                };
+                particles.Emit(emitParams, 1);
+            }
+
+            Object.Destroy(particleObject, 1.1f);
         }
     }
 }

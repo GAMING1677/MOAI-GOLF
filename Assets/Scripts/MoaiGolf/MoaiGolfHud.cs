@@ -10,6 +10,7 @@ namespace MoaiGolf
         private MoaiGolfStageView stageView;
         private MoaiGolfCameraController cameraController;
         private MoaiGolfLaunchAnimator launchAnimator;
+        private MoaiGolfBgmController bgmController;
         private bool isMenuOpen;
 
         public bool IsMenuOpen => isMenuOpen;
@@ -21,6 +22,7 @@ namespace MoaiGolf
             stageView = FindAnyObjectByType<MoaiGolfStageView>();
             cameraController = FindAnyObjectByType<MoaiGolfCameraController>();
             launchAnimator = FindAnyObjectByType<MoaiGolfLaunchAnimator>();
+            bgmController = FindAnyObjectByType<MoaiGolfBgmController>();
         }
 
         private void Update()
@@ -48,6 +50,13 @@ namespace MoaiGolf
             {
                 Retry();
             }
+
+            ApplyBgmMenuDucking();
+        }
+
+        private void LateUpdate()
+        {
+            ApplyBgmMenuDucking();
         }
 
         private void OnGUI()
@@ -60,6 +69,7 @@ namespace MoaiGolf
             if (gameController.Phase == MoaiGolfGamePhase.Result)
             {
                 isMenuOpen = false;
+                ApplyBgmMenuDucking();
                 DrawResultDialog();
                 return;
             }
@@ -73,7 +83,7 @@ namespace MoaiGolf
         private void DrawMenuDialog()
         {
             const float dialogWidth = 360f;
-            const float dialogHeight = 280f;
+            const float dialogHeight = 342f;
             var dialogRect = new Rect(
                 (Screen.width - dialogWidth) * 0.5f,
                 (Screen.height - dialogHeight) * 0.5f,
@@ -119,6 +129,47 @@ namespace MoaiGolf
             if (GUI.Button(new Rect(buttonX, buttonY, buttonWidth, buttonHeight), "条件を変えてリトライ", buttonStyle))
             {
                 RerollAndRetry();
+            }
+
+            DrawBgmVolumeSlider(dialogRect, buttonY + buttonHeight + 20f);
+        }
+
+        private void DrawBgmVolumeSlider(Rect dialogRect, float sliderY)
+        {
+            bgmController ??= FindAnyObjectByType<MoaiGolfBgmController>();
+
+            var labelStyle = new GUIStyle(GUI.skin.label)
+            {
+                fontSize = 16,
+                normal = { textColor = Color.white }
+            };
+            var valueStyle = new GUIStyle(labelStyle)
+            {
+                alignment = TextAnchor.MiddleRight
+            };
+
+            const float labelWidth = 92f;
+            const float valueWidth = 48f;
+            const float sliderWidth = 168f;
+            var sliderX = dialogRect.x + (dialogRect.width - labelWidth - sliderWidth - valueWidth - 16f) * 0.5f;
+            var volume = bgmController != null ? bgmController.Volume : MoaiGolfBgmController.DefaultVolume;
+
+            GUI.Label(new Rect(sliderX, sliderY - 2f, labelWidth, 28f), "BGM音量", labelStyle);
+            var newVolume = GUI.HorizontalSlider(
+                new Rect(sliderX + labelWidth + 8f, sliderY + 4f, sliderWidth, 24f),
+                volume,
+                0f,
+                1f
+            );
+            GUI.Label(
+                new Rect(sliderX + labelWidth + sliderWidth + 16f, sliderY - 2f, valueWidth, 28f),
+                $"{Mathf.RoundToInt(newVolume * 100f)}%",
+                valueStyle
+            );
+
+            if (bgmController != null && !Mathf.Approximately(newVolume, volume))
+            {
+                bgmController.SetVolume(newVolume);
             }
         }
 
@@ -219,12 +270,20 @@ namespace MoaiGolf
             stageView ??= FindAnyObjectByType<MoaiGolfStageView>();
             cameraController ??= FindAnyObjectByType<MoaiGolfCameraController>();
             launchAnimator ??= FindAnyObjectByType<MoaiGolfLaunchAnimator>();
+            bgmController ??= FindAnyObjectByType<MoaiGolfBgmController>();
             return gameController != null && runState != null && stageView != null;
+        }
+
+        private void ApplyBgmMenuDucking()
+        {
+            bgmController ??= FindAnyObjectByType<MoaiGolfBgmController>();
+            bgmController?.SetMenuDucked(isMenuOpen);
         }
 
         private void RebuildAfterRetry()
         {
             isMenuOpen = false;
+            ApplyBgmMenuDucking();
             launchAnimator?.CancelLaunchSequence();
             gameController.ResetForRetry();
             stageView.Build(runState);

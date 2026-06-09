@@ -9,9 +9,6 @@ namespace MoaiGolf
         private const float TrajectoryStepSeconds = 0.06f;
         private const float TrajectoryDotSize = 0.13f;
         private const float HistoryDotSize = 0.11f;
-        private const float PowerGaugeWidth = 2.6f;
-        private const float PowerGaugeHeight = 0.34f;
-        private const float PowerGaugeBorderThickness = 0.05f;
         private const float AngleArrowWorldLength = 1.1f;
         private const float AngleArrowMoaiClearance = 1.0f;
 
@@ -19,6 +16,8 @@ namespace MoaiGolf
         private static readonly Color PowerFilledColor = new(0.92f, 0.22f, 0.18f);
         private static readonly Color PowerEmptyColor = new(0.08f, 0.08f, 0.08f);
         private static readonly Color PowerBorderColor = new(0f, 0f, 0f, 0.85f);
+        private static readonly Color LaunchButtonColor = new(0.92f, 0.22f, 0.18f, 0.96f);
+        private static readonly Color LaunchButtonTextColor = Color.white;
         private static readonly Color HistoryDotColor = new(1f, 0.95f, 0.55f, 0.65f);
         private static readonly Color HistoryLandingColor = new(1f, 0.55f, 0.2f, 0.85f);
 
@@ -26,12 +25,15 @@ namespace MoaiGolf
 
         private MoaiGolfGameController gameController;
         private MoaiGolfRunState runState;
+        private Camera mainCamera;
 
         private Transform angleArrowPivot;
         private SpriteRenderer angleArrowRenderer;
         private GameObject[] trajectoryDots;
         private GameObject powerGaugeRoot;
         private Transform powerGaugeFillTransform;
+        private Transform powerGaugeKnobTransform;
+        private GameObject launchButtonRoot;
         private Transform historyRoot;
         private readonly List<GameObject> historyVisuals = new();
         private int lastHistoryVersion = -1;
@@ -40,6 +42,7 @@ namespace MoaiGolf
         {
             gameController = FindAnyObjectByType<MoaiGolfGameController>();
             runState = FindAnyObjectByType<MoaiGolfRunState>();
+            mainCamera = Camera.main;
             EnsureVisuals();
         }
 
@@ -47,6 +50,7 @@ namespace MoaiGolf
         {
             gameController ??= FindAnyObjectByType<MoaiGolfGameController>();
             runState ??= FindAnyObjectByType<MoaiGolfRunState>();
+            mainCamera ??= Camera.main;
             if (gameController == null || runState == null)
             {
                 return;
@@ -55,11 +59,11 @@ namespace MoaiGolf
             EnsureVisuals();
 
             var phase = gameController.Phase;
-            var showPreLaunch = phase == MoaiGolfGamePhase.AngleSelect || phase == MoaiGolfGamePhase.PowerSelect;
 
             UpdateAngleArrow(phase == MoaiGolfGamePhase.AngleSelect);
             UpdatePowerGauge(phase == MoaiGolfGamePhase.PowerSelect);
-            UpdatePredictedTrajectory(showPreLaunch);
+            UpdateLaunchButton(phase == MoaiGolfGamePhase.PowerSelect);
+            UpdatePredictedTrajectory(phase == MoaiGolfGamePhase.PowerSelect);
             UpdateHistoryVisuals();
         }
 
@@ -78,6 +82,11 @@ namespace MoaiGolf
             if (powerGaugeRoot == null)
             {
                 CreatePowerGauge();
+            }
+
+            if (launchButtonRoot == null)
+            {
+                CreateLaunchButton();
             }
 
             if (historyRoot == null)
@@ -137,7 +146,7 @@ namespace MoaiGolf
 
             var border = new GameObject("Border");
             border.transform.SetParent(powerGaugeRoot.transform);
-            border.transform.localScale = new Vector3(PowerGaugeWidth, PowerGaugeHeight, 1f);
+            border.transform.localScale = new Vector3(MoaiGolfPowerControlsLayout.GaugeWidth, MoaiGolfPowerControlsLayout.GaugeHeight, 1f);
             border.transform.localPosition = Vector3.zero;
             var borderRenderer = border.AddComponent<SpriteRenderer>();
             borderRenderer.sprite = GetWhitePixelSprite();
@@ -146,8 +155,8 @@ namespace MoaiGolf
 
             var background = new GameObject("Background");
             background.transform.SetParent(powerGaugeRoot.transform);
-            var innerWidth = PowerGaugeWidth - PowerGaugeBorderThickness * 2f;
-            var innerHeight = PowerGaugeHeight - PowerGaugeBorderThickness * 2f;
+            var innerWidth = MoaiGolfPowerControlsLayout.GaugeWidth - MoaiGolfPowerControlsLayout.GaugeBorderThickness * 2f;
+            var innerHeight = MoaiGolfPowerControlsLayout.GaugeHeight - MoaiGolfPowerControlsLayout.GaugeBorderThickness * 2f;
             background.transform.localScale = new Vector3(innerWidth, innerHeight, 1f);
             background.transform.localPosition = Vector3.zero;
             var bgRenderer = background.AddComponent<SpriteRenderer>();
@@ -162,6 +171,43 @@ namespace MoaiGolf
             fillRenderer.color = PowerFilledColor;
             fillRenderer.sortingOrder = 7;
             powerGaugeFillTransform = fill.transform;
+
+            var knob = new GameObject("Knob");
+            knob.transform.SetParent(powerGaugeRoot.transform);
+            knob.transform.localScale = new Vector3(MoaiGolfPowerControlsLayout.GaugeKnobSize, MoaiGolfPowerControlsLayout.GaugeKnobSize, 1f);
+            var knobRenderer = knob.AddComponent<SpriteRenderer>();
+            knobRenderer.sprite = GetWhitePixelSprite();
+            knobRenderer.color = new Color(1f, 0.95f, 0.36f, 1f);
+            knobRenderer.sortingOrder = 8;
+            powerGaugeKnobTransform = knob.transform;
+        }
+
+        private void CreateLaunchButton()
+        {
+            launchButtonRoot = new GameObject("Launch Button");
+            launchButtonRoot.transform.SetParent(transform);
+
+            var plate = new GameObject("Plate");
+            plate.transform.SetParent(launchButtonRoot.transform);
+            plate.transform.localScale = new Vector3(MoaiGolfPowerControlsLayout.LaunchButtonWidth, MoaiGolfPowerControlsLayout.LaunchButtonHeight, 1f);
+            plate.transform.localPosition = Vector3.zero;
+            var plateRenderer = plate.AddComponent<SpriteRenderer>();
+            plateRenderer.sprite = GetWhitePixelSprite();
+            plateRenderer.color = LaunchButtonColor;
+            plateRenderer.sortingOrder = 8;
+
+            var labelObject = new GameObject("Label");
+            labelObject.transform.SetParent(launchButtonRoot.transform);
+            labelObject.transform.localPosition = new Vector3(0f, -0.02f, 0f);
+            var label = labelObject.AddComponent<TextMesh>();
+            label.text = "発射";
+            label.anchor = TextAnchor.MiddleCenter;
+            label.alignment = TextAlignment.Center;
+            label.characterSize = 0.22f;
+            label.fontSize = 64;
+            label.color = LaunchButtonTextColor;
+            var labelRenderer = labelObject.GetComponent<MeshRenderer>();
+            labelRenderer.sortingOrder = 9;
         }
 
         private void UpdateAngleArrow(bool visible)
@@ -214,22 +260,46 @@ namespace MoaiGolf
                 return;
             }
 
-            // モアイの一番上から 20px (= 0.2 ワールドユニット) ほど上にバーを置く。
-            // 発射モアイの種類ごとに見た目の高さが違うので、現在の Launch Moai の VisualScale を参照する。
-            var spec = MoaiGolfMoaiSpec.Get(runState.LaunchMoaiKind);
-            var moaiVisualHalfHeight = 1.5f * spec.VisualScale.y * 0.5f;
-            var moaiTopY = runState.LaunchPosition.y + moaiVisualHalfHeight;
-            var rowY = moaiTopY + 0.2f + PowerGaugeHeight * 0.5f;
-            powerGaugeRoot.transform.position = new Vector3(runState.LaunchPosition.x, rowY, 0f);
+            if (mainCamera == null)
+            {
+                return;
+            }
+
+            var gaugeCenter = MoaiGolfPowerControlsLayout.GetGaugeCenter(mainCamera);
+            powerGaugeRoot.transform.position = new Vector3(gaugeCenter.x, gaugeCenter.y, 0f);
 
             if (powerGaugeFillTransform != null)
             {
-                var innerWidth = PowerGaugeWidth - PowerGaugeBorderThickness * 2f;
-                var innerHeight = PowerGaugeHeight - PowerGaugeBorderThickness * 2f;
+                var innerWidth = MoaiGolfPowerControlsLayout.GaugeWidth - MoaiGolfPowerControlsLayout.GaugeBorderThickness * 2f;
+                var innerHeight = MoaiGolfPowerControlsLayout.GaugeHeight - MoaiGolfPowerControlsLayout.GaugeBorderThickness * 2f;
                 var fillWidth = innerWidth * Mathf.Clamp01(gameController.Power01);
                 powerGaugeFillTransform.localPosition = new Vector3(-innerWidth * 0.5f + fillWidth * 0.5f, 0f, 0f);
                 powerGaugeFillTransform.localScale = new Vector3(fillWidth, innerHeight, 1f);
             }
+
+            if (powerGaugeKnobTransform != null)
+            {
+                var innerWidth = MoaiGolfPowerControlsLayout.GaugeWidth - MoaiGolfPowerControlsLayout.GaugeBorderThickness * 2f;
+                var knobX = -innerWidth * 0.5f + innerWidth * Mathf.Clamp01(gameController.Power01);
+                powerGaugeKnobTransform.localPosition = new Vector3(knobX, 0f, 0f);
+            }
+        }
+
+        private void UpdateLaunchButton(bool visible)
+        {
+            if (launchButtonRoot == null)
+            {
+                return;
+            }
+
+            launchButtonRoot.SetActive(visible);
+            if (!visible || mainCamera == null)
+            {
+                return;
+            }
+
+            var buttonCenter = MoaiGolfPowerControlsLayout.GetLaunchButtonCenter(mainCamera);
+            launchButtonRoot.transform.position = new Vector3(buttonCenter.x, buttonCenter.y, 0f);
         }
 
         private void UpdatePredictedTrajectory(bool visible)
