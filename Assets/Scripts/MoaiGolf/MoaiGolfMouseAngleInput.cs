@@ -11,7 +11,22 @@ namespace MoaiGolf
         [SerializeField] private MoaiGolfHud hud;
         [SerializeField] private MoaiGolfCameraController cameraController;
 
-        public void ConfigureDependencies(
+        private void Reset()
+        {
+            RefreshSerializedReferencesForEditor(null, null, null, null, null);
+        }
+
+        private void OnValidate()
+        {
+            RefreshSerializedReferencesForEditor(null, null, null, null, null);
+        }
+
+        private void Awake()
+        {
+            ValidateReferences();
+        }
+
+        public void RefreshSerializedReferencesForEditor(
             Camera camera,
             MoaiGolfGameController controller,
             MoaiGolfRunState state,
@@ -19,16 +34,26 @@ namespace MoaiGolf
             MoaiGolfCameraController cameraControl
         )
         {
-            mainCamera = camera;
-            gameController = controller;
-            runState = state;
-            hud = hudController;
-            cameraController = cameraControl;
-            ValidateReference(mainCamera, nameof(mainCamera));
-            ValidateReference(gameController, nameof(gameController));
-            ValidateReference(runState, nameof(runState));
-            ValidateReference(hud, nameof(hud));
-            ValidateReference(cameraController, nameof(cameraController));
+            mainCamera = camera != null ? camera : mainCamera;
+            gameController = controller != null ? controller : GetComponent<MoaiGolfGameController>();
+            runState = state != null ? state : GetComponent<MoaiGolfRunState>();
+            hud = hudController != null ? hudController : GetComponent<MoaiGolfHud>();
+            cameraController = cameraControl != null ? cameraControl : GetComponent<MoaiGolfCameraController>();
+            if (mainCamera == null)
+            {
+                mainCamera = Camera.main;
+            }
+        }
+
+        public bool ValidateReferences()
+        {
+            var isValid = true;
+            isValid &= ValidateReference(mainCamera, nameof(mainCamera));
+            isValid &= ValidateReference(gameController, nameof(gameController));
+            isValid &= ValidateReference(runState, nameof(runState));
+            isValid &= ValidateReference(hud, nameof(hud));
+            isValid &= ValidateReference(cameraController, nameof(cameraController));
+            return isValid;
         }
 
         private void Update()

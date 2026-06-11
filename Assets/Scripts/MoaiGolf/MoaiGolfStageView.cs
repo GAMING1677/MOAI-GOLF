@@ -70,10 +70,10 @@ namespace MoaiGolf
             RefreshSerializedSceneReferencesForEditor();
         }
 
-        public void ConfigureDependencies(MoaiGolfGameController controller, MoaiGolfSeController se)
+        public void RefreshSerializedDependenciesForEditor(MoaiGolfGameController controller, MoaiGolfSeController se)
         {
-            gameController = controller;
-            seController = se;
+            gameController = controller != null ? controller : FindAnyObjectByType<MoaiGolfGameController>();
+            seController = se != null ? se : FindAnyObjectByType<MoaiGolfSeController>();
         }
 
         public Vector2 LaunchVisualFocusPosition
@@ -744,7 +744,6 @@ namespace MoaiGolf
             runtimeRunState = runState;
             runtimeGameController = gameController;
             runtimeSeController = seController;
-            runtimeGameController?.ConfigureDependencies(runtimeSeController);
         }
 
         private bool ValidateSceneReferences()

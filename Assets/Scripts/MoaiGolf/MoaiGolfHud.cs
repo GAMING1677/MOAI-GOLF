@@ -1,11 +1,13 @@
-using System.IO;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace MoaiGolf
 {
     public sealed class MoaiGolfHud : MonoBehaviour
     {
+        public const string HudCanvasObjectName = "MoaiGolfHudCanvas";
+
         [SerializeField] private MoaiGolfGameController gameController;
         [SerializeField] private MoaiGolfRunState runState;
         [SerializeField] private MoaiGolfStageView stageView;
@@ -13,12 +15,37 @@ namespace MoaiGolf
         [SerializeField] private MoaiGolfLaunchAnimator launchAnimator;
         [SerializeField] private MoaiGolfBgmController bgmController;
         [SerializeField] private MoaiGolfSeController seController;
-        private Texture2D resultSuccessTexture;
-        private Texture2D resultFailedTexture;
+
+        [Header("UI Roots")]
+        [SerializeField] private GameObject gameplayChromeRoot;
+        [SerializeField] private GameObject optionsDialogRoot;
+        [SerializeField] private GameObject resultOverlayRoot;
+
+        [Header("Gameplay Chrome")]
+        [SerializeField] private Button gameplayOptionsButton;
+        [SerializeField] private Button gameplayResetButton;
+
+        [Header("Options Dialog")]
+        [SerializeField] private Button optionsContinueButton;
+        [SerializeField] private Button optionsRetrySameButton;
+        [SerializeField] private Button optionsRetryRerollButton;
+        [SerializeField] private Slider bgmVolumeSlider;
+        [SerializeField] private Slider seVolumeSlider;
+        [SerializeField] private Text bgmVolumeLabel;
+        [SerializeField] private Text seVolumeLabel;
+
+        [Header("Result Overlay")]
+        [SerializeField] private Image resultImage;
+        [SerializeField] private Text resultFallbackLabel;
+        [SerializeField] private Sprite resultSuccessSprite;
+        [SerializeField] private Sprite resultFailedSprite;
+        [SerializeField] private Button resultOptionsButton;
+        [SerializeField] private Button resultRetrySameButton;
+        [SerializeField] private Button resultRetryRerollButton;
+
         private bool isMenuOpen;
         private int blockWorldInputUntilFrame = -1;
-        private Rect optionsButtonRect;
-        private Rect resetButtonRect;
+        private bool uiListenersRegistered;
 
         public bool IsMenuOpen => isMenuOpen;
         public bool ShouldBlockWorldInput =>
@@ -27,7 +54,88 @@ namespace MoaiGolf
             || Time.frameCount <= blockWorldInputUntilFrame
             || IsPointerOverHudChrome();
 
-        public void ConfigureDependencies(
+        private void Awake()
+        {
+            ResolveUiReferencesFromHierarchy();
+
+            if (!ValidateReferences())
+            {
+                return;
+            }
+
+            RegisterUiListeners();
+            InitializeVolumeSliders();
+            RefreshUiVisibility();
+        }
+
+        public bool HasMissingUiReferences()
+        {
+            return gameplayChromeRoot == null
+                || optionsDialogRoot == null
+                || resultOverlayRoot == null
+                || gameplayOptionsButton == null
+                || gameplayResetButton == null
+                || optionsContinueButton == null
+                || optionsRetrySameButton == null
+                || optionsRetryRerollButton == null
+                || bgmVolumeSlider == null
+                || seVolumeSlider == null
+                || resultOptionsButton == null
+                || resultRetrySameButton == null
+                || resultRetryRerollButton == null;
+        }
+
+        public void ResolveUiReferencesFromHierarchy()
+        {
+            var canvas = transform.Find(HudCanvasObjectName);
+            if (canvas == null)
+            {
+                return;
+            }
+
+            gameplayChromeRoot ??= FindUiObject(canvas, "GameplayChrome");
+            optionsDialogRoot ??= FindUiObject(canvas, "OptionsDialog");
+            resultOverlayRoot ??= FindUiObject(canvas, "ResultOverlay");
+
+            gameplayOptionsButton ??= FindUiButton(canvas, "GameplayChrome/OptionsButton");
+            gameplayResetButton ??= FindUiButton(canvas, "GameplayChrome/ResetButton");
+
+            optionsContinueButton ??= FindUiButton(canvas, "OptionsDialog/Panel/ContinueButton");
+            optionsRetrySameButton ??= FindUiButton(canvas, "OptionsDialog/Panel/RetrySameButton");
+            optionsRetryRerollButton ??= FindUiButton(canvas, "OptionsDialog/Panel/RetryRerollButton");
+
+            var bgmRoot = canvas.Find("OptionsDialog/Panel/BgmVolume");
+            if (bgmRoot != null)
+            {
+                bgmVolumeSlider ??= bgmRoot.GetComponentInChildren<Slider>(true);
+                bgmVolumeLabel ??= bgmRoot.Find("ValueLabel")?.GetComponent<Text>();
+            }
+
+            var seRoot = canvas.Find("OptionsDialog/Panel/SeVolume");
+            if (seRoot != null)
+            {
+                seVolumeSlider ??= seRoot.GetComponentInChildren<Slider>(true);
+                seVolumeLabel ??= seRoot.Find("ValueLabel")?.GetComponent<Text>();
+            }
+
+            resultImage ??= canvas.Find("ResultOverlay/ResultImage")?.GetComponent<Image>();
+            resultFallbackLabel ??= canvas.Find("ResultOverlay/ResultImage/FallbackLabel")?.GetComponent<Text>();
+            resultOptionsButton ??= FindUiButton(canvas, "ResultOverlay/OptionsButton");
+            resultRetrySameButton ??= FindUiButton(canvas, "ResultOverlay/RetrySameButton");
+            resultRetryRerollButton ??= FindUiButton(canvas, "ResultOverlay/RetryRerollButton");
+        }
+
+        private static GameObject FindUiObject(Transform root, string path)
+        {
+            return root.Find(path)?.gameObject;
+        }
+
+        private static Button FindUiButton(Transform root, string path)
+        {
+            return root.Find(path)?.GetComponent<Button>();
+        }
+
+        public void RefreshSerializedReferencesForEditor(
             MoaiGolfGameController controller,
             MoaiGolfRunState state,
             MoaiGolfStageView view,
@@ -37,20 +145,66 @@ namespace MoaiGolf
             MoaiGolfSeController se
         )
         {
-            gameController = controller;
-            runState = state;
-            stageView = view;
-            cameraController = cameraControl;
-            launchAnimator = animator;
-            bgmController = bgm;
-            seController = se;
-            ValidateReference(gameController, nameof(gameController));
-            ValidateReference(runState, nameof(runState));
-            ValidateReference(stageView, nameof(stageView));
-            ValidateReference(cameraController, nameof(cameraController));
-            ValidateReference(launchAnimator, nameof(launchAnimator));
-            ValidateReference(bgmController, nameof(bgmController));
-            ValidateReference(seController, nameof(seController));
+            if (controller != null)
+            {
+                gameController = controller;
+            }
+
+            if (state != null)
+            {
+                runState = state;
+            }
+
+            if (view != null)
+            {
+                stageView = view;
+            }
+
+            if (cameraControl != null)
+            {
+                cameraController = cameraControl;
+            }
+
+            if (animator != null)
+            {
+                launchAnimator = animator;
+            }
+
+            if (bgm != null)
+            {
+                bgmController = bgm;
+            }
+
+            if (se != null)
+            {
+                seController = se;
+            }
+        }
+
+        public bool ValidateReferences()
+        {
+            var isValid = true;
+            isValid &= ValidateReference(gameController, nameof(gameController));
+            isValid &= ValidateReference(runState, nameof(runState));
+            isValid &= ValidateReference(stageView, nameof(stageView));
+            isValid &= ValidateReference(cameraController, nameof(cameraController));
+            isValid &= ValidateReference(launchAnimator, nameof(launchAnimator));
+            isValid &= ValidateReference(bgmController, nameof(bgmController));
+            isValid &= ValidateReference(seController, nameof(seController));
+            isValid &= ValidateReference(gameplayChromeRoot, nameof(gameplayChromeRoot));
+            isValid &= ValidateReference(optionsDialogRoot, nameof(optionsDialogRoot));
+            isValid &= ValidateReference(resultOverlayRoot, nameof(resultOverlayRoot));
+            isValid &= ValidateReference(gameplayOptionsButton, nameof(gameplayOptionsButton));
+            isValid &= ValidateReference(gameplayResetButton, nameof(gameplayResetButton));
+            isValid &= ValidateReference(optionsContinueButton, nameof(optionsContinueButton));
+            isValid &= ValidateReference(optionsRetrySameButton, nameof(optionsRetrySameButton));
+            isValid &= ValidateReference(optionsRetryRerollButton, nameof(optionsRetryRerollButton));
+            isValid &= ValidateReference(bgmVolumeSlider, nameof(bgmVolumeSlider));
+            isValid &= ValidateReference(seVolumeSlider, nameof(seVolumeSlider));
+            isValid &= ValidateReference(resultOptionsButton, nameof(resultOptionsButton));
+            isValid &= ValidateReference(resultRetrySameButton, nameof(resultRetrySameButton));
+            isValid &= ValidateReference(resultRetryRerollButton, nameof(resultRetryRerollButton));
+            return isValid;
         }
 
         private void Update()
@@ -75,80 +229,164 @@ namespace MoaiGolf
         private void LateUpdate()
         {
             ApplyBgmMenuDucking();
+            RefreshUiVisibility();
+            RefreshVolumeLabels();
         }
 
-        private void OnGUI()
+        private void RegisterUiListeners()
+        {
+            if (uiListenersRegistered)
+            {
+                return;
+            }
+
+            BindButton(gameplayOptionsButton, OpenOptionsMenu);
+            BindButton(gameplayResetButton, Retry);
+            BindButton(optionsContinueButton, CloseOptionsMenu);
+            BindButton(optionsRetrySameButton, Retry);
+            BindButton(optionsRetryRerollButton, RerollAndRetry);
+            BindButton(resultOptionsButton, OpenOptionsMenu);
+            BindButton(resultRetrySameButton, Retry);
+            BindButton(resultRetryRerollButton, RerollAndRetry);
+
+            if (bgmVolumeSlider != null)
+            {
+                bgmVolumeSlider.onValueChanged.AddListener(value => bgmController?.SetVolume(value));
+            }
+
+            if (seVolumeSlider != null)
+            {
+                seVolumeSlider.onValueChanged.AddListener(value => seController?.SetVolume(value));
+            }
+
+            uiListenersRegistered = true;
+        }
+
+        private static void BindButton(Button button, UnityEngine.Events.UnityAction action)
+        {
+            if (button == null || action == null)
+            {
+                return;
+            }
+
+            button.onClick.RemoveListener(action);
+            button.onClick.AddListener(action);
+        }
+
+        private void InitializeVolumeSliders()
+        {
+            if (bgmVolumeSlider != null)
+            {
+                bgmVolumeSlider.SetValueWithoutNotify(
+                    bgmController != null ? bgmController.Volume : MoaiGolfBgmController.DefaultVolume
+                );
+            }
+
+            if (seVolumeSlider != null)
+            {
+                seVolumeSlider.SetValueWithoutNotify(
+                    seController != null ? seController.Volume : MoaiGolfSeController.DefaultVolume
+                );
+            }
+
+            RefreshVolumeLabels();
+        }
+
+        private void RefreshVolumeLabels()
+        {
+            if (bgmVolumeLabel != null && bgmVolumeSlider != null)
+            {
+                bgmVolumeLabel.text = $"{Mathf.RoundToInt(bgmVolumeSlider.value * 100f)}%";
+            }
+
+            if (seVolumeLabel != null && seVolumeSlider != null)
+            {
+                seVolumeLabel.text = $"{Mathf.RoundToInt(seVolumeSlider.value * 100f)}%";
+            }
+        }
+
+        private void RefreshUiVisibility()
         {
             if (gameController == null)
             {
                 return;
             }
 
-            if (gameController.Phase == MoaiGolfGamePhase.Result)
+            var isResultPhase = gameController.Phase == MoaiGolfGamePhase.Result;
+            if (gameplayChromeRoot != null)
             {
-                ApplyBgmMenuDucking();
-                DrawResultOverlay();
-                if (isMenuOpen)
+                gameplayChromeRoot.SetActive(!isResultPhase);
+            }
+
+            if (resultOverlayRoot != null)
+            {
+                resultOverlayRoot.SetActive(isResultPhase);
+            }
+
+            if (optionsDialogRoot != null)
+            {
+                optionsDialogRoot.SetActive(isMenuOpen);
+            }
+
+            if (isResultPhase)
+            {
+                RefreshResultPresentation();
+            }
+        }
+
+        private void RefreshResultPresentation()
+        {
+            var succeeded = gameController.LastResultSucceeded == true;
+            var sprite = succeeded ? resultSuccessSprite : resultFailedSprite;
+            if (resultImage != null)
+            {
+                resultImage.sprite = sprite;
+                resultImage.enabled = sprite != null;
+            }
+
+            if (resultFallbackLabel != null)
+            {
+                var showFallback = sprite == null;
+                resultFallbackLabel.gameObject.SetActive(showFallback);
+                if (showFallback)
                 {
-                    DrawOptionsDialog();
+                    resultFallbackLabel.text = succeeded ? "SUCCESS!!" : "FAILED";
+                    resultFallbackLabel.color = succeeded
+                        ? new Color(1f, 0.12f, 0.08f)
+                        : new Color(0.88f, 0.94f, 1f);
                 }
-
-                return;
             }
+        }
 
-            DrawGameplayChrome();
+        private void OpenOptionsMenu()
+        {
+            isMenuOpen = true;
+            BlockWorldInputBriefly();
+            RefreshUiVisibility();
+        }
 
-            if (isMenuOpen)
-            {
-                DrawOptionsDialog();
-            }
+        private void CloseOptionsMenu()
+        {
+            isMenuOpen = false;
+            BlockWorldInputBriefly();
+            RefreshUiVisibility();
         }
 
         private void ToggleOptionsMenu()
         {
             if (gameController != null && gameController.Phase == MoaiGolfGamePhase.Result && isMenuOpen)
             {
-                isMenuOpen = false;
-                BlockWorldInputBriefly();
+                CloseOptionsMenu();
                 return;
             }
 
-            isMenuOpen = !isMenuOpen;
             if (isMenuOpen)
             {
-                BlockWorldInputBriefly();
+                CloseOptionsMenu();
             }
-        }
-
-        private void DrawGameplayChrome()
-        {
-            const float padding = 16f;
-            const float buttonHeight = 48f;
-            const float buttonGap = 10f;
-            const float optionsWidth = 132f;
-            const float resetWidth = 112f;
-            var buttonStyle = new GUIStyle(GUI.skin.button) { fontSize = 17 };
-
-            resetButtonRect = new Rect(
-                Screen.width - padding - resetWidth,
-                padding,
-                resetWidth,
-                buttonHeight);
-            optionsButtonRect = new Rect(
-                resetButtonRect.x - buttonGap - optionsWidth,
-                padding,
-                optionsWidth,
-                buttonHeight);
-
-            if (GUI.Button(optionsButtonRect, "オプション", buttonStyle))
+            else
             {
-                isMenuOpen = true;
-                BlockWorldInputBriefly();
-            }
-
-            if (GUI.Button(resetButtonRect, "リセット", buttonStyle))
-            {
-                Retry();
+                OpenOptionsMenu();
             }
         }
 
@@ -159,6 +397,16 @@ namespace MoaiGolf
                 return false;
             }
 
+            if (gameController.Phase == MoaiGolfGamePhase.Result)
+            {
+                return IsPointerOverInteractiveUi(resultOptionsButton, resultRetrySameButton, resultRetryRerollButton);
+            }
+
+            return IsPointerOverInteractiveUi(gameplayOptionsButton, gameplayResetButton);
+        }
+
+        private static bool IsPointerOverInteractiveUi(params Button[] buttons)
+        {
             var pointer = GetPointerScreenPosition();
             if (!pointer.HasValue)
             {
@@ -166,12 +414,26 @@ namespace MoaiGolf
             }
 
             var screenPoint = pointer.Value;
-            if (gameController.Phase == MoaiGolfGamePhase.Result)
+            for (var index = 0; index < buttons.Length; index++)
             {
-                return optionsButtonRect.Contains(screenPoint);
+                var button = buttons[index];
+                if (button == null || !button.isActiveAndEnabled || !button.gameObject.activeInHierarchy)
+                {
+                    continue;
+                }
+
+                if (!(button.transform is RectTransform rect))
+                {
+                    continue;
+                }
+
+                if (RectTransformUtility.RectangleContainsScreenPoint(rect, screenPoint, null))
+                {
+                    return true;
+                }
             }
 
-            return optionsButtonRect.Contains(screenPoint) || resetButtonRect.Contains(screenPoint);
+            return false;
         }
 
         private static Vector2? GetPointerScreenPosition()
@@ -189,235 +451,6 @@ namespace MoaiGolf
             }
 
             return null;
-        }
-
-        private void DrawOptionsDialog()
-        {
-            const float dialogWidth = 360f;
-            const float dialogHeight = 378f;
-            var dialogRect = new Rect(
-                (Screen.width - dialogWidth) * 0.5f,
-                (Screen.height - dialogHeight) * 0.5f,
-                dialogWidth,
-                dialogHeight
-            );
-
-            var prevColor = GUI.color;
-            GUI.color = new Color(0f, 0f, 0f, 0.45f);
-            GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), Texture2D.whiteTexture);
-            GUI.color = prevColor;
-
-            GUI.Box(dialogRect, string.Empty);
-
-            var titleStyle = new GUIStyle(GUI.skin.label)
-            {
-                alignment = TextAnchor.MiddleCenter,
-                fontSize = 30,
-                fontStyle = FontStyle.Bold,
-                normal = { textColor = Color.white }
-            };
-            GUI.Label(new Rect(dialogRect.x, dialogRect.y + 24f, dialogRect.width, 44f), "オプション", titleStyle);
-
-            var buttonStyle = new GUIStyle(GUI.skin.button) { fontSize = 18 };
-            const float buttonWidth = 260f;
-            const float buttonHeight = 48f;
-            const float buttonGap = 14f;
-            var buttonX = dialogRect.x + (dialogRect.width - buttonWidth) * 0.5f;
-            var buttonY = dialogRect.y + 88f;
-
-            if (GUI.Button(new Rect(buttonX, buttonY, buttonWidth, buttonHeight), "続ける", buttonStyle))
-            {
-                isMenuOpen = false;
-                BlockWorldInputBriefly();
-            }
-
-            buttonY += buttonHeight + buttonGap;
-            if (GUI.Button(new Rect(buttonX, buttonY, buttonWidth, buttonHeight), "そのままリトライ", buttonStyle))
-            {
-                Retry();
-            }
-
-            buttonY += buttonHeight + buttonGap;
-            if (GUI.Button(new Rect(buttonX, buttonY, buttonWidth, buttonHeight), "条件を変えてリトライ", buttonStyle))
-            {
-                RerollAndRetry();
-            }
-
-            var sliderY = buttonY + buttonHeight + 20f;
-            DrawBgmVolumeSlider(dialogRect, sliderY);
-            DrawSeVolumeSlider(dialogRect, sliderY + 36f);
-        }
-
-        private void DrawBgmVolumeSlider(Rect dialogRect, float sliderY)
-        {
-            DrawVolumeSlider(
-                dialogRect,
-                sliderY,
-                "BGM音量",
-                bgmController != null ? bgmController.Volume : MoaiGolfBgmController.DefaultVolume,
-                value => bgmController?.SetVolume(value)
-            );
-        }
-
-        private void DrawSeVolumeSlider(Rect dialogRect, float sliderY)
-        {
-            DrawVolumeSlider(
-                dialogRect,
-                sliderY,
-                "SE音量",
-                seController != null ? seController.Volume : MoaiGolfSeController.DefaultVolume,
-                value => seController?.SetVolume(value)
-            );
-        }
-
-        private static void DrawVolumeSlider(Rect dialogRect, float sliderY, string label, float volume, System.Action<float> setVolume)
-        {
-            var labelStyle = new GUIStyle(GUI.skin.label)
-            {
-                fontSize = 16,
-                normal = { textColor = Color.white }
-            };
-            var valueStyle = new GUIStyle(labelStyle)
-            {
-                alignment = TextAnchor.MiddleRight
-            };
-
-            const float labelWidth = 92f;
-            const float valueWidth = 48f;
-            const float sliderWidth = 168f;
-            var sliderX = dialogRect.x + (dialogRect.width - labelWidth - sliderWidth - valueWidth - 16f) * 0.5f;
-
-            GUI.Label(new Rect(sliderX, sliderY - 2f, labelWidth, 28f), label, labelStyle);
-            var newVolume = GUI.HorizontalSlider(
-                new Rect(sliderX + labelWidth + 8f, sliderY + 4f, sliderWidth, 24f),
-                volume,
-                0f,
-                1f
-            );
-            GUI.Label(
-                new Rect(sliderX + labelWidth + sliderWidth + 16f, sliderY - 2f, valueWidth, 28f),
-                $"{Mathf.RoundToInt(newVolume * 100f)}%",
-                valueStyle
-            );
-
-            if (setVolume != null && !Mathf.Approximately(newVolume, volume))
-            {
-                setVolume(newVolume);
-            }
-        }
-
-        private void DrawResultOverlay()
-        {
-            var succeeded = gameController.LastResultSucceeded == true;
-            var resultTexture = GetResultTexture(succeeded);
-
-            var prevColor = GUI.color;
-            GUI.color = new Color(0f, 0f, 0f, 0.45f);
-            GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), Texture2D.whiteTexture);
-            GUI.color = prevColor;
-
-            var imageRect = CalculateResultImageRect();
-            if (resultTexture != null)
-            {
-                GUI.DrawTexture(imageRect, resultTexture, ScaleMode.ScaleToFit, true);
-            }
-            else
-            {
-                DrawResultFallbackText(imageRect, succeeded);
-            }
-
-            var buttonStyle = new GUIStyle(GUI.skin.button) { fontSize = 18 };
-            const float buttonWidth = 240f;
-            const float buttonHeight = 54f;
-            const float buttonGap = 14f;
-            const float screenPadding = 24f;
-            const float chromeButtonHeight = 48f;
-            const float chromeOptionsWidth = 132f;
-            optionsButtonRect = new Rect(
-                screenPadding,
-                screenPadding,
-                chromeOptionsWidth,
-                chromeButtonHeight);
-            if (GUI.Button(optionsButtonRect, "オプション", buttonStyle))
-            {
-                isMenuOpen = true;
-                BlockWorldInputBriefly();
-            }
-
-            var buttonGroupWidth = buttonWidth * 2f + buttonGap;
-            var buttonX = Mathf.Clamp(imageRect.xMax - buttonGroupWidth, screenPadding, Screen.width - buttonGroupWidth - screenPadding);
-            var buttonY = Mathf.Min(imageRect.yMax + 14f, Screen.height - buttonHeight - screenPadding);
-
-            if (GUI.Button(
-                    new Rect(buttonX, buttonY, buttonWidth, buttonHeight),
-                    "条件を変えてリトライ",
-                    buttonStyle))
-            {
-                RerollAndRetry();
-            }
-
-            if (GUI.Button(
-                    new Rect(buttonX + buttonWidth + buttonGap, buttonY, buttonWidth, buttonHeight),
-                    "そのままリトライ",
-                    buttonStyle))
-            {
-                Retry();
-            }
-        }
-
-        private static Rect CalculateResultImageRect()
-        {
-            var imageSize = Mathf.Min(Screen.width * 0.62f, Screen.height * 0.7f);
-            imageSize = Mathf.Clamp(imageSize, 360f, 920f);
-            return new Rect(
-                (Screen.width - imageSize) * 0.5f,
-                (Screen.height - imageSize) * 0.44f,
-                imageSize,
-                imageSize
-            );
-        }
-
-        private void DrawResultFallbackText(Rect imageRect, bool succeeded)
-        {
-            var titleStyle = new GUIStyle(GUI.skin.label)
-            {
-                alignment = TextAnchor.MiddleCenter,
-                fontSize = Mathf.RoundToInt(Mathf.Clamp(Screen.height * 0.09f, 54f, 120f)),
-                fontStyle = FontStyle.Bold,
-                normal = { textColor = succeeded ? new Color(1f, 0.12f, 0.08f) : new Color(0.88f, 0.94f, 1f) }
-            };
-            GUI.Label(imageRect, succeeded ? "SUCCESS!!" : "FAILED", titleStyle);
-        }
-
-        private Texture2D GetResultTexture(bool succeeded)
-        {
-            if (succeeded)
-            {
-                resultSuccessTexture ??= LoadTextureFromAssets("result_success.png");
-                return resultSuccessTexture;
-            }
-
-            resultFailedTexture ??= LoadTextureFromAssets("result_failed.png");
-            return resultFailedTexture;
-        }
-
-        private static Texture2D LoadTextureFromAssets(string fileName)
-        {
-            var texturePath = Path.Combine(Application.dataPath, "Textures", fileName);
-            if (!File.Exists(texturePath))
-            {
-                return null;
-            }
-
-            var texture = new Texture2D(2, 2);
-            if (!ImageConversion.LoadImage(texture, File.ReadAllBytes(texturePath)))
-            {
-                Object.Destroy(texture);
-                return null;
-            }
-
-            texture.hideFlags = HideFlags.HideAndDontSave;
-            return texture;
         }
 
         private void Retry()
@@ -444,9 +477,7 @@ namespace MoaiGolf
 
         private bool CanRestartRunFromHud()
         {
-            return gameController.Phase == MoaiGolfGamePhase.Result
-                || gameController.Phase == MoaiGolfGamePhase.AngleSelect
-                || gameController.Phase == MoaiGolfGamePhase.PowerSelect;
+            return gameController != null;
         }
 
         private bool ResolveDependencies()
@@ -470,6 +501,7 @@ namespace MoaiGolf
             gameController.ResetForRetry();
             stageView.Build(runState);
             cameraController?.ResetToInitial();
+            RefreshUiVisibility();
         }
 
         private void BlockWorldInputBriefly()
@@ -477,7 +509,7 @@ namespace MoaiGolf
             blockWorldInputUntilFrame = Time.frameCount + 1;
         }
 
-        private bool ValidateReference(UnityEngine.Object reference, string fieldName)
+        private bool ValidateReference(Object reference, string fieldName)
         {
             if (reference != null)
             {

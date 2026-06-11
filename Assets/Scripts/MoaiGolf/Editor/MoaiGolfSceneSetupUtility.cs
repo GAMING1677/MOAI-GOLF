@@ -52,9 +52,10 @@ namespace MoaiGolf
             AddIfMissing<MoaiGolfMousePowerInput>(gameRoot);
             AddIfMissing<MoaiGolfHud>(gameRoot);
             AddIfMissing<MoaiGolfGuideOverlay>(gameRoot);
-            AddIfMissing<MoaiGolfLaunchAnimator>(gameRoot);
+            var launchAnimator = AddIfMissing<MoaiGolfLaunchAnimator>(gameRoot);
             AddIfMissing<MoaiGolfSeController>(gameRoot);
             AddIfMissing<MoaiGolfCameraController>(gameRoot);
+            EnsureLaunchAnimatorAudioSource(launchAnimator);
 
             var existingBgm = Object.FindAnyObjectByType<MoaiGolfBgmController>();
             if (existingBgm == null)
@@ -74,6 +75,9 @@ namespace MoaiGolf
             PlaceStagePrefabs(stageRoot.transform, prefabSet);
             stageView.RefreshSerializedSceneReferencesForEditor();
             ConfigureScenePreview(stageView);
+
+            var hud = gameRoot.GetComponent<MoaiGolfHud>();
+            MoaiGolfHudUiSetupUtility.EnsureHudUi(hud);
 
             var mainCamera = ConfigureMainCamera();
             bootstrap.RefreshSerializedReferencesForEditor(mainCamera, stageView, existingBgm);
@@ -237,6 +241,27 @@ namespace MoaiGolf
         private static T AddIfMissing<T>(GameObject host) where T : Component
         {
             return host.GetComponent<T>() ?? host.AddComponent<T>();
+        }
+
+        private static void EnsureLaunchAnimatorAudioSource(MoaiGolfLaunchAnimator launchAnimator)
+        {
+            if (launchAnimator == null)
+            {
+                return;
+            }
+
+            var audioSource = launchAnimator.GetComponent<AudioSource>();
+            if (audioSource == null)
+            {
+                audioSource = launchAnimator.gameObject.AddComponent<AudioSource>();
+                audioSource.playOnAwake = false;
+                audioSource.loop = false;
+                audioSource.spatialBlend = 0f;
+            }
+
+            var serialized = new SerializedObject(launchAnimator);
+            serialized.FindProperty("sfxAudioSource").objectReferenceValue = audioSource;
+            serialized.ApplyModifiedPropertiesWithoutUndo();
         }
     }
 }

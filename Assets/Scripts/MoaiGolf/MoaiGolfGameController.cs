@@ -4,7 +4,7 @@ namespace MoaiGolf
 {
     public sealed class MoaiGolfGameController : MonoBehaviour
     {
-        private MoaiGolfSeController seController;
+        [SerializeField] private MoaiGolfSeController seController;
 
         public MoaiGolfGamePhase Phase { get; private set; } = MoaiGolfGamePhase.AngleSelect;
         public float AngleDegrees { get; private set; } = 38f;
@@ -14,9 +14,29 @@ namespace MoaiGolf
         public float PreviousLaunchAngleDegrees { get; private set; }
         public float PreviousLaunchPower01 { get; private set; }
 
-        public void ConfigureDependencies(MoaiGolfSeController se)
+        private void Reset()
         {
-            seController = se;
+            RefreshSerializedReferencesForEditor(null);
+        }
+
+        private void OnValidate()
+        {
+            RefreshSerializedReferencesForEditor(null);
+        }
+
+        private void Awake()
+        {
+            ValidateReferences();
+        }
+
+        public void RefreshSerializedReferencesForEditor(MoaiGolfSeController se)
+        {
+            seController = se != null ? se : GetComponent<MoaiGolfSeController>();
+        }
+
+        public bool ValidateReferences()
+        {
+            return ValidateReference(seController, nameof(seController));
         }
 
         public void SetAngle(float angleDegrees)
@@ -108,6 +128,17 @@ namespace MoaiGolf
         {
             Phase = MoaiGolfGamePhase.AngleSelect;
             LastResultSucceeded = null;
+        }
+
+        private bool ValidateReference(UnityEngine.Object reference, string fieldName)
+        {
+            if (reference != null)
+            {
+                return true;
+            }
+
+            Debug.LogError($"{nameof(MoaiGolfGameController)} missing serialized reference: {fieldName}.", this);
+            return false;
         }
     }
 }

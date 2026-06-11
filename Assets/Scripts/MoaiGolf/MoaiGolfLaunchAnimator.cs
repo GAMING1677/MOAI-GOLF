@@ -54,7 +54,23 @@ namespace MoaiGolf
 
         public bool IsPlaying { get; private set; }
 
-        public void ConfigureDependencies(
+        private void Reset()
+        {
+            RefreshSerializedReferencesForEditor(null, null, null, null, null);
+        }
+
+        private void OnValidate()
+        {
+            RefreshSerializedReferencesForEditor(null, null, null, null, null);
+        }
+
+        private void Awake()
+        {
+            EnsureSfxAudioSource();
+            ValidateReferences();
+        }
+
+        public void RefreshSerializedReferencesForEditor(
             Camera camera,
             MoaiGolfGameController controller,
             MoaiGolfRunState state,
@@ -62,17 +78,48 @@ namespace MoaiGolf
             MoaiGolfSeController se
         )
         {
-            mainCamera = camera;
-            gameController = controller;
-            runState = state;
-            stageView = view;
-            seController = se;
-            ValidateReference(mainCamera, nameof(mainCamera));
-            ValidateReference(gameController, nameof(gameController));
-            ValidateReference(runState, nameof(runState));
-            ValidateReference(stageView, nameof(stageView));
-            ValidateReference(seController, nameof(seController));
-            ValidateReference(sfxAudioSource, nameof(sfxAudioSource));
+            mainCamera = camera != null ? camera : mainCamera;
+            gameController = controller != null ? controller : GetComponent<MoaiGolfGameController>();
+            runState = state != null ? state : GetComponent<MoaiGolfRunState>();
+            stageView = view != null ? view : FindAnyObjectByType<MoaiGolfStageView>();
+            seController = se != null ? se : GetComponent<MoaiGolfSeController>();
+            if (mainCamera == null)
+            {
+                mainCamera = Camera.main;
+            }
+
+            EnsureSfxAudioSource();
+        }
+
+        private void EnsureSfxAudioSource()
+        {
+            if (sfxAudioSource != null)
+            {
+                return;
+            }
+
+            sfxAudioSource = GetComponent<AudioSource>();
+            if (sfxAudioSource != null)
+            {
+                return;
+            }
+
+            sfxAudioSource = gameObject.AddComponent<AudioSource>();
+            sfxAudioSource.playOnAwake = false;
+            sfxAudioSource.loop = false;
+            sfxAudioSource.spatialBlend = 0f;
+        }
+
+        public bool ValidateReferences()
+        {
+            var isValid = true;
+            isValid &= ValidateReference(mainCamera, nameof(mainCamera));
+            isValid &= ValidateReference(gameController, nameof(gameController));
+            isValid &= ValidateReference(runState, nameof(runState));
+            isValid &= ValidateReference(stageView, nameof(stageView));
+            isValid &= ValidateReference(seController, nameof(seController));
+            isValid &= ValidateReference(sfxAudioSource, nameof(sfxAudioSource));
+            return isValid;
         }
 
         public void PreloadLaunchAssets()

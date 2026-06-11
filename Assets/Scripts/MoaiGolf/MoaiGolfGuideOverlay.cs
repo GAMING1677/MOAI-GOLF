@@ -45,21 +45,46 @@ namespace MoaiGolf
         private int lastHistoryVersion = -1;
         private bool powerVisualsPrewarmStarted;
 
-        public void ConfigureDependencies(
+        private void Reset()
+        {
+            RefreshSerializedReferencesForEditor(null, null, null, null);
+        }
+
+        private void OnValidate()
+        {
+            RefreshSerializedReferencesForEditor(null, null, null, null);
+        }
+
+        private void Awake()
+        {
+            ValidateReferences();
+        }
+
+        public void RefreshSerializedReferencesForEditor(
             Camera camera,
             MoaiGolfGameController controller,
             MoaiGolfRunState state,
             MoaiGolfStageView view
         )
         {
-            mainCamera = camera;
-            gameController = controller;
-            runState = state;
-            stageView = view;
-            ValidateReference(mainCamera, nameof(mainCamera));
-            ValidateReference(gameController, nameof(gameController));
-            ValidateReference(runState, nameof(runState));
-            ValidateReference(stageView, nameof(stageView));
+            mainCamera = camera != null ? camera : mainCamera;
+            gameController = controller != null ? controller : GetComponent<MoaiGolfGameController>();
+            runState = state != null ? state : GetComponent<MoaiGolfRunState>();
+            stageView = view != null ? view : FindAnyObjectByType<MoaiGolfStageView>();
+            if (mainCamera == null)
+            {
+                mainCamera = Camera.main;
+            }
+        }
+
+        public bool ValidateReferences()
+        {
+            var isValid = true;
+            isValid &= ValidateReference(mainCamera, nameof(mainCamera));
+            isValid &= ValidateReference(gameController, nameof(gameController));
+            isValid &= ValidateReference(runState, nameof(runState));
+            isValid &= ValidateReference(stageView, nameof(stageView));
+            return isValid;
         }
 
         private void LateUpdate()
