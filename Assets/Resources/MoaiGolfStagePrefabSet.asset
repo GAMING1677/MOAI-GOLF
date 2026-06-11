@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b98114247d2a85429bae66d22b0ddb5, type: 3}
+  m_Name: MoaiGolfStagePrefabSet
+  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStagePrefabSet
+  launchMoaiPrefab: {fileID: 6345471154412690676, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
+  targetMoaiPrefab: {fileID: 547761727623884488, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+  launchPedestalPrefab: {fileID: 7021792254082963262, guid: 67a7511714205734abfbdb81a904d656, type: 3}
+  targetPedestalPrefab: {fileID: 922859006647116223, guid: ddcb7e6949679704cbe23b2678c54557, type: 3}
+  terrainColliderPrefab: {fileID: 5894108808096225215, guid: 1f257fc6444c9a6468e695e68abc8403, type: 3}
+  successZonePrefab: {fileID: 606094312604115906, guid: b75ea50cf2668c34982ccde1c215320e, type: 3}
+  golfClubPivotPrefab: {fileID: 4101163047471847699, guid: db2b6e1e9a7f72e44b82eb3cd9e0ddcd, type: 3}
+  aimMarkerPrefab: {fileID: 4805609605063210215, guid: 45874cb2ec0bbc0438a9481748a01b8c, type: 3}
+  backgroundVisualPrefab: {fileID: 2794390174621508567, guid: d8212f911811b634f9fb206320b81609, type: 3}

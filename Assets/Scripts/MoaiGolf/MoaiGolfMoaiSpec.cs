@@ -4,6 +4,8 @@ namespace MoaiGolf
 {
     public readonly struct MoaiGolfMoaiSpec
     {
+        public const float ReferenceTextureWorldHeight = 1.5f;
+
         public MoaiGolfMoaiSpec(
             MoaiGolfMoaiKind kind,
             string spritePath,
@@ -34,6 +36,22 @@ namespace MoaiGolf
         public float Friction { get; }
         /// <summary>スプライト下端と見た目の足元との間にある透明余白のワールド単位距離（VisualScale 適用前）。</summary>
         public float FeetOffset { get; }
+
+        public float VisualHalfHeightWorld => ReferenceTextureWorldHeight * VisualScale.y * 0.5f;
+
+        public float FeetOffsetWorld => FeetOffset * VisualScale.y;
+
+        /// <summary>剛体中心から見た目の足元座標へ変換する。</summary>
+        public Vector2 GetVisualFeetPosition(Vector2 bodyCenter)
+        {
+            return bodyCenter + Vector2.down * (VisualHalfHeightWorld - FeetOffsetWorld);
+        }
+
+        /// <summary>見た目の足元を指定したときの剛体中心座標。</summary>
+        public Vector2 GetBodyCenterFromVisualFeet(Vector2 visualFeet)
+        {
+            return visualFeet + Vector2.up * (VisualHalfHeightWorld - FeetOffsetWorld);
+        }
 
         public static MoaiGolfMoaiSpec Get(MoaiGolfMoaiKind kind)
         {

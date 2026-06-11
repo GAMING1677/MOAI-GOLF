@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7eeae31384ed1b4899bdd46f1c947e7, type: 3}
+  m_Name: Ribbon
+  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfMoaiSpecAsset
+  kind: 1
+  sprite: {fileID: 929820139400352660, guid: a0a421c30bac8a2438a7cc29bccc6717, type: 3}
+  visualScale: {x: 1.05, y: 1.05}
+  colliderSize: {x: 0.8, y: 1}
+  mass: 0.82
+  bounciness: 0.48
+  friction: 0.35
+  feetOffset: 0
+  sortingOrder: 2

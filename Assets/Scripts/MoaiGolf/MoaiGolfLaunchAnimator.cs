@@ -35,13 +35,20 @@ namespace MoaiGolf
         private const float SlowApproachTimeScale = 0.015f;
         private const float ZoomOrthoSizeFactor = 0.5f;
         private const float ZoomTargetYOffset = 0.3f;
-        private const float LaunchReadyCameraMoveDuration = 0.38f;
-        private const float LaunchReadyCameraYOffset = 0.7f;
+        private const float LaunchReadyCameraMoveDuration = 0.22f;
+        private const string ClubSpinWhooshResourcePath = "Audio/ESM_SG_fx_combat_whoosh_swing_wind_throw_03";
+        private const float ClubSpinWhooshVolume = 0.9f;
+        private const string ImpactHitResourcePath = "Audio/MO_WS_160_kick_hardstyle_raw_piep_F";
+        private const float ImpactHitVolume = 0.451f;
 
         private MoaiGolfGameController gameController;
         private MoaiGolfRunState runState;
         private MoaiGolfStageView stageView;
+        private MoaiGolfSeController seController;
         private Camera mainCamera;
+        private AudioSource sfxAudioSource;
+        private AudioClip clubSpinWhooshClip;
+        private AudioClip impactHitClip;
 
         public bool IsPlaying { get; private set; }
 
@@ -51,6 +58,8 @@ namespace MoaiGolf
             runState = FindAnyObjectByType<MoaiGolfRunState>();
             stageView = FindAnyObjectByType<MoaiGolfStageView>();
             mainCamera = Camera.main;
+            seController = FindAnyObjectByType<MoaiGolfSeController>();
+            EnsureSfxAudioSource();
         }
 
         public void BeginLaunchSequence()
@@ -64,6 +73,8 @@ namespace MoaiGolf
             runState ??= FindAnyObjectByType<MoaiGolfRunState>();
             stageView ??= FindAnyObjectByType<MoaiGolfStageView>();
             mainCamera ??= Camera.main;
+            seController ??= FindAnyObjectByType<MoaiGolfSeController>();
+            EnsureSfxAudioSource();
 
             if (gameController == null || runState == null || stageView == null || mainCamera == null)
             {
@@ -93,18 +104,65 @@ namespace MoaiGolf
             Time.fixedDeltaTime = MoaiGolfWorldSettings.FixedTimestep;
         }
 
+        private void EnsureSfxAudioSource()
+        {
+            if (sfxAudioSource != null)
+            {
+                return;
+            }
+
+            sfxAudioSource = gameObject.AddComponent<AudioSource>();
+            sfxAudioSource.playOnAwake = false;
+            sfxAudioSource.loop = false;
+            sfxAudioSource.spatialBlend = 0f;
+        }
+
+        private void PlayClubSpinWhoosh()
+        {
+            EnsureSfxAudioSource();
+            clubSpinWhooshClip ??= Resources.Load<AudioClip>(ClubSpinWhooshResourcePath);
+            if (sfxAudioSource == null || clubSpinWhooshClip == null)
+            {
+                return;
+            }
+
+            sfxAudioSource.PlayOneShot(clubSpinWhooshClip, ClubSpinWhooshVolume * GetSeVolume());
+        }
+
+        private void PlayImpactHitSound()
+        {
+            EnsureSfxAudioSource();
+            impactHitClip ??= Resources.Load<AudioClip>(ImpactHitResourcePath);
+            if (sfxAudioSource == null || impactHitClip == null)
+            {
+                return;
+            }
+
+            sfxAudioSource.PlayOneShot(impactHitClip, ImpactHitVolume * GetSeVolume());
+        }
+
+        private float GetSeVolume()
+        {
+            seController ??= FindAnyObjectByType<MoaiGolfSeController>();
+            return seController != null ? seController.Volume : MoaiGolfSeController.DefaultVolume;
+        }
+
         private IEnumerator PlaySequence()
         {
             IsPlaying = true;
             var club = stageView.GolfClubPivot;
-            var visualFocus = stageView.LaunchVisualFocusPosition;
+            var cameraFocus = stageView.LaunchCameraFocusPosition;
 
-            yield return MoveCameraToLaunchReadyPosition(visualFocus);
+            yield return MoveCameraToLaunchReadyPosition(cameraFocus);
 
             // クラブ右上の座標をモアイ中心の約 200px 上に固定し、親 Transform の回転だけで振る。
             var moaiCenter = runState.LaunchPosition;
             var launchBody = stageView.LaunchBody;
             HoldLaunchBodyAt(launchBody, moaiCenter);
+            if (launchBody != null)
+            {
+                launchBody.rotation = 0f;
+            }
             var clubAnchorPos = moaiCenter + ClubAnchorOffsetFromMoai;
             if (club != null)
             {
@@ -117,7 +175,11 @@ namespace MoaiGolf
 
             var originalCameraSize = mainCamera.orthographicSize;
             var originalCameraPos = mainCamera.transform.position;
-            var targetCameraPos = new Vector3(visualFocus.x, visualFocus.y + ZoomTargetYOffset, originalCameraPos.z);
+            var zoomFocusY = Mathf.Max(
+                originalCameraPos.y - 0.05f,
+                cameraFocus.y + ZoomTargetYOffset
+            );
+            var targetCameraPos = new Vector3(cameraFocus.x, zoomFocusY, originalCameraPos.z);
             var targetSize = originalCameraSize * ZoomOrthoSizeFactor;
 
             yield return SpinClubAndCamera(
@@ -131,7 +193,8 @@ namespace MoaiGolf
                 originalCameraPos,
                 SpinupDuration,
                 lockedLaunchBody: launchBody,
-                lockedLaunchPosition: moaiCenter
+                lockedLaunchPosition: moaiCenter,
+                onFullRotation: PlayClubSpinWhoosh
             );
 
             Time.timeScale = SlowApproachTimeScale;
@@ -148,7 +211,8 @@ namespace MoaiGolf
                 targetCameraPos,
                 SlowApproachDuration,
                 lockedLaunchBody: launchBody,
-                lockedLaunchPosition: moaiCenter
+                lockedLaunchPosition: moaiCenter,
+                onFullRotation: PlayClubSpinWhoosh
             );
 
             Time.timeScale = originalTimeScale;
@@ -165,7 +229,8 @@ namespace MoaiGolf
                 targetCameraPos,
                 FinalImpactDuration,
                 lockedLaunchBody: launchBody,
-                lockedLaunchPosition: moaiCenter
+                lockedLaunchPosition: moaiCenter,
+                onFullRotation: PlayClubSpinWhoosh
             );
 
             if (club != null)
@@ -176,6 +241,7 @@ namespace MoaiGolf
             Time.timeScale = originalTimeScale;
             Time.fixedDeltaTime = originalFixedDt;
             HoldLaunchBodyAt(launchBody, moaiCenter);
+            PlayImpactHitSound();
             MoaiGolfImpactBlurOverlay.Pulse(mainCamera);
             MoaiGolfImpactParticles.Emit(moaiCenter);
 
@@ -193,7 +259,8 @@ namespace MoaiGolf
                 targetCameraPos,
                 FastFollowThroughDuration,
                 lockedLaunchBody: launchBody,
-                lockedLaunchPosition: moaiCenter
+                lockedLaunchPosition: moaiCenter,
+                onFullRotation: PlayClubSpinWhoosh
             );
 
             if (club != null)
@@ -203,7 +270,7 @@ namespace MoaiGolf
 
             Time.timeScale = 0f;
             Time.fixedDeltaTime = originalFixedDt;
-            var launchVisual = launchBody != null ? launchBody.transform.Find("Launch Moai Visual") : null;
+            var launchVisual = stageView.LaunchVisual;
             var originalLaunchVisualPosition = launchVisual != null ? launchVisual.localPosition : Vector3.zero;
             var hitStopElapsed = 0f;
             while (hitStopElapsed < HitStopDuration)
@@ -246,7 +313,7 @@ namespace MoaiGolf
             IsPlaying = false;
         }
 
-        private IEnumerator MoveCameraToLaunchReadyPosition(Vector2 visualFocus)
+        private IEnumerator MoveCameraToLaunchReadyPosition(Vector2 cameraFocus)
         {
             if (mainCamera == null)
             {
@@ -254,11 +321,22 @@ namespace MoaiGolf
             }
 
             var fromPosition = mainCamera.transform.position;
-            var targetPosition = new Vector3(
-                Mathf.Clamp(visualFocus.x, MoaiGolfWorldSettings.CameraMinX, MoaiGolfWorldSettings.CameraMaxX),
-                Mathf.Clamp(visualFocus.y + LaunchReadyCameraYOffset, MoaiGolfWorldSettings.CameraMinY, MoaiGolfWorldSettings.CameraMaxY),
-                fromPosition.z
+            var gameplayFocus = MoaiGolfCameraController.ResolveLaunchGameplayCameraPosition(stageView);
+            var targetPosition = MoaiGolfCameraController.ClampCameraPosition(
+                new Vector3(
+                    cameraFocus.x,
+                    Mathf.Max(fromPosition.y, gameplayFocus.y),
+                    fromPosition.z
+                ),
+                MoaiGolfGamePhase.LaunchAnimation,
+                stageView
             );
+
+            if (Vector2.Distance(fromPosition, targetPosition) < 0.05f)
+            {
+                mainCamera.transform.position = targetPosition;
+                yield break;
+            }
 
             var elapsed = 0f;
             while (elapsed < LaunchReadyCameraMoveDuration)
@@ -266,7 +344,9 @@ namespace MoaiGolf
                 elapsed += Time.unscaledDeltaTime;
                 var t = Mathf.Clamp01(elapsed / LaunchReadyCameraMoveDuration);
                 var eased = Mathf.SmoothStep(0f, 1f, t);
-                mainCamera.transform.position = Vector3.Lerp(fromPosition, targetPosition, eased);
+                var lerped = Vector3.Lerp(fromPosition, targetPosition, eased);
+                lerped.y = Mathf.Max(lerped.y, fromPosition.y);
+                mainCamera.transform.position = lerped;
                 yield return null;
             }
 
@@ -283,7 +363,11 @@ namespace MoaiGolf
             launchBody.linearVelocity = Vector2.zero;
             launchBody.angularVelocity = 0f;
             launchBody.position = position;
-            launchBody.transform.position = new Vector3(position.x, position.y, launchBody.transform.position.z);
+            launchBody.rotation = 0f;
+            launchBody.transform.SetPositionAndRotation(
+                new Vector3(position.x, position.y, launchBody.transform.position.z),
+                Quaternion.identity
+            );
             launchBody.Sleep();
         }
 
@@ -298,9 +382,10 @@ namespace MoaiGolf
             Vector3 toCameraPos,
             float duration,
             Rigidbody2D lockedLaunchBody = null,
-            Vector2 lockedLaunchPosition = default(Vector2)
-        )
+            Vector2 lockedLaunchPosition = default(Vector2),
+            System.Action onFullRotation = null)
         {
+            var completedRevolutions = 0;
             var elapsed = 0f;
             while (elapsed < duration)
             {
@@ -312,6 +397,17 @@ namespace MoaiGolf
                 {
                     var rotZ = Mathf.LerpUnclamped(fromAngleDeg, toAngleDeg, t);
                     club.rotation = Quaternion.Euler(0f, 0f, rotZ);
+
+                    if (onFullRotation != null)
+                    {
+                        var traveledDeg = Mathf.Abs(rotZ - fromAngleDeg);
+                        var revolutions = Mathf.FloorToInt(traveledDeg / 360f);
+                        while (completedRevolutions < revolutions)
+                        {
+                            completedRevolutions++;
+                            onFullRotation();
+                        }
+                    }
                 }
 
                 if (camera != null)

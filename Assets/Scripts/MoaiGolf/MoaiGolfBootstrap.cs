@@ -5,6 +5,7 @@ namespace MoaiGolf
 {
     public sealed class MoaiGolfBootstrap : MonoBehaviour
     {
+        // Empty-scene fallback only. Prefer placing game systems on Scene/Prefab and wiring them in Awake.
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         private static void EnsureBootstrap()
         {
@@ -37,6 +38,7 @@ namespace MoaiGolf
             EnsureMouseInput();
             EnsureCameraController();
             EnsureBgmController();
+            EnsureSeController();
             EnsureHud();
             EnsureGuideOverlay();
             EnsureLaunchAnimator();
@@ -108,6 +110,7 @@ namespace MoaiGolf
             }
 
             stageView.Build(runState);
+            FindAnyObjectByType<MoaiGolfCameraController>()?.FocusOnLaunchArea();
         }
 
         private void EnsureGameController()
@@ -147,6 +150,14 @@ namespace MoaiGolf
             }
         }
 
+        private void EnsureSeController()
+        {
+            if (FindAnyObjectByType<MoaiGolfSeController>() == null)
+            {
+                gameObject.AddComponent<MoaiGolfSeController>();
+            }
+        }
+
         private void EnsureCameraController()
         {
             if (FindAnyObjectByType<MoaiGolfCameraController>() == null)
@@ -158,6 +169,8 @@ namespace MoaiGolf
 
     public sealed class MoaiGolfCameraController : MonoBehaviour
     {
+        public const float LaunchGameplayCameraYOffset = 0.35f;
+
         private const float KeyboardScrollSpeed = 12f;
         private const float EdgeScrollSpeed = 9f;
         private const float EdgeScrollMarginPixels = 72f;
@@ -177,6 +190,68 @@ namespace MoaiGolf
 
         public bool IsPointerPanning => isDragging;
 
+        public static Vector3 ResolveLaunchGameplayCameraPosition(MoaiGolfStageView stageView)
+        {
+            if (stageView?.LaunchBody == null)
+            {
+                return new Vector3(
+                    MoaiGolfWorldSettings.CameraCenterX,
+                    MoaiGolfWorldSettings.CameraCenterY,
+                    MoaiGolfWorldSettings.CameraZ
+                );
+            }
+
+            var focus = stageView.LaunchCameraFocusPosition;
+            return new Vector3(
+                focus.x,
+                Mathf.Clamp(
+                    focus.y + LaunchGameplayCameraYOffset,
+                    MoaiGolfWorldSettings.CameraMinY,
+                    MoaiGolfWorldSettings.CameraMaxY
+                ),
+                MoaiGolfWorldSettings.CameraZ
+            );
+        }
+
+        public static float ResolveCameraMinX(MoaiGolfGamePhase? phase, MoaiGolfStageView stageView)
+        {
+            if (stageView?.LaunchBody == null)
+            {
+                return MoaiGolfWorldSettings.CameraMinX;
+            }
+
+            var launchFocusX = stageView.LaunchCameraFocusPosition.x;
+            if (ShouldRelaxLaunchHorizontalClamp(phase))
+            {
+                return Mathf.Min(MoaiGolfWorldSettings.CameraMinX, launchFocusX);
+            }
+
+            if (phase == MoaiGolfGamePhase.Flying
+                && stageView.LaunchBody.position.x < MoaiGolfWorldSettings.CameraMinX)
+            {
+                return Mathf.Min(MoaiGolfWorldSettings.CameraMinX, launchFocusX);
+            }
+
+            return MoaiGolfWorldSettings.CameraMinX;
+        }
+
+        public static Vector3 ClampCameraPosition(Vector3 position, MoaiGolfGamePhase? phase, MoaiGolfStageView stageView)
+        {
+            return new Vector3(
+                Mathf.Clamp(position.x, ResolveCameraMinX(phase, stageView), MoaiGolfWorldSettings.CameraMaxX),
+                Mathf.Clamp(position.y, MoaiGolfWorldSettings.CameraMinY, MoaiGolfWorldSettings.CameraMaxY),
+                MoaiGolfWorldSettings.CameraZ
+            );
+        }
+
+        private static bool ShouldRelaxLaunchHorizontalClamp(MoaiGolfGamePhase? phase)
+        {
+            return phase == MoaiGolfGamePhase.AngleSelect
+                || phase == MoaiGolfGamePhase.PowerSelect
+                || phase == MoaiGolfGamePhase.LaunchAnimation
+                || phase == MoaiGolfGamePhase.Result;
+        }
+
         private void Start()
         {
             mainCamera = Camera.main;
@@ -184,6 +259,19 @@ namespace MoaiGolf
             stageView = FindAnyObjectByType<MoaiGolfStageView>();
             launchAnimator = FindAnyObjectByType<MoaiGolfLaunchAnimator>();
             hud = FindAnyObjectByType<MoaiGolfHud>();
+            FocusOnLaunchArea();
+        }
+
+        public void FocusOnLaunchArea()
+        {
+            mainCamera ??= Camera.main;
+            if (mainCamera == null)
+            {
+                return;
+            }
+
+            stageView ??= FindAnyObjectByType<MoaiGolfStageView>();
+            mainCamera.transform.position = ResolveLaunchGameplayCameraPosition(stageView);
             ClampCamera();
         }
 
@@ -198,11 +286,7 @@ namespace MoaiGolf
             isDragging = false;
             isLeftDrag = false;
             isLeftDragPending = false;
-            mainCamera.transform.position = new Vector3(
-                MoaiGolfWorldSettings.CameraCenterX,
-                MoaiGolfWorldSettings.CameraCenterY,
-                MoaiGolfWorldSettings.CameraZ
-            );
+            FocusOnLaunchArea();
         }
 
         private void LateUpdate()
@@ -376,7 +460,7 @@ namespace MoaiGolf
 
         private void FollowLaunchVisual()
         {
-            var target = stageView.LaunchVisualFocusPosition;
+            var target = stageView.LaunchCameraFocusPosition;
             var current = mainCamera.transform.position;
             var desired = new Vector3(target.x, Mathf.Clamp(target.y, MoaiGolfWorldSettings.CameraMinY, MoaiGolfWorldSettings.CameraMaxY), current.z);
             mainCamera.transform.position = Vector3.Lerp(current, desired, 1f - Mathf.Exp(-FollowLerp * Time.deltaTime));
@@ -384,12 +468,8 @@ namespace MoaiGolf
 
         private void ClampCamera()
         {
-            var position = mainCamera.transform.position;
-            mainCamera.transform.position = new Vector3(
-                Mathf.Clamp(position.x, MoaiGolfWorldSettings.CameraMinX, MoaiGolfWorldSettings.CameraMaxX),
-                Mathf.Clamp(position.y, MoaiGolfWorldSettings.CameraMinY, MoaiGolfWorldSettings.CameraMaxY),
-                MoaiGolfWorldSettings.CameraZ
-            );
+            MoaiGolfGamePhase? phase = gameController != null ? gameController.Phase : null;
+            mainCamera.transform.position = ClampCameraPosition(mainCamera.transform.position, phase, stageView);
         }
     }
 }

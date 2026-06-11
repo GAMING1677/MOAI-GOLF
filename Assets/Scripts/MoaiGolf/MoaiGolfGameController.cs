@@ -89,6 +89,11 @@ namespace MoaiGolf
 
             LastResultSucceeded = succeeded;
             Phase = MoaiGolfGamePhase.Result;
+
+            if (succeeded)
+            {
+                FindAnyObjectByType<MoaiGolfSeController>()?.PlaySuccess();
+            }
         }
 
         public void ResetForRetry()

@@ -138,6 +138,20 @@ namespace MoaiGolf
         public Vector2 TargetMoaiPosition { get; }
         public Rect SuccessZone { get; }
 
+        public MoaiGolfStageDefinition WithSceneOverrides(Vector2 launchPosition, Rect successZone)
+        {
+            return new MoaiGolfStageDefinition(
+                Id,
+                BackgroundSpritePath,
+                WorldBounds,
+                GroundCenter,
+                GroundSize,
+                launchPosition,
+                TargetMoaiPosition,
+                successZone
+            );
+        }
+
         public static MoaiGolfStageDefinition CreateFirstStage()
         {
             return new MoaiGolfStageDefinition(
@@ -153,7 +167,7 @@ namespace MoaiGolf
                 new Vector2(MoaiGolfWorldSettings.WorldWidth, 0.35f),
                 new Vector2(3.2f, MoaiGolfTerrainProfile.GetY(3.2f) + MoaiGolfWorldSettings.LaunchPedestalHeight * 0.5f),
                 new Vector2(32.75f, 7.2f + 0.68f),
-                new Rect(32.075f, 7.2f, 1.35f, 2.3f)
+                new Rect(29.765f, 7.68f, 1.35f, 2.3f)
             );
         }
     }

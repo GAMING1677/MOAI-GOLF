@@ -1,0 +1,417 @@
+{
+  "ExportTimestamp": "2026-06-11 10:11:02",
+  "Context": {
+    "sceneType": "editor",
+    "sceneName": "SampleScene",
+    "nodeCount": 25,
+    "maxDepth": 2
+  },
+  "Hierarchy": [
+    {
+      "sceneName": "SampleScene",
+      "stats": {
+        "rootCount": 5,
+        "nodeCount": 25,
+        "maxDepth": 2
+      },
+      "componentsLut": [
+        "Transform",
+        "Camera",
+        "AudioListener",
+        "UniversalAdditionalCameraData",
+        "Light2D",
+        "MoaiGolfBgmController",
+        "MoaiGolfBootstrap",
+        "MoaiGolfRunState",
+        "MoaiGolfGameController",
+        "MoaiGolfMouseAngleInput",
+        "MoaiGolfMousePowerInput",
+        "MoaiGolfHud",
+        "MoaiGolfGuideOverlay",
+        "MoaiGolfLaunchAnimator",
+        "MoaiGolfSeController",
+        "MoaiGolfCameraController",
+        "MoaiGolfStageView",
+        "SpriteRenderer",
+        "MoaiGolfStageElement",
+        "EdgeCollider2D",
+        "BoxCollider2D",
+        "PolygonCollider2D",
+        "Rigidbody2D",
+        "CapsuleCollider2D",
+        "MoaiGolfMoaiEntity",
+        "MoaiGolfBounceSfx",
+        "MoaiGolfTargetMoaiVoiceSfx",
+        "MoaiGolfWorldBoundsBounce",
+        "MoaiGolfLandingJudge",
+        "MoaiGolfTargetMoaiMarker"
+      ],
+      "roots": [
+        {
+          "name": "Main Camera",
+          "isActive": true,
+          "componentsIdx": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "siblingIndex": 0,
+          "tag": "MainCamera",
+          "layer": 0,
+          "children": []
+        },
+        {
+          "name": "Global Light 2D",
+          "isActive": true,
+          "componentsIdx": [
+            0,
+            4
+          ],
+          "siblingIndex": 1,
+          "tag": "Untagged",
+          "layer": 0,
+          "children": []
+        },
+        {
+          "name": "MoaiGolfBgm",
+          "isActive": true,
+          "componentsIdx": [
+            0,
+            5
+          ],
+          "siblingIndex": 2,
+          "tag": "Untagged",
+          "layer": 0,
+          "children": []
+        },
+        {
+          "name": "MoaiGolfGameRoot",
+          "isActive": true,
+          "componentsIdx": [
+            0,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "siblingIndex": 3,
+          "tag": "Untagged",
+          "layer": 0,
+          "children": []
+        },
+        {
+          "name": "MoaiGolfStage",
+          "isActive": true,
+          "componentsIdx": [
+            0,
+            16
+          ],
+          "siblingIndex": 4,
+          "tag": "Untagged",
+          "layer": 0,
+          "children": [
+            {
+              "name": "BackgroundVisual",
+              "isActive": true,
+              "componentsIdx": [
+                0,
+                17,
+                18
+              ],
+              "siblingIndex": 0,
+              "tag": "Untagged",
+              "layer": 0,
+              "children": []
+            },
+            {
+              "name": "TerrainCollider",
+              "isActive": true,
+              "componentsIdx": [
+                0,
+                19,
+                18
+              ],
+              "siblingIndex": 1,
+              "tag": "Untagged",
+              "layer": 0,
+              "children": []
+            },
+            {
+              "name": "LaunchPedestal",
+              "isActive": true,
+              "componentsIdx": [
+                0,
+                17,
+                20,
+                18
+              ],
+              "siblingIndex": 2,
+              "tag": "Untagged",
+              "layer": 0,
+              "children": []
+            },
+            {
+              "name": "TargetPedestal",
+              "isActive": true,
+              "componentsIdx": [
+                0,
+                21,
+                22,
+                18
+              ],
+              "siblingIndex": 3,
+              "tag": "Untagged",
+              "layer": 0,
+              "children": []
+            },
+            {
+              "name": "SuccessZone",
+              "isActive": true,
+              "componentsIdx": [
+                0,
+                17,
+                20,
+                18
+              ],
+              "siblingIndex": 4,
+              "tag": "Untagged",
+              "layer": 0,
+              "children": []
+            },
+            {
+              "name": "AimMarker",
+              "isActive": true,
+              "componentsIdx": [
+                0,
+                17,
+                18
+              ],
+              "siblingIndex": 5,
+              "tag": "Untagged",
+              "layer": 0,
+              "children": []
+            },
+            {
+              "name": "GolfClubPivot",
+              "isActive": true,
+              "componentsIdx": [
+                0,
+                18
+              ],
+              "siblingIndex": 6,
+              "tag": "Untagged",
+              "layer": 0,
+              "children": [
+                {
+                  "name": "Golf Club Visual",
+                  "isActive": true,
+                  "componentsIdx": [
+                    0,
+                    17
+                  ],
+                  "siblingIndex": 0,
+                  "tag": "Untagged",
+                  "layer": 0,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "LaunchMoai",
+              "isActive": true,
+              "componentsIdx": [
+                0,
+                23,
+                22,
+                24,
+                25,
+                26,
+                27,
+                28,
+                25,
+                26,
+                27,
+                28,
+                18
+              ],
+              "siblingIndex": 7,
+              "tag": "Untagged",
+              "layer": 0,
+              "children": [
+                {
+                  "name": "Visual",
+                  "isActive": true,
+                  "componentsIdx": [
+                    0,
+                    17
+                  ],
+                  "siblingIndex": 0,
+                  "tag": "Untagged",
+                  "layer": 0,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "TargetMoai",
+              "isActive": true,
+              "componentsIdx": [
+                0,
+                23,
+                22,
+                24,
+                29,
+                29,
+                18
+              ],
+              "siblingIndex": 8,
+              "tag": "Untagged",
+              "layer": 0,
+              "children": [
+                {
+                  "name": "Visual",
+                  "isActive": true,
+                  "componentsIdx": [
+                    0,
+                    17
+                  ],
+                  "siblingIndex": 0,
+                  "tag": "Untagged",
+                  "layer": 0,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "TargetMoai",
+              "isActive": true,
+              "componentsIdx": [
+                0,
+                23,
+                22,
+                24,
+                29,
+                29,
+                18
+              ],
+              "siblingIndex": 9,
+              "tag": "Untagged",
+              "layer": 0,
+              "children": [
+                {
+                  "name": "Visual",
+                  "isActive": true,
+                  "componentsIdx": [
+                    0,
+                    17
+                  ],
+                  "siblingIndex": 0,
+                  "tag": "Untagged",
+                  "layer": 0,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "TargetMoai",
+              "isActive": true,
+              "componentsIdx": [
+                0,
+                23,
+                22,
+                24,
+                29,
+                29,
+                18
+              ],
+              "siblingIndex": 10,
+              "tag": "Untagged",
+              "layer": 0,
+              "children": [
+                {
+                  "name": "Visual",
+                  "isActive": true,
+                  "componentsIdx": [
+                    0,
+                    17
+                  ],
+                  "siblingIndex": 0,
+                  "tag": "Untagged",
+                  "layer": 0,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "TargetMoai",
+              "isActive": true,
+              "componentsIdx": [
+                0,
+                23,
+                22,
+                24,
+                29,
+                29,
+                18
+              ],
+              "siblingIndex": 11,
+              "tag": "Untagged",
+              "layer": 0,
+              "children": [
+                {
+                  "name": "Visual",
+                  "isActive": true,
+                  "componentsIdx": [
+                    0,
+                    17
+                  ],
+                  "siblingIndex": 0,
+                  "tag": "Untagged",
+                  "layer": 0,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "TargetMoai",
+              "isActive": true,
+              "componentsIdx": [
+                0,
+                23,
+                22,
+                24,
+                29,
+                29,
+                18
+              ],
+              "siblingIndex": 12,
+              "tag": "Untagged",
+              "layer": 0,
+              "children": [
+                {
+                  "name": "Visual",
+                  "isActive": true,
+                  "componentsIdx": [
+                    0,
+                    17
+                  ],
+                  "siblingIndex": 0,
+                  "tag": "Untagged",
+                  "layer": 0,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

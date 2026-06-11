@@ -1,0 +1,351 @@
+{
+  "ExportTimestamp": "2026-06-11 10:46:35",
+  "Context": {
+    "sceneType": "editor",
+    "sceneName": "SampleScene",
+    "nodeCount": 21,
+    "maxDepth": 2
+  },
+  "Hierarchy": [
+    {
+      "sceneName": "SampleScene",
+      "stats": {
+        "rootCount": 1,
+        "nodeCount": 21,
+        "maxDepth": 2
+      },
+      "componentsLut": [
+        "Transform",
+        "MoaiGolfStageView",
+        "SpriteRenderer",
+        "MoaiGolfStageElement",
+        "PolygonCollider2D",
+        "Rigidbody2D",
+        "BoxCollider2D",
+        "CapsuleCollider2D",
+        "MoaiGolfMoaiEntity",
+        "MoaiGolfBounceSfx",
+        "MoaiGolfTargetMoaiVoiceSfx",
+        "MoaiGolfWorldBoundsBounce",
+        "MoaiGolfLandingJudge",
+        "MoaiGolfTargetMoaiMarker"
+      ],
+      "roots": [
+        {
+          "name": "MoaiGolfStage",
+          "isActive": true,
+          "componentsIdx": [
+            0,
+            1
+          ],
+          "siblingIndex": 4,
+          "tag": "Untagged",
+          "layer": 0,
+          "path": "MoaiGolfStage",
+          "children": [
+            {
+              "name": "BackgroundVisual",
+              "isActive": true,
+              "componentsIdx": [
+                0,
+                2,
+                3
+              ],
+              "siblingIndex": 0,
+              "tag": "Untagged",
+              "layer": 0,
+              "path": "MoaiGolfStage/BackgroundVisual",
+              "children": []
+            },
+            {
+              "name": "TargetPedestal",
+              "isActive": true,
+              "componentsIdx": [
+                0,
+                4,
+                5,
+                3
+              ],
+              "siblingIndex": 1,
+              "tag": "Untagged",
+              "layer": 0,
+              "path": "MoaiGolfStage/TargetPedestal",
+              "children": []
+            },
+            {
+              "name": "SuccessZone",
+              "isActive": true,
+              "componentsIdx": [
+                0,
+                2,
+                6,
+                3
+              ],
+              "siblingIndex": 2,
+              "tag": "Untagged",
+              "layer": 0,
+              "path": "MoaiGolfStage/SuccessZone",
+              "children": []
+            },
+            {
+              "name": "AimMarker",
+              "isActive": true,
+              "componentsIdx": [
+                0,
+                2,
+                3
+              ],
+              "siblingIndex": 3,
+              "tag": "Untagged",
+              "layer": 0,
+              "path": "MoaiGolfStage/AimMarker",
+              "children": []
+            },
+            {
+              "name": "GolfClubPivot",
+              "isActive": true,
+              "componentsIdx": [
+                0,
+                3
+              ],
+              "siblingIndex": 4,
+              "tag": "Untagged",
+              "layer": 0,
+              "path": "MoaiGolfStage/GolfClubPivot",
+              "children": [
+                {
+                  "name": "Golf Club Visual",
+                  "isActive": true,
+                  "componentsIdx": [
+                    0,
+                    2
+                  ],
+                  "siblingIndex": 0,
+                  "tag": "Untagged",
+                  "layer": 0,
+                  "path": "MoaiGolfStage/GolfClubPivot/Golf Club Visual",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "Launch Moai",
+              "isActive": true,
+              "componentsIdx": [
+                0,
+                7,
+                5,
+                8,
+                9,
+                10,
+                11,
+                12,
+                3
+              ],
+              "siblingIndex": 5,
+              "tag": "Untagged",
+              "layer": 0,
+              "path": "MoaiGolfStage/Launch Moai",
+              "children": [
+                {
+                  "name": "Visual",
+                  "isActive": true,
+                  "componentsIdx": [
+                    0,
+                    2
+                  ],
+                  "siblingIndex": 0,
+                  "tag": "Untagged",
+                  "layer": 0,
+                  "path": "MoaiGolfStage/Launch Moai/Visual",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "Target Moai Sunglasses",
+              "isActive": true,
+              "componentsIdx": [
+                0,
+                7,
+                5,
+                8,
+                13,
+                3
+              ],
+              "siblingIndex": 6,
+              "tag": "Untagged",
+              "layer": 0,
+              "path": "MoaiGolfStage/Target Moai Sunglasses",
+              "children": [
+                {
+                  "name": "Visual",
+                  "isActive": true,
+                  "componentsIdx": [
+                    0,
+                    2
+                  ],
+                  "siblingIndex": 0,
+                  "tag": "Untagged",
+                  "layer": 0,
+                  "path": "MoaiGolfStage/Target Moai Sunglasses/Visual",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "Target Moai Ribbon",
+              "isActive": true,
+              "componentsIdx": [
+                0,
+                7,
+                5,
+                8,
+                13,
+                3
+              ],
+              "siblingIndex": 7,
+              "tag": "Untagged",
+              "layer": 0,
+              "path": "MoaiGolfStage/Target Moai Ribbon",
+              "children": [
+                {
+                  "name": "Visual",
+                  "isActive": true,
+                  "componentsIdx": [
+                    0,
+                    2
+                  ],
+                  "siblingIndex": 0,
+                  "tag": "Untagged",
+                  "layer": 0,
+                  "path": "MoaiGolfStage/Target Moai Ribbon/Visual",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "Target Moai Snowman",
+              "isActive": true,
+              "componentsIdx": [
+                0,
+                7,
+                5,
+                8,
+                13,
+                3
+              ],
+              "siblingIndex": 8,
+              "tag": "Untagged",
+              "layer": 0,
+              "path": "MoaiGolfStage/Target Moai Snowman",
+              "children": [
+                {
+                  "name": "Visual",
+                  "isActive": true,
+                  "componentsIdx": [
+                    0,
+                    2
+                  ],
+                  "siblingIndex": 0,
+                  "tag": "Untagged",
+                  "layer": 0,
+                  "path": "MoaiGolfStage/Target Moai Snowman/Visual",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "Target Moai Sunglasses",
+              "isActive": true,
+              "componentsIdx": [
+                0,
+                7,
+                5,
+                8,
+                13,
+                3
+              ],
+              "siblingIndex": 9,
+              "tag": "Untagged",
+              "layer": 0,
+              "path": "MoaiGolfStage/Target Moai Sunglasses",
+              "children": [
+                {
+                  "name": "Visual",
+                  "isActive": true,
+                  "componentsIdx": [
+                    0,
+                    2
+                  ],
+                  "siblingIndex": 0,
+                  "tag": "Untagged",
+                  "layer": 0,
+                  "path": "MoaiGolfStage/Target Moai Sunglasses/Visual",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "Target Moai Macho",
+              "isActive": true,
+              "componentsIdx": [
+                0,
+                7,
+                5,
+                8,
+                13,
+                3
+              ],
+              "siblingIndex": 10,
+              "tag": "Untagged",
+              "layer": 0,
+              "path": "MoaiGolfStage/Target Moai Macho",
+              "children": [
+                {
+                  "name": "Visual",
+                  "isActive": true,
+                  "componentsIdx": [
+                    0,
+                    2
+                  ],
+                  "siblingIndex": 0,
+                  "tag": "Untagged",
+                  "layer": 0,
+                  "path": "MoaiGolfStage/Target Moai Macho/Visual",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "daiza",
+              "isActive": true,
+              "componentsIdx": [
+                0,
+                2
+              ],
+              "siblingIndex": 11,
+              "tag": "Untagged",
+              "layer": 0,
+              "path": "MoaiGolfStage/daiza",
+              "children": []
+            },
+            {
+              "name": "GroundCollider",
+              "isActive": true,
+              "componentsIdx": [
+                0,
+                4
+              ],
+              "siblingIndex": 12,
+              "tag": "Untagged",
+              "layer": 0,
+              "path": "MoaiGolfStage/GroundCollider",
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
