@@ -5,30 +5,45 @@ namespace MoaiGolf
 {
     public sealed class MoaiGolfMousePowerInput : MonoBehaviour
     {
-        private MoaiGolfGameController gameController;
-        private MoaiGolfRunState runState;
-        private MoaiGolfStageView stageView;
-        private MoaiGolfLaunchAnimator launchAnimator;
-        private MoaiGolfHud hud;
-        private MoaiGolfCameraController cameraController;
-        private Camera mainCamera;
+        [SerializeField] private Camera mainCamera;
+        [SerializeField] private MoaiGolfGameController gameController;
+        [SerializeField] private MoaiGolfRunState runState;
+        [SerializeField] private MoaiGolfStageView stageView;
+        [SerializeField] private MoaiGolfLaunchAnimator launchAnimator;
+        [SerializeField] private MoaiGolfHud hud;
+        [SerializeField] private MoaiGolfCameraController cameraController;
         private bool isAdjustingPower;
         private bool justEntered;
+        private bool hasRequestedPowerPhasePreload;
 
-        private void Start()
+        public void ConfigureDependencies(
+            Camera camera,
+            MoaiGolfGameController controller,
+            MoaiGolfRunState state,
+            MoaiGolfStageView view,
+            MoaiGolfLaunchAnimator animator,
+            MoaiGolfHud hudController,
+            MoaiGolfCameraController cameraControl
+        )
         {
-            gameController = FindAnyObjectByType<MoaiGolfGameController>();
-            runState = FindAnyObjectByType<MoaiGolfRunState>();
-            stageView = FindAnyObjectByType<MoaiGolfStageView>();
-            launchAnimator = FindAnyObjectByType<MoaiGolfLaunchAnimator>();
-            hud = FindAnyObjectByType<MoaiGolfHud>();
-            cameraController = FindAnyObjectByType<MoaiGolfCameraController>();
-            mainCamera = Camera.main;
+            mainCamera = camera;
+            gameController = controller;
+            runState = state;
+            stageView = view;
+            launchAnimator = animator;
+            hud = hudController;
+            cameraController = cameraControl;
+            ValidateReference(mainCamera, nameof(mainCamera));
+            ValidateReference(gameController, nameof(gameController));
+            ValidateReference(runState, nameof(runState));
+            ValidateReference(stageView, nameof(stageView));
+            ValidateReference(launchAnimator, nameof(launchAnimator));
+            ValidateReference(hud, nameof(hud));
+            ValidateReference(cameraController, nameof(cameraController));
         }
 
         private void Update()
         {
-            hud ??= FindAnyObjectByType<MoaiGolfHud>();
             if (hud != null && hud.ShouldBlockWorldInput)
             {
                 justEntered = true;
@@ -44,7 +59,14 @@ namespace MoaiGolf
             {
                 isAdjustingPower = false;
                 justEntered = true;
+                hasRequestedPowerPhasePreload = false;
                 return;
+            }
+
+            if (!hasRequestedPowerPhasePreload)
+            {
+                launchAnimator?.PreloadLaunchAssets();
+                hasRequestedPowerPhasePreload = true;
             }
 
             var mouse = Mouse.current;
@@ -53,7 +75,6 @@ namespace MoaiGolf
                 return;
             }
 
-            mainCamera ??= Camera.main;
             if (mainCamera == null)
             {
                 return;
@@ -99,7 +120,6 @@ namespace MoaiGolf
                 return;
             }
 
-            cameraController ??= FindAnyObjectByType<MoaiGolfCameraController>();
             if (cameraController != null && cameraController.IsPointerPanning)
             {
                 return;
@@ -108,8 +128,6 @@ namespace MoaiGolf
 
         private void BeginLaunchSequence()
         {
-            stageView ??= FindAnyObjectByType<MoaiGolfStageView>();
-            launchAnimator ??= FindAnyObjectByType<MoaiGolfLaunchAnimator>();
             if (stageView?.LaunchBody != null && launchAnimator != null)
             {
                 launchAnimator.BeginLaunchSequence();
@@ -119,6 +137,17 @@ namespace MoaiGolf
         private void SetPowerFromGauge(float worldX, Rect gaugeRect)
         {
             gameController.SetPower(Mathf.InverseLerp(gaugeRect.xMin, gaugeRect.xMax, worldX));
+        }
+
+        private bool ValidateReference(UnityEngine.Object reference, string fieldName)
+        {
+            if (reference != null)
+            {
+                return true;
+            }
+
+            Debug.LogError($"{nameof(MoaiGolfMousePowerInput)} missing serialized reference: {fieldName}.", this);
+            return false;
         }
     }
 }

@@ -58,10 +58,10 @@ namespace MoaiGolf
             // FeetOffset は各テクスチャの下端透明ピクセル数 / PixelsPerUnit(100)
             return kind switch
             {
-                MoaiGolfMoaiKind.Sunglasses => new MoaiGolfMoaiSpec(kind, "Textures/moai_0", new Vector2(1.2f, 1.2f), new Vector2(0.85f, 1.05f), 1.0f, 0.38f, 0.45f, 0.32f),
-                MoaiGolfMoaiKind.Ribbon => new MoaiGolfMoaiSpec(kind, "Textures/moai2", new Vector2(1.05f, 1.05f), new Vector2(0.8f, 1.0f), 0.82f, 0.48f, 0.35f, 0f),
-                MoaiGolfMoaiKind.Macho => new MoaiGolfMoaiSpec(kind, "Textures/moai3", new Vector2(1.35f, 1.2f), new Vector2(1.05f, 1.0f), 1.35f, 0.25f, 0.62f, 0f),
-                MoaiGolfMoaiKind.Snowman => new MoaiGolfMoaiSpec(kind, "Textures/moai4", new Vector2(1.15f, 1.25f), new Vector2(0.9f, 1.1f), 1.12f, 0.58f, 0.18f, 0f),
+                MoaiGolfMoaiKind.Sunglasses => new MoaiGolfMoaiSpec(kind, "Textures/moai_0", new Vector2(1.2f, 1.2f), new Vector2(0.85f, 1.05f), 0.6f, 0.38f, 0.45f, 0.32f),
+                MoaiGolfMoaiKind.Ribbon => new MoaiGolfMoaiSpec(kind, "Textures/moai2", new Vector2(1.05f, 1.05f), new Vector2(0.8f, 1.0f), 1.23f, 0.48f, 0.35f, 0f),
+                MoaiGolfMoaiKind.Macho => new MoaiGolfMoaiSpec(kind, "Textures/moai3", new Vector2(1.35f, 1.2f), new Vector2(1.05f, 1.0f), 2.025f, 0.25f, 0.62f, 0f),
+                MoaiGolfMoaiKind.Snowman => new MoaiGolfMoaiSpec(kind, "Textures/moai4", new Vector2(1.15f, 1.25f), new Vector2(0.9f, 1.1f), 0.896f, 0.58f, 0.18f, 0f),
                 _ => new MoaiGolfMoaiSpec(kind, "Textures/moai_0", Vector2.one, new Vector2(0.85f, 1.05f), 1f, 0.4f, 0.4f, 0f)
             };
         }

@@ -6,13 +6,13 @@ namespace MoaiGolf
 {
     public sealed class MoaiGolfHud : MonoBehaviour
     {
-        private MoaiGolfGameController gameController;
-        private MoaiGolfRunState runState;
-        private MoaiGolfStageView stageView;
-        private MoaiGolfCameraController cameraController;
-        private MoaiGolfLaunchAnimator launchAnimator;
-        private MoaiGolfBgmController bgmController;
-        private MoaiGolfSeController seController;
+        [SerializeField] private MoaiGolfGameController gameController;
+        [SerializeField] private MoaiGolfRunState runState;
+        [SerializeField] private MoaiGolfStageView stageView;
+        [SerializeField] private MoaiGolfCameraController cameraController;
+        [SerializeField] private MoaiGolfLaunchAnimator launchAnimator;
+        [SerializeField] private MoaiGolfBgmController bgmController;
+        [SerializeField] private MoaiGolfSeController seController;
         private Texture2D resultSuccessTexture;
         private Texture2D resultFailedTexture;
         private bool isMenuOpen;
@@ -27,15 +27,30 @@ namespace MoaiGolf
             || Time.frameCount <= blockWorldInputUntilFrame
             || IsPointerOverHudChrome();
 
-        private void Start()
+        public void ConfigureDependencies(
+            MoaiGolfGameController controller,
+            MoaiGolfRunState state,
+            MoaiGolfStageView view,
+            MoaiGolfCameraController cameraControl,
+            MoaiGolfLaunchAnimator animator,
+            MoaiGolfBgmController bgm,
+            MoaiGolfSeController se
+        )
         {
-            gameController = FindAnyObjectByType<MoaiGolfGameController>();
-            runState = FindAnyObjectByType<MoaiGolfRunState>();
-            stageView = FindAnyObjectByType<MoaiGolfStageView>();
-            cameraController = FindAnyObjectByType<MoaiGolfCameraController>();
-            launchAnimator = FindAnyObjectByType<MoaiGolfLaunchAnimator>();
-            bgmController = FindAnyObjectByType<MoaiGolfBgmController>();
-            seController = FindAnyObjectByType<MoaiGolfSeController>();
+            gameController = controller;
+            runState = state;
+            stageView = view;
+            cameraController = cameraControl;
+            launchAnimator = animator;
+            bgmController = bgm;
+            seController = se;
+            ValidateReference(gameController, nameof(gameController));
+            ValidateReference(runState, nameof(runState));
+            ValidateReference(stageView, nameof(stageView));
+            ValidateReference(cameraController, nameof(cameraController));
+            ValidateReference(launchAnimator, nameof(launchAnimator));
+            ValidateReference(bgmController, nameof(bgmController));
+            ValidateReference(seController, nameof(seController));
         }
 
         private void Update()
@@ -91,7 +106,6 @@ namespace MoaiGolf
 
         private void ToggleOptionsMenu()
         {
-            gameController ??= FindAnyObjectByType<MoaiGolfGameController>();
             if (gameController != null && gameController.Phase == MoaiGolfGamePhase.Result && isMenuOpen)
             {
                 isMenuOpen = false;
@@ -236,7 +250,6 @@ namespace MoaiGolf
 
         private void DrawBgmVolumeSlider(Rect dialogRect, float sliderY)
         {
-            bgmController ??= FindAnyObjectByType<MoaiGolfBgmController>();
             DrawVolumeSlider(
                 dialogRect,
                 sliderY,
@@ -248,7 +261,6 @@ namespace MoaiGolf
 
         private void DrawSeVolumeSlider(Rect dialogRect, float sliderY)
         {
-            seController ??= FindAnyObjectByType<MoaiGolfSeController>();
             DrawVolumeSlider(
                 dialogRect,
                 sliderY,
@@ -410,7 +422,7 @@ namespace MoaiGolf
 
         private void Retry()
         {
-            if (!ResolveDependencies())
+            if (!ResolveDependencies() || !CanRestartRunFromHud())
             {
                 return;
             }
@@ -421,7 +433,7 @@ namespace MoaiGolf
 
         private void RerollAndRetry()
         {
-            if (!ResolveDependencies())
+            if (!ResolveDependencies() || !CanRestartRunFromHud())
             {
                 return;
             }
@@ -430,21 +442,22 @@ namespace MoaiGolf
             RebuildAfterRetry();
         }
 
+        private bool CanRestartRunFromHud()
+        {
+            return gameController.Phase == MoaiGolfGamePhase.Result
+                || gameController.Phase == MoaiGolfGamePhase.AngleSelect
+                || gameController.Phase == MoaiGolfGamePhase.PowerSelect;
+        }
+
         private bool ResolveDependencies()
         {
-            gameController ??= FindAnyObjectByType<MoaiGolfGameController>();
-            runState ??= FindAnyObjectByType<MoaiGolfRunState>();
-            stageView ??= FindAnyObjectByType<MoaiGolfStageView>();
-            cameraController ??= FindAnyObjectByType<MoaiGolfCameraController>();
-            launchAnimator ??= FindAnyObjectByType<MoaiGolfLaunchAnimator>();
-            bgmController ??= FindAnyObjectByType<MoaiGolfBgmController>();
-            seController ??= FindAnyObjectByType<MoaiGolfSeController>();
-            return gameController != null && runState != null && stageView != null;
+            return ValidateReference(gameController, nameof(gameController))
+                && ValidateReference(runState, nameof(runState))
+                && ValidateReference(stageView, nameof(stageView));
         }
 
         private void ApplyBgmMenuDucking()
         {
-            bgmController ??= FindAnyObjectByType<MoaiGolfBgmController>();
             bgmController?.SetMenuDucked(isMenuOpen);
         }
 
@@ -462,6 +475,17 @@ namespace MoaiGolf
         private void BlockWorldInputBriefly()
         {
             blockWorldInputUntilFrame = Time.frameCount + 1;
+        }
+
+        private bool ValidateReference(UnityEngine.Object reference, string fieldName)
+        {
+            if (reference != null)
+            {
+                return true;
+            }
+
+            Debug.LogError($"{nameof(MoaiGolfHud)} missing serialized reference: {fieldName}.", this);
+            return false;
         }
     }
 }

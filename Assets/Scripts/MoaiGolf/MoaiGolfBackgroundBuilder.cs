@@ -59,6 +59,13 @@ namespace MoaiGolf
             importer.mipmapEnabled = false;
             importer.maxTextureSize = 8192;
             importer.textureCompression = TextureImporterCompression.Uncompressed;
+            importer.spritePixelsToUnits = MoaiGolfWorldSettings.PixelsPerUnit;
+
+            var settings = new TextureImporterSettings();
+            importer.ReadTextureSettings(settings);
+            settings.spriteAlignment = (int)SpriteAlignment.BottomLeft;
+            settings.spritePivot = Vector2.zero;
+            importer.SetTextureSettings(settings);
             importer.SaveAndReimport();
         }
 #endif

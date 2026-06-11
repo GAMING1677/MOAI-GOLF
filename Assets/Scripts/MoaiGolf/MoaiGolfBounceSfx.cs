@@ -12,9 +12,16 @@ namespace MoaiGolf
 
         private AudioSource sfxAudioSource;
         private AudioClip bounceClip;
+        private ResourceRequest bounceClipRequest;
         private MoaiGolfGameController gameController;
         private MoaiGolfSeController seController;
         private float lastPlayedTime = float.NegativeInfinity;
+
+        public void ConfigureDependencies(MoaiGolfGameController controller, MoaiGolfSeController se)
+        {
+            gameController = controller;
+            seController = se;
+        }
 
         private void Awake()
         {
@@ -41,22 +48,45 @@ namespace MoaiGolf
                 return;
             }
 
-            gameController ??= FindAnyObjectByType<MoaiGolfGameController>();
             if (gameController == null || gameController.Phase != MoaiGolfGamePhase.Flying)
             {
                 return;
             }
 
-            bounceClip ??= Resources.Load<AudioClip>(BounceResourcePath);
-            seController ??= FindAnyObjectByType<MoaiGolfSeController>();
-            if (sfxAudioSource == null || bounceClip == null)
+            var clip = GetLoadedBounceClip();
+            if (sfxAudioSource == null || clip == null)
             {
                 return;
             }
 
             var seVolume = seController != null ? seController.Volume : MoaiGolfSeController.DefaultVolume;
-            sfxAudioSource.PlayOneShot(bounceClip, BounceVolume * seVolume);
+            sfxAudioSource.PlayOneShot(clip, BounceVolume * seVolume);
             lastPlayedTime = Time.unscaledTime;
+        }
+
+        public void PreloadBounceClip()
+        {
+            if (bounceClip == null && bounceClipRequest == null)
+            {
+                bounceClipRequest = Resources.LoadAsync<AudioClip>(BounceResourcePath);
+            }
+        }
+
+        private AudioClip GetLoadedBounceClip()
+        {
+            if (bounceClip != null)
+            {
+                return bounceClip;
+            }
+
+            if (bounceClipRequest == null || !bounceClipRequest.isDone)
+            {
+                return null;
+            }
+
+            bounceClip = bounceClipRequest.asset as AudioClip;
+            bounceClipRequest = null;
+            return bounceClip;
         }
     }
 }

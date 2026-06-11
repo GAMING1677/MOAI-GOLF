@@ -5,21 +5,36 @@ namespace MoaiGolf
 {
     public sealed class MoaiGolfBootstrap : MonoBehaviour
     {
-        // Empty-scene fallback only. Prefer placing game systems on Scene/Prefab and wiring them in Awake.
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-        private static void EnsureBootstrap()
-        {
-            if (FindAnyObjectByType<MoaiGolfBootstrap>() != null)
-            {
-                return;
-            }
+        [SerializeField] private Camera mainCamera;
+        [SerializeField] private MoaiGolfRunState runState;
+        [SerializeField] private MoaiGolfStageView stageView;
+        [SerializeField] private MoaiGolfGameController gameController;
+        [SerializeField] private MoaiGolfMouseAngleInput mouseAngleInput;
+        [SerializeField] private MoaiGolfMousePowerInput mousePowerInput;
+        [SerializeField] private MoaiGolfCameraController cameraController;
+        [SerializeField] private MoaiGolfBgmController bgmController;
+        [SerializeField] private MoaiGolfSeController seController;
+        [SerializeField] private MoaiGolfHud hud;
+        [SerializeField] private MoaiGolfGuideOverlay guideOverlay;
+        [SerializeField] private MoaiGolfLaunchAnimator launchAnimator;
 
-            var bootstrapObject = new GameObject(nameof(MoaiGolfBootstrap));
-            bootstrapObject.AddComponent<MoaiGolfBootstrap>();
+        private void Reset()
+        {
+            RefreshSerializedReferencesForEditor(mainCamera, stageView, bgmController);
+        }
+
+        private void OnValidate()
+        {
+            RefreshSerializedReferencesForEditor(mainCamera, stageView, bgmController);
         }
 
         private void Awake()
         {
+            if (!ValidateReferences())
+            {
+                return;
+            }
+
             Screen.orientation = ScreenOrientation.LandscapeLeft;
             Screen.autorotateToPortrait = false;
             Screen.autorotateToPortraitUpsideDown = false;
@@ -33,32 +48,10 @@ namespace MoaiGolf
 
             ApplyPhysicsBaseline();
             ApplyCameraBaseline();
-            var runState = EnsureRunState();
-            EnsureGameController();
-            EnsureMouseInput();
-            EnsureCameraController();
-            EnsureBgmController();
-            EnsureSeController();
-            EnsureHud();
-            EnsureGuideOverlay();
-            EnsureLaunchAnimator();
-            EnsureStageView(runState);
-        }
-
-        private void EnsureGuideOverlay()
-        {
-            if (FindAnyObjectByType<MoaiGolfGuideOverlay>() == null)
-            {
-                gameObject.AddComponent<MoaiGolfGuideOverlay>();
-            }
-        }
-
-        private void EnsureLaunchAnimator()
-        {
-            if (FindAnyObjectByType<MoaiGolfLaunchAnimator>() == null)
-            {
-                gameObject.AddComponent<MoaiGolfLaunchAnimator>();
-            }
+            ConfigureDependencies();
+            runState.InitializeNewRun(MoaiGolfStageDefinition.CreateFirstStage());
+            stageView.Build(runState);
+            cameraController.FocusOnLaunchArea();
         }
 
         private static void ApplyPhysicsBaseline()
@@ -67,17 +60,8 @@ namespace MoaiGolf
             Time.fixedDeltaTime = MoaiGolfWorldSettings.FixedTimestep;
         }
 
-        private static void ApplyCameraBaseline()
+        private void ApplyCameraBaseline()
         {
-            var mainCamera = Camera.main;
-            if (mainCamera == null)
-            {
-                var cameraObject = new GameObject("Main Camera");
-                cameraObject.tag = "MainCamera";
-                mainCamera = cameraObject.AddComponent<Camera>();
-                cameraObject.AddComponent<AudioListener>();
-            }
-
             mainCamera.orthographic = true;
             mainCamera.orthographicSize = MoaiGolfWorldSettings.CameraOrthographicSize;
             mainCamera.transform.position = new Vector3(
@@ -88,82 +72,65 @@ namespace MoaiGolf
             mainCamera.backgroundColor = new Color(0.19f, 0.3f, 0.47f);
         }
 
-        private MoaiGolfRunState EnsureRunState()
+        private void ConfigureDependencies()
         {
-            var runState = FindAnyObjectByType<MoaiGolfRunState>();
-            if (runState == null)
-            {
-                runState = gameObject.AddComponent<MoaiGolfRunState>();
-            }
-
-            runState.InitializeNewRun(MoaiGolfStageDefinition.CreateFirstStage());
-            return runState;
+            gameController.ConfigureDependencies(seController);
+            stageView.ConfigureDependencies(gameController, seController);
+            cameraController.ConfigureDependencies(mainCamera, gameController, stageView, launchAnimator, hud);
+            guideOverlay.ConfigureDependencies(mainCamera, gameController, runState, stageView);
+            launchAnimator.ConfigureDependencies(mainCamera, gameController, runState, stageView, seController);
+            hud.ConfigureDependencies(gameController, runState, stageView, cameraController, launchAnimator, bgmController, seController);
+            mouseAngleInput.ConfigureDependencies(mainCamera, gameController, runState, hud, cameraController);
+            mousePowerInput.ConfigureDependencies(mainCamera, gameController, runState, stageView, launchAnimator, hud, cameraController);
         }
 
-        private void EnsureStageView(MoaiGolfRunState runState)
+        private bool ValidateReferences()
         {
-            var stageView = FindAnyObjectByType<MoaiGolfStageView>();
-            if (stageView == null)
-            {
-                var stageObject = new GameObject(nameof(MoaiGolfStageView));
-                stageView = stageObject.AddComponent<MoaiGolfStageView>();
-            }
-
-            stageView.Build(runState);
-            FindAnyObjectByType<MoaiGolfCameraController>()?.FocusOnLaunchArea();
+            var isValid = true;
+            isValid &= ValidateReference(mainCamera, nameof(mainCamera));
+            isValid &= ValidateReference(runState, nameof(runState));
+            isValid &= ValidateReference(stageView, nameof(stageView));
+            isValid &= ValidateReference(gameController, nameof(gameController));
+            isValid &= ValidateReference(mouseAngleInput, nameof(mouseAngleInput));
+            isValid &= ValidateReference(mousePowerInput, nameof(mousePowerInput));
+            isValid &= ValidateReference(cameraController, nameof(cameraController));
+            isValid &= ValidateReference(bgmController, nameof(bgmController));
+            isValid &= ValidateReference(seController, nameof(seController));
+            isValid &= ValidateReference(hud, nameof(hud));
+            isValid &= ValidateReference(guideOverlay, nameof(guideOverlay));
+            isValid &= ValidateReference(launchAnimator, nameof(launchAnimator));
+            return isValid;
         }
 
-        private void EnsureGameController()
+        private bool ValidateReference(UnityEngine.Object reference, string fieldName)
         {
-            if (FindAnyObjectByType<MoaiGolfGameController>() == null)
+            if (reference != null)
             {
-                gameObject.AddComponent<MoaiGolfGameController>();
+                return true;
             }
+
+            Debug.LogError($"{nameof(MoaiGolfBootstrap)} missing serialized reference: {fieldName}.", this);
+            return false;
         }
 
-        private void EnsureMouseInput()
+        public void RefreshSerializedReferencesForEditor(
+            Camera camera,
+            MoaiGolfStageView view,
+            MoaiGolfBgmController bgm
+        )
         {
-            if (FindAnyObjectByType<MoaiGolfMouseAngleInput>() == null)
-            {
-                gameObject.AddComponent<MoaiGolfMouseAngleInput>();
-            }
-
-            if (FindAnyObjectByType<MoaiGolfMousePowerInput>() == null)
-            {
-                gameObject.AddComponent<MoaiGolfMousePowerInput>();
-            }
-        }
-
-        private void EnsureHud()
-        {
-            if (FindAnyObjectByType<MoaiGolfHud>() == null)
-            {
-                gameObject.AddComponent<MoaiGolfHud>();
-            }
-        }
-
-        private void EnsureBgmController()
-        {
-            if (FindAnyObjectByType<MoaiGolfBgmController>() == null)
-            {
-                gameObject.AddComponent<MoaiGolfBgmController>();
-            }
-        }
-
-        private void EnsureSeController()
-        {
-            if (FindAnyObjectByType<MoaiGolfSeController>() == null)
-            {
-                gameObject.AddComponent<MoaiGolfSeController>();
-            }
-        }
-
-        private void EnsureCameraController()
-        {
-            if (FindAnyObjectByType<MoaiGolfCameraController>() == null)
-            {
-                gameObject.AddComponent<MoaiGolfCameraController>();
-            }
+            mainCamera = camera;
+            stageView = view;
+            bgmController = bgm;
+            runState = GetComponent<MoaiGolfRunState>();
+            gameController = GetComponent<MoaiGolfGameController>();
+            mouseAngleInput = GetComponent<MoaiGolfMouseAngleInput>();
+            mousePowerInput = GetComponent<MoaiGolfMousePowerInput>();
+            cameraController = GetComponent<MoaiGolfCameraController>();
+            seController = GetComponent<MoaiGolfSeController>();
+            hud = GetComponent<MoaiGolfHud>();
+            guideOverlay = GetComponent<MoaiGolfGuideOverlay>();
+            launchAnimator = GetComponent<MoaiGolfLaunchAnimator>();
         }
     }
 
@@ -177,11 +144,11 @@ namespace MoaiGolf
         private const float DragStartThresholdPixels = 6f;
         private const float FollowLerp = 5f;
 
-        private Camera mainCamera;
-        private MoaiGolfGameController gameController;
-        private MoaiGolfStageView stageView;
-        private MoaiGolfLaunchAnimator launchAnimator;
-        private MoaiGolfHud hud;
+        [SerializeField] private Camera mainCamera;
+        [SerializeField] private MoaiGolfGameController gameController;
+        [SerializeField] private MoaiGolfStageView stageView;
+        [SerializeField] private MoaiGolfLaunchAnimator launchAnimator;
+        [SerializeField] private MoaiGolfHud hud;
         private Vector3 lastMousePosition;
         private Vector3 dragStartMousePosition;
         private bool isDragging;
@@ -189,6 +156,26 @@ namespace MoaiGolf
         private bool isLeftDragPending;
 
         public bool IsPointerPanning => isDragging;
+
+        public void ConfigureDependencies(
+            Camera camera,
+            MoaiGolfGameController controller,
+            MoaiGolfStageView view,
+            MoaiGolfLaunchAnimator animator,
+            MoaiGolfHud hudController
+        )
+        {
+            mainCamera = camera;
+            gameController = controller;
+            stageView = view;
+            launchAnimator = animator;
+            hud = hudController;
+            ValidateReference(mainCamera, nameof(mainCamera));
+            ValidateReference(gameController, nameof(gameController));
+            ValidateReference(stageView, nameof(stageView));
+            ValidateReference(launchAnimator, nameof(launchAnimator));
+            ValidateReference(hud, nameof(hud));
+        }
 
         public static Vector3 ResolveLaunchGameplayCameraPosition(MoaiGolfStageView stageView)
         {
@@ -254,32 +241,26 @@ namespace MoaiGolf
 
         private void Start()
         {
-            mainCamera = Camera.main;
-            gameController = FindAnyObjectByType<MoaiGolfGameController>();
-            stageView = FindAnyObjectByType<MoaiGolfStageView>();
-            launchAnimator = FindAnyObjectByType<MoaiGolfLaunchAnimator>();
-            hud = FindAnyObjectByType<MoaiGolfHud>();
             FocusOnLaunchArea();
         }
 
         public void FocusOnLaunchArea()
         {
-            mainCamera ??= Camera.main;
             if (mainCamera == null)
             {
+                Debug.LogError($"{nameof(MoaiGolfCameraController)} missing serialized reference: {nameof(mainCamera)}.", this);
                 return;
             }
 
-            stageView ??= FindAnyObjectByType<MoaiGolfStageView>();
             mainCamera.transform.position = ResolveLaunchGameplayCameraPosition(stageView);
             ClampCamera();
         }
 
         public void ResetToInitial()
         {
-            mainCamera ??= Camera.main;
             if (mainCamera == null)
             {
+                Debug.LogError($"{nameof(MoaiGolfCameraController)} missing serialized reference: {nameof(mainCamera)}.", this);
                 return;
             }
 
@@ -295,11 +276,6 @@ namespace MoaiGolf
             {
                 return;
             }
-
-            stageView ??= FindAnyObjectByType<MoaiGolfStageView>();
-            gameController ??= FindAnyObjectByType<MoaiGolfGameController>();
-            launchAnimator ??= FindAnyObjectByType<MoaiGolfLaunchAnimator>();
-            hud ??= FindAnyObjectByType<MoaiGolfHud>();
 
             // 射出アニメ中はアニメーターがカメラを直接操作するので何もしない
             if (launchAnimator != null && launchAnimator.IsPlaying)
@@ -471,5 +447,17 @@ namespace MoaiGolf
             MoaiGolfGamePhase? phase = gameController != null ? gameController.Phase : null;
             mainCamera.transform.position = ClampCameraPosition(mainCamera.transform.position, phase, stageView);
         }
+
+        private bool ValidateReference(UnityEngine.Object reference, string fieldName)
+        {
+            if (reference != null)
+            {
+                return true;
+            }
+
+            Debug.LogError($"{nameof(MoaiGolfCameraController)} missing serialized reference: {fieldName}.", this);
+            return false;
+        }
     }
 }
+

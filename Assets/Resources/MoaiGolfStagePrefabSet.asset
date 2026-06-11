@@ -14,6 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStagePrefabSet
   launchMoaiPrefab: {fileID: 6345471154412690676, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
   targetMoaiPrefab: {fileID: 547761727623884488, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+  targetMoaiPrefabsByKind:
+  - {fileID: 547761727623884488, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+  - {fileID: 7959447490344865293, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+  - {fileID: 6085828732903316517, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+  - {fileID: 4232427024110971287, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
   launchPedestalPrefab: {fileID: 7021792254082963262, guid: 67a7511714205734abfbdb81a904d656, type: 3}
   targetPedestalPrefab: {fileID: 922859006647116223, guid: ddcb7e6949679704cbe23b2678c54557, type: 3}
   terrainColliderPrefab: {fileID: 5894108808096225215, guid: 1f257fc6444c9a6468e695e68abc8403, type: 3}

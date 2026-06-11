@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace MoaiGolf
@@ -5,25 +6,23 @@ namespace MoaiGolf
     public static class MoaiGolfMoaiSpecRegistry
     {
         private const string ResourceFolder = "MoaiGolf/Specs";
-        private static MoaiGolfMoaiSpecAsset[] cachedAssets;
+        private static readonly Dictionary<MoaiGolfMoaiKind, MoaiGolfMoaiSpecAsset> cachedAssets = new();
+        private static readonly HashSet<MoaiGolfMoaiKind> loadedKinds = new();
 
         public static MoaiGolfMoaiSpecAsset GetAsset(MoaiGolfMoaiKind kind)
         {
-            EnsureLoaded();
-            if (cachedAssets == null)
+            if (!loadedKinds.Contains(kind))
             {
-                return null;
-            }
-
-            foreach (var asset in cachedAssets)
-            {
+                var asset = Resources.Load<MoaiGolfMoaiSpecAsset>(GetResourcePath(kind));
                 if (asset != null && asset.Kind == kind)
                 {
-                    return asset;
+                    cachedAssets[kind] = asset;
                 }
+
+                loadedKinds.Add(kind);
             }
 
-            return null;
+            return cachedAssets.TryGetValue(kind, out var cachedAsset) ? cachedAsset : null;
         }
 
         public static MoaiGolfMoaiSpec GetSpec(MoaiGolfMoaiKind kind)
@@ -47,14 +46,18 @@ namespace MoaiGolf
 #endif
         }
 
-        private static void EnsureLoaded()
+        private static string GetResourcePath(MoaiGolfMoaiKind kind)
         {
-            if (cachedAssets != null)
+            var fileName = kind switch
             {
-                return;
-            }
+                MoaiGolfMoaiKind.Sunglasses => "Sunglasses",
+                MoaiGolfMoaiKind.Ribbon => "Ribbon",
+                MoaiGolfMoaiKind.Macho => "Macho",
+                MoaiGolfMoaiKind.Snowman => "Snowman",
+                _ => "Sunglasses"
+            };
 
-            cachedAssets = Resources.LoadAll<MoaiGolfMoaiSpecAsset>(ResourceFolder);
+            return $"{ResourceFolder}/{fileName}";
         }
     }
 }

@@ -155,49 +155,27 @@ namespace MoaiGolf
 
         private void EnsureLaunchComponents()
         {
-            EnsureComponent<MoaiGolfBounceSfx>();
-            EnsureComponent<MoaiGolfTargetMoaiVoiceSfx>();
-            EnsureComponent<MoaiGolfWorldBoundsBounce>();
-            EnsureComponent<MoaiGolfLandingJudge>();
-            RemoveComponent<MoaiGolfTargetMoaiMarker>();
+            RequireComponent<MoaiGolfBounceSfx>();
+            RequireComponent<MoaiGolfTargetMoaiVoiceSfx>();
+            RequireComponent<MoaiGolfWorldBoundsBounce>();
+            RequireComponent<MoaiGolfLandingJudge>();
         }
 
         private void EnsureTargetComponents()
         {
-            EnsureComponent<MoaiGolfTargetMoaiMarker>();
-            RemoveComponent<MoaiGolfBounceSfx>();
-            RemoveComponent<MoaiGolfTargetMoaiVoiceSfx>();
-            RemoveComponent<MoaiGolfWorldBoundsBounce>();
-            RemoveComponent<MoaiGolfLandingJudge>();
+            RequireComponent<MoaiGolfTargetMoaiMarker>();
         }
 
-        private T EnsureComponent<T>() where T : Component
+        private bool RequireComponent<T>() where T : Component
         {
             var component = GetComponent<T>();
             if (component != null)
             {
-                return component;
+                return true;
             }
 
-            return gameObject.AddComponent<T>();
-        }
-
-        private void RemoveComponent<T>() where T : Component
-        {
-            var component = GetComponent<T>();
-            if (component == null)
-            {
-                return;
-            }
-
-#if UNITY_EDITOR
-            if (!Application.isPlaying)
-            {
-                DestroyImmediate(component);
-                return;
-            }
-#endif
-            Destroy(component);
+            Debug.LogError($"{name} requires a {typeof(T).Name} component assigned on its prefab or scene object.", this);
+            return false;
         }
     }
 }

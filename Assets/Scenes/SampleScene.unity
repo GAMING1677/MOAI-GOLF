@@ -119,428 +119,25 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &26485263
+--- !u!1001 &101962029
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1577339841}
+    m_TransformParent: {fileID: 2137184728}
     m_Modifications:
-    - target: {fileID: 3733326571793960894, guid: 45874cb2ec0bbc0438a9481748a01b8c, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.5298866
-      objectReference: {fileID: 0}
-    - target: {fileID: 3733326571793960894, guid: 45874cb2ec0bbc0438a9481748a01b8c, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.9467828
-      objectReference: {fileID: 0}
-    - target: {fileID: 3733326571793960894, guid: 45874cb2ec0bbc0438a9481748a01b8c, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 31.130001
-      objectReference: {fileID: 0}
-    - target: {fileID: 3733326571793960894, guid: 45874cb2ec0bbc0438a9481748a01b8c, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 9.110001
-      objectReference: {fileID: 0}
-    - target: {fileID: 3733326571793960894, guid: 45874cb2ec0bbc0438a9481748a01b8c, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3733326571793960894, guid: 45874cb2ec0bbc0438a9481748a01b8c, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3733326571793960894, guid: 45874cb2ec0bbc0438a9481748a01b8c, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3733326571793960894, guid: 45874cb2ec0bbc0438a9481748a01b8c, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3733326571793960894, guid: 45874cb2ec0bbc0438a9481748a01b8c, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3733326571793960894, guid: 45874cb2ec0bbc0438a9481748a01b8c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3733326571793960894, guid: 45874cb2ec0bbc0438a9481748a01b8c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3733326571793960894, guid: 45874cb2ec0bbc0438a9481748a01b8c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4805609605063210215, guid: 45874cb2ec0bbc0438a9481748a01b8c, type: 3}
-      propertyPath: m_Name
-      value: AimMarker
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4805609605063210215, guid: 45874cb2ec0bbc0438a9481748a01b8c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 26485266}
-  m_SourcePrefab: {fileID: 100100000, guid: 45874cb2ec0bbc0438a9481748a01b8c, type: 3}
---- !u!4 &26485264 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3733326571793960894, guid: 45874cb2ec0bbc0438a9481748a01b8c, type: 3}
-  m_PrefabInstance: {fileID: 26485263}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &26485265 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4805609605063210215, guid: 45874cb2ec0bbc0438a9481748a01b8c, type: 3}
-  m_PrefabInstance: {fileID: 26485263}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &26485266
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 26485265}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
-  kind: 5
-  slotIndex: 0
---- !u!1001 &103999035
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1577339841}
-    m_Modifications:
-    - target: {fileID: 2924656336815334380, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 2.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 2924656336815334380, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 5.133169
-      objectReference: {fileID: 0}
-    - target: {fileID: 2924656336815334380, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2924656336815334380, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2924656336815334380, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2924656336815334380, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2924656336815334380, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2924656336815334380, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2924656336815334380, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2924656336815334380, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4207147296667964990, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4207147296667964990, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.041999996
-      objectReference: {fileID: 0}
-    - target: {fileID: 6345471154412690676, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
-      propertyPath: m_Name
-      value: Launch Moai
-      objectReference: {fileID: 0}
-    - target: {fileID: 8714615613008452972, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
-      propertyPath: m_Size.x
-      value: 0.85
-      objectReference: {fileID: 0}
-    - target: {fileID: 8714615613008452972, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
-      propertyPath: m_Size.y
-      value: 1.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 8714615613008452972, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 1884236190}
-    - target: {fileID: 8714615613008452972, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
-      propertyPath: m_Offset.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8714615613008452972, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
-      propertyPath: m_Offset.y
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6345471154412690676, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 103999038}
-  m_SourcePrefab: {fileID: 100100000, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
---- !u!4 &103999036 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2924656336815334380, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
-  m_PrefabInstance: {fileID: 103999035}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &103999037 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6345471154412690676, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
-  m_PrefabInstance: {fileID: 103999035}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &103999038
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 103999037}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
-  kind: 7
-  slotIndex: 0
---- !u!1001 &187067688
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1577339841}
-    m_Modifications:
-    - target: {fileID: 2641848113778611610, guid: db2b6e1e9a7f72e44b82eb3cd9e0ddcd, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 3.66
-      objectReference: {fileID: 0}
-    - target: {fileID: 2641848113778611610, guid: db2b6e1e9a7f72e44b82eb3cd9e0ddcd, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 6.1660004
-      objectReference: {fileID: 0}
-    - target: {fileID: 2641848113778611610, guid: db2b6e1e9a7f72e44b82eb3cd9e0ddcd, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2641848113778611610, guid: db2b6e1e9a7f72e44b82eb3cd9e0ddcd, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.5000001
-      objectReference: {fileID: 0}
-    - target: {fileID: 2641848113778611610, guid: db2b6e1e9a7f72e44b82eb3cd9e0ddcd, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2641848113778611610, guid: db2b6e1e9a7f72e44b82eb3cd9e0ddcd, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2641848113778611610, guid: db2b6e1e9a7f72e44b82eb3cd9e0ddcd, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.8660253
-      objectReference: {fileID: 0}
-    - target: {fileID: 2641848113778611610, guid: db2b6e1e9a7f72e44b82eb3cd9e0ddcd, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2641848113778611610, guid: db2b6e1e9a7f72e44b82eb3cd9e0ddcd, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2641848113778611610, guid: db2b6e1e9a7f72e44b82eb3cd9e0ddcd, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4101163047471847699, guid: db2b6e1e9a7f72e44b82eb3cd9e0ddcd, type: 3}
-      propertyPath: m_Name
-      value: GolfClubPivot
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4101163047471847699, guid: db2b6e1e9a7f72e44b82eb3cd9e0ddcd, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 187067691}
-  m_SourcePrefab: {fileID: 100100000, guid: db2b6e1e9a7f72e44b82eb3cd9e0ddcd, type: 3}
---- !u!4 &187067689 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2641848113778611610, guid: db2b6e1e9a7f72e44b82eb3cd9e0ddcd, type: 3}
-  m_PrefabInstance: {fileID: 187067688}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &187067690 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4101163047471847699, guid: db2b6e1e9a7f72e44b82eb3cd9e0ddcd, type: 3}
-  m_PrefabInstance: {fileID: 187067688}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &187067691
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 187067690}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
-  kind: 6
-  slotIndex: 0
---- !u!1 &262916802
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 262916803}
-  - component: {fileID: 262916804}
-  m_Layer: 0
-  m_Name: daiza
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &262916803
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 262916802}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.426, y: 2.8539999, z: 0}
-  m_LocalScale: {x: 4.562214, y: 1.4708719, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1577339841}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &262916804
-SpriteRenderer:
-  serializedVersion: 2
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 262916802}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 0
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_MaskInteraction: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_SpriteSortPoint: 0
---- !u!1001 &493195577
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1577339841}
-    m_Modifications:
-    - target: {fileID: 540238135468364227, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.35
-      objectReference: {fileID: 0}
-    - target: {fileID: 540238135468364227, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.48
-      objectReference: {fileID: 0}
-    - target: {fileID: 540238135468364227, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.21
-      objectReference: {fileID: 0}
     - target: {fileID: 547761727623884488, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
       propertyPath: m_Name
-      value: Target Moai Macho
+      value: Target Moai Sunglasses 02
       objectReference: {fileID: 0}
-    - target: {fileID: 1155988266276105427, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-      propertyPath: m_Size.x
-      value: 1.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 1155988266276105427, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-      propertyPath: m_Size.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4095792416522368124, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 5669107140713340431, guid: 9be93b04c5db86b448519053993579a3, type: 3}
     - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 34.129997
+      value: 30.168
       objectReference: {fileID: 0}
     - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.750111
+      value: 8.2614
       objectReference: {fileID: 0}
     - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
       propertyPath: m_LocalPosition.z
@@ -573,10 +170,6 @@ PrefabInstance:
     - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4779795909499324541, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-      propertyPath: m_Mass
-      value: 1.35
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -584,32 +177,380 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 547761727623884488, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 493195580}
+      addedObject: {fileID: 101962032}
   m_SourcePrefab: {fileID: 100100000, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
---- !u!4 &493195578 stripped
+--- !u!4 &101962030 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-  m_PrefabInstance: {fileID: 493195577}
+  m_PrefabInstance: {fileID: 101962029}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &493195579 stripped
+--- !u!1 &101962031 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 547761727623884488, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-  m_PrefabInstance: {fileID: 493195577}
+  m_PrefabInstance: {fileID: 101962029}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &493195580
+--- !u!114 &101962032
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 493195579}
+  m_GameObject: {fileID: 101962031}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
   kind: 8
-  slotIndex: 4
+  slotIndex: 1
+--- !u!1001 &151934885
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2137184728}
+    m_Modifications:
+    - target: {fileID: 2794390174621508567, guid: d8212f911811b634f9fb206320b81609, type: 3}
+      propertyPath: m_Name
+      value: BackgroundVisual
+      objectReference: {fileID: 0}
+    - target: {fileID: 5958658430097357893, guid: d8212f911811b634f9fb206320b81609, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5958658430097357893, guid: d8212f911811b634f9fb206320b81609, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5958658430097357893, guid: d8212f911811b634f9fb206320b81609, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5958658430097357893, guid: d8212f911811b634f9fb206320b81609, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5958658430097357893, guid: d8212f911811b634f9fb206320b81609, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5958658430097357893, guid: d8212f911811b634f9fb206320b81609, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5958658430097357893, guid: d8212f911811b634f9fb206320b81609, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5958658430097357893, guid: d8212f911811b634f9fb206320b81609, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5958658430097357893, guid: d8212f911811b634f9fb206320b81609, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5958658430097357893, guid: d8212f911811b634f9fb206320b81609, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2794390174621508567, guid: d8212f911811b634f9fb206320b81609, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 151934888}
+  m_SourcePrefab: {fileID: 100100000, guid: d8212f911811b634f9fb206320b81609, type: 3}
+--- !u!4 &151934886 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5958658430097357893, guid: d8212f911811b634f9fb206320b81609, type: 3}
+  m_PrefabInstance: {fileID: 151934885}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &151934887 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2794390174621508567, guid: d8212f911811b634f9fb206320b81609, type: 3}
+  m_PrefabInstance: {fileID: 151934885}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &151934888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 151934887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
+  kind: 0
+  slotIndex: 0
+--- !u!1001 &369175843
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2137184728}
+    m_Modifications:
+    - target: {fileID: 2924656336815334380, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924656336815334380, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.076
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924656336815334380, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924656336815334380, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924656336815334380, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924656336815334380, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924656336815334380, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924656336815334380, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924656336815334380, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2924656336815334380, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6345471154412690676, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
+      propertyPath: m_Name
+      value: Launch Moai
+      objectReference: {fileID: 0}
+    - target: {fileID: 8714615613008452972, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 1941384191}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6345471154412690676, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 369175846}
+  m_SourcePrefab: {fileID: 100100000, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
+--- !u!4 &369175844 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2924656336815334380, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
+  m_PrefabInstance: {fileID: 369175843}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &369175845 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6345471154412690676, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
+  m_PrefabInstance: {fileID: 369175843}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &369175846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 369175845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
+  kind: 7
+  slotIndex: 0
+--- !u!1001 &403469108
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2137184728}
+    m_Modifications:
+    - target: {fileID: 4232427024110971287, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_Name
+      value: Target Moai Snowman 03
+      objectReference: {fileID: 0}
+    - target: {fileID: 4232427024110971287, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 51.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -13
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4232427024110971287, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 403469111}
+  m_SourcePrefab: {fileID: 100100000, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+--- !u!4 &403469109 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+  m_PrefabInstance: {fileID: 403469108}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &403469110 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4232427024110971287, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+  m_PrefabInstance: {fileID: 403469108}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &403469111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 403469110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
+  kind: 8
+  slotIndex: 17
+--- !u!1001 &487549518
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2137184728}
+    m_Modifications:
+    - target: {fileID: 547761727623884488, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_Name
+      value: Target Moai Sunglasses 04
+      objectReference: {fileID: 0}
+    - target: {fileID: 547761727623884488, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 52.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 547761727623884488, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 487549521}
+  m_SourcePrefab: {fileID: 100100000, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+--- !u!4 &487549519 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+  m_PrefabInstance: {fileID: 487549518}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &487549520 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 547761727623884488, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+  m_PrefabInstance: {fileID: 487549518}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &487549521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 487549520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
+  kind: 8
+  slotIndex: 3
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -747,6 +688,178 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &601378930
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2137184728}
+    m_Modifications:
+    - target: {fileID: 547761727623884488, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_Name
+      value: Target Moai Sunglasses 03
+      objectReference: {fileID: 0}
+    - target: {fileID: 547761727623884488, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 51.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 547761727623884488, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 601378933}
+  m_SourcePrefab: {fileID: 100100000, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+--- !u!4 &601378931 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+  m_PrefabInstance: {fileID: 601378930}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &601378932 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 547761727623884488, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+  m_PrefabInstance: {fileID: 601378930}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &601378933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 601378932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
+  kind: 8
+  slotIndex: 2
+--- !u!1001 &611357392
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2137184728}
+    m_Modifications:
+    - target: {fileID: 6085828732903316517, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_Name
+      value: Target Moai Macho 01
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 29.169746
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 8.146975
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6085828732903316517, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 611357395}
+  m_SourcePrefab: {fileID: 100100000, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+--- !u!4 &611357393 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+  m_PrefabInstance: {fileID: 611357392}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &611357394 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6085828732903316517, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+  m_PrefabInstance: {fileID: 611357392}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &611357395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 611357394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
+  kind: 8
+  slotIndex: 10
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -831,6 +944,457 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &628098015
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2137184728}
+    m_Modifications:
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 28.328249
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 7.9569306
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7959447490344865293, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_Name
+      value: Target Moai Ribbon 01
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7959447490344865293, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 628098018}
+  m_SourcePrefab: {fileID: 100100000, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+--- !u!4 &628098016 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+  m_PrefabInstance: {fileID: 628098015}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &628098017 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7959447490344865293, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+  m_PrefabInstance: {fileID: 628098015}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &628098018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 628098017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
+  kind: 8
+  slotIndex: 5
+--- !u!1001 &688248275
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2137184728}
+    m_Modifications:
+    - target: {fileID: 4232427024110971287, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_Name
+      value: Target Moai Snowman 02
+      objectReference: {fileID: 0}
+    - target: {fileID: 4232427024110971287, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 49.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -13
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4232427024110971287, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 688248278}
+  m_SourcePrefab: {fileID: 100100000, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+--- !u!4 &688248276 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+  m_PrefabInstance: {fileID: 688248275}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &688248277 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4232427024110971287, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+  m_PrefabInstance: {fileID: 688248275}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &688248278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 688248277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
+  kind: 8
+  slotIndex: 16
+--- !u!1001 &840491414
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2137184728}
+    m_Modifications:
+    - target: {fileID: 4232427024110971287, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_Name
+      value: Target Moai Snowman 05
+      objectReference: {fileID: 0}
+    - target: {fileID: 4232427024110971287, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 54.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -13
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4232427024110971287, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 840491417}
+  m_SourcePrefab: {fileID: 100100000, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+--- !u!4 &840491415 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+  m_PrefabInstance: {fileID: 840491414}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &840491416 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4232427024110971287, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+  m_PrefabInstance: {fileID: 840491414}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &840491417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 840491416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
+  kind: 8
+  slotIndex: 19
+--- !u!115 &874784644
+MonoScript:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  serializedVersion: 7
+  m_DefaultReferences: {}
+  m_Icon: {fileID: 0}
+  m_Type: 0
+  m_ExecutionOrder: 0
+  m_ClassName: MoaiGolfCameraController
+  m_Namespace: MoaiGolf
+  m_AssemblyName: Assembly-CSharp
+--- !u!1001 &877155045
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2137184728}
+    m_Modifications:
+    - target: {fileID: 547761727623884488, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_Name
+      value: Target Moai Sunglasses 05
+      objectReference: {fileID: 0}
+    - target: {fileID: 547761727623884488, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 54.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 547761727623884488, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 877155048}
+  m_SourcePrefab: {fileID: 100100000, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+--- !u!4 &877155046 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+  m_PrefabInstance: {fileID: 877155045}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &877155047 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 547761727623884488, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+  m_PrefabInstance: {fileID: 877155045}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &877155048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 877155047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
+  kind: 8
+  slotIndex: 4
+--- !u!1001 &881514233
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2137184728}
+    m_Modifications:
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 54.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7959447490344865293, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_Name
+      value: Target Moai Ribbon 05
+      objectReference: {fileID: 0}
+    - target: {fileID: 7959447490344865293, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7959447490344865293, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 881514236}
+  m_SourcePrefab: {fileID: 100100000, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+--- !u!4 &881514234 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+  m_PrefabInstance: {fileID: 881514233}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &881514235 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7959447490344865293, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+  m_PrefabInstance: {fileID: 881514233}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &881514236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 881514235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
+  kind: 8
+  slotIndex: 9
 --- !u!1 &900100001
 GameObject:
   m_ObjectHideFlags: 0
@@ -877,7 +1441,95 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bgmClip: {fileID: 8300000, guid: cb31bf52e8048d44fac93563352e1c50, type: 3}
   volume: 0.2
---- !u!1 &1078628534
+--- !u!1001 &957617112
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2137184728}
+    m_Modifications:
+    - target: {fileID: 6085828732903316517, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_Name
+      value: Target Moai Macho 05
+      objectReference: {fileID: 0}
+    - target: {fileID: 6085828732903316517, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 54.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6085828732903316517, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 957617115}
+  m_SourcePrefab: {fileID: 100100000, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+--- !u!4 &957617113 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+  m_PrefabInstance: {fileID: 957617112}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &957617114 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6085828732903316517, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+  m_PrefabInstance: {fileID: 957617112}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &957617115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 957617114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
+  kind: 8
+  slotIndex: 14
+--- !u!1 &989242828
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -885,321 +1537,143 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1078628535}
-  - component: {fileID: 1078628536}
+  - component: {fileID: 989242829}
+  - component: {fileID: 989242830}
   m_Layer: 0
-  m_Name: GroundCollider
+  m_Name: Target Moai Slot 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1078628535
+--- !u!4 &989242829
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1078628534}
+  m_GameObject: {fileID: 989242828}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.21, y: 4.14, z: 0}
+  m_LocalPosition: {x: 31.33775, y: 8.79146, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1577339841}
+  m_Father: {fileID: 2137184728}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!60 &1078628536
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1078628534}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 17.867117, y: -0.17356205}
-      - {x: 16.033127, y: 1.1432385}
-      - {x: 14.03992, y: 0.93103504}
-      - {x: 12.31821, y: -0.032075405}
-      - {x: 8.991095, y: -0.1259613}
-      - {x: 8.393683, y: 0.48152542}
-      - {x: 0.0834226, y: 0.44694784}
-      - {x: -0.03606361, y: -4.0733695}
-      - {x: 8.196944, y: -4.0963583}
-      - {x: 38.252106, y: -4.0604515}
-      - {x: 38.246048, y: 0.20868158}
-      - {x: 34.45651, y: 1.925837}
-      - {x: 34.194637, y: 3.9715161}
-      - {x: 29.432997, y: 3.9186487}
-      - {x: 29.431627, y: 3.7288141}
-      - {x: 29.330437, y: 3.1117659}
-      - {x: 26.805996, y: 3.0367942}
-      - {x: 26.826624, y: 2.0324783}
-      - {x: 23.241705, y: 0.99735874}
-  m_UseDelaunayMesh: 1
---- !u!1001 &1182414862
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1577339841}
-    m_Modifications:
-    - target: {fileID: 922859006647116223, guid: ddcb7e6949679704cbe23b2678c54557, type: 3}
-      propertyPath: m_Name
-      value: TargetPedestal
-      objectReference: {fileID: 0}
-    - target: {fileID: 5469307854302595252, guid: ddcb7e6949679704cbe23b2678c54557, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5469307854302595252, guid: ddcb7e6949679704cbe23b2678c54557, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5469307854302595252, guid: ddcb7e6949679704cbe23b2678c54557, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5469307854302595252, guid: ddcb7e6949679704cbe23b2678c54557, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5469307854302595252, guid: ddcb7e6949679704cbe23b2678c54557, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5469307854302595252, guid: ddcb7e6949679704cbe23b2678c54557, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5469307854302595252, guid: ddcb7e6949679704cbe23b2678c54557, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5469307854302595252, guid: ddcb7e6949679704cbe23b2678c54557, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5469307854302595252, guid: ddcb7e6949679704cbe23b2678c54557, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5469307854302595252, guid: ddcb7e6949679704cbe23b2678c54557, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 922859006647116223, guid: ddcb7e6949679704cbe23b2678c54557, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1182414865}
-  m_SourcePrefab: {fileID: 100100000, guid: ddcb7e6949679704cbe23b2678c54557, type: 3}
---- !u!4 &1182414863 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5469307854302595252, guid: ddcb7e6949679704cbe23b2678c54557, type: 3}
-  m_PrefabInstance: {fileID: 1182414862}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1182414864 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 922859006647116223, guid: ddcb7e6949679704cbe23b2678c54557, type: 3}
-  m_PrefabInstance: {fileID: 1182414862}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1182414865
+--- !u!114 &989242830
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1182414864}
+  m_GameObject: {fileID: 989242828}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
-  kind: 3
-  slotIndex: 0
---- !u!1001 &1235857612
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1577339841}
-    m_Modifications:
-    - target: {fileID: 2794390174621508567, guid: d8212f911811b634f9fb206320b81609, type: 3}
-      propertyPath: m_Name
-      value: BackgroundVisual
-      objectReference: {fileID: 0}
-    - target: {fileID: 5958658430097357893, guid: d8212f911811b634f9fb206320b81609, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 19.349998
-      objectReference: {fileID: 0}
-    - target: {fileID: 5958658430097357893, guid: d8212f911811b634f9fb206320b81609, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 6.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 5958658430097357893, guid: d8212f911811b634f9fb206320b81609, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5958658430097357893, guid: d8212f911811b634f9fb206320b81609, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5958658430097357893, guid: d8212f911811b634f9fb206320b81609, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5958658430097357893, guid: d8212f911811b634f9fb206320b81609, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5958658430097357893, guid: d8212f911811b634f9fb206320b81609, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5958658430097357893, guid: d8212f911811b634f9fb206320b81609, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5958658430097357893, guid: d8212f911811b634f9fb206320b81609, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5958658430097357893, guid: d8212f911811b634f9fb206320b81609, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2794390174621508567, guid: d8212f911811b634f9fb206320b81609, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1235857615}
-  m_SourcePrefab: {fileID: 100100000, guid: d8212f911811b634f9fb206320b81609, type: 3}
---- !u!4 &1235857613 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5958658430097357893, guid: d8212f911811b634f9fb206320b81609, type: 3}
-  m_PrefabInstance: {fileID: 1235857612}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1235857614 stripped
+  kind: 9
+  slotIndex: 4
+--- !u!1 &1022696612
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 2794390174621508567, guid: d8212f911811b634f9fb206320b81609, type: 3}
-  m_PrefabInstance: {fileID: 1235857612}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1235857615
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1022696613}
+  - component: {fileID: 1022696614}
+  m_Layer: 0
+  m_Name: Target Moai Slot 3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1022696613
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1022696612}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 29.144249, y: 8.146975, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2137184728}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1022696614
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1235857614}
+  m_GameObject: {fileID: 1022696612}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
-  kind: 0
-  slotIndex: 0
---- !u!1001 &1427142492
+  kind: 9
+  slotIndex: 2
+--- !u!1001 &1029950583
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1577339841}
+    m_TransformParent: {fileID: 2137184728}
     m_Modifications:
-    - target: {fileID: 540238135468364227, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.67
-      objectReference: {fileID: 0}
-    - target: {fileID: 540238135468364227, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.59
-      objectReference: {fileID: 0}
-    - target: {fileID: 547761727623884488, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - target: {fileID: 6085828732903316517, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
       propertyPath: m_Name
-      value: Target Moai Sunglasses
+      value: Target Moai Macho 02
       objectReference: {fileID: 0}
-    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - target: {fileID: 6085828732903316517, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 27.25
+      value: 49.9
       objectReference: {fileID: 0}
-    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.277077
+      value: -12
       objectReference: {fileID: 0}
-    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
@@ -1207,91 +1681,87 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 547761727623884488, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 6085828732903316517, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1427142495}
-  m_SourcePrefab: {fileID: 100100000, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
---- !u!4 &1427142493 stripped
+      addedObject: {fileID: 1029950586}
+  m_SourcePrefab: {fileID: 100100000, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+--- !u!4 &1029950584 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-  m_PrefabInstance: {fileID: 1427142492}
+  m_CorrespondingSourceObject: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+  m_PrefabInstance: {fileID: 1029950583}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1427142494 stripped
+--- !u!1 &1029950585 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 547761727623884488, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-  m_PrefabInstance: {fileID: 1427142492}
+  m_CorrespondingSourceObject: {fileID: 6085828732903316517, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+  m_PrefabInstance: {fileID: 1029950583}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1427142495
+--- !u!114 &1029950586
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1427142494}
+  m_GameObject: {fileID: 1029950585}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
   kind: 8
-  slotIndex: 0
---- !u!1001 &1474335279
+  slotIndex: 11
+--- !u!1001 &1115312669
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1577339841}
+    m_TransformParent: {fileID: 2137184728}
     m_Modifications:
-    - target: {fileID: 540238135468364227, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.24
-      objectReference: {fileID: 0}
-    - target: {fileID: 540238135468364227, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.42
-      objectReference: {fileID: 0}
-    - target: {fileID: 547761727623884488, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - target: {fileID: 6085828732903316517, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
       propertyPath: m_Name
-      value: Target Moai Sunglasses
+      value: Target Moai Macho 04
       objectReference: {fileID: 0}
-    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - target: {fileID: 6085828732903316517, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 32.8475
+      value: 52.9
       objectReference: {fileID: 0}
-    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.138861
+      value: -12
       objectReference: {fileID: 0}
-    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
@@ -1299,41 +1769,351 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 547761727623884488, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 6085828732903316517, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1474335282}
-  m_SourcePrefab: {fileID: 100100000, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
---- !u!4 &1474335280 stripped
+      addedObject: {fileID: 1115312672}
+  m_SourcePrefab: {fileID: 100100000, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+--- !u!4 &1115312670 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-  m_PrefabInstance: {fileID: 1474335279}
+  m_CorrespondingSourceObject: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+  m_PrefabInstance: {fileID: 1115312669}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1474335281 stripped
+--- !u!1 &1115312671 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 547761727623884488, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-  m_PrefabInstance: {fileID: 1474335279}
+  m_CorrespondingSourceObject: {fileID: 6085828732903316517, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+  m_PrefabInstance: {fileID: 1115312669}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1474335282
+--- !u!114 &1115312672
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1474335281}
+  m_GameObject: {fileID: 1115312671}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
   kind: 8
+  slotIndex: 13
+--- !u!1001 &1145748584
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2137184728}
+    m_Modifications:
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 52.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7959447490344865293, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_Name
+      value: Target Moai Ribbon 04
+      objectReference: {fileID: 0}
+    - target: {fileID: 7959447490344865293, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7959447490344865293, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1145748587}
+  m_SourcePrefab: {fileID: 100100000, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+--- !u!4 &1145748585 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+  m_PrefabInstance: {fileID: 1145748584}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1145748586 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7959447490344865293, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+  m_PrefabInstance: {fileID: 1145748584}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1145748587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1145748586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
+  kind: 8
+  slotIndex: 8
+--- !u!1001 &1171696844
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2137184728}
+    m_Modifications:
+    - target: {fileID: 6085828732903316517, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_Name
+      value: Target Moai Macho 03
+      objectReference: {fileID: 0}
+    - target: {fileID: 6085828732903316517, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 51.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6085828732903316517, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1171696847}
+  m_SourcePrefab: {fileID: 100100000, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+--- !u!4 &1171696845 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8549305040705946538, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+  m_PrefabInstance: {fileID: 1171696844}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1171696846 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6085828732903316517, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
+  m_PrefabInstance: {fileID: 1171696844}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1171696847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1171696846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
+  kind: 8
+  slotIndex: 12
+--- !u!1 &1195235481
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1195235482}
+  - component: {fileID: 1195235483}
+  m_Layer: 0
+  m_Name: Target Moai Slot 4
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1195235482
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1195235481}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 30.168, y: 8.2614, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2137184728}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1195235483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1195235481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
+  kind: 9
   slotIndex: 3
---- !u!1001 &1474826230
+--- !u!1001 &1202665677
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1577339841}
+    m_TransformParent: {fileID: 2137184728}
+    m_Modifications:
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 49.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7959447490344865293, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_Name
+      value: Target Moai Ribbon 02
+      objectReference: {fileID: 0}
+    - target: {fileID: 7959447490344865293, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7959447490344865293, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1202665680}
+  m_SourcePrefab: {fileID: 100100000, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+--- !u!4 &1202665678 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+  m_PrefabInstance: {fileID: 1202665677}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1202665679 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7959447490344865293, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+  m_PrefabInstance: {fileID: 1202665677}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1202665680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1202665679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
+  kind: 8
+  slotIndex: 6
+--- !u!1001 &1283717441
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2137184728}
     m_Modifications:
     - target: {fileID: 606094312604115906, guid: b75ea50cf2668c34982ccde1c215320e, type: 3}
       propertyPath: m_Name
@@ -1385,25 +2165,25 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 606094312604115906, guid: b75ea50cf2668c34982ccde1c215320e, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1474826233}
+      addedObject: {fileID: 1283717444}
   m_SourcePrefab: {fileID: 100100000, guid: b75ea50cf2668c34982ccde1c215320e, type: 3}
---- !u!4 &1474826231 stripped
+--- !u!4 &1283717442 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8955021565909018866, guid: b75ea50cf2668c34982ccde1c215320e, type: 3}
-  m_PrefabInstance: {fileID: 1474826230}
+  m_PrefabInstance: {fileID: 1283717441}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1474826232 stripped
+--- !u!1 &1283717443 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 606094312604115906, guid: b75ea50cf2668c34982ccde1c215320e, type: 3}
-  m_PrefabInstance: {fileID: 1474826230}
+  m_PrefabInstance: {fileID: 1283717441}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1474826233
+--- !u!114 &1283717444
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1474826232}
+  m_GameObject: {fileID: 1283717443}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
@@ -1411,7 +2191,91 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
   kind: 4
   slotIndex: 0
---- !u!1 &1479184475
+--- !u!1001 &1400155591
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2137184728}
+    m_Modifications:
+    - target: {fileID: 922859006647116223, guid: ddcb7e6949679704cbe23b2678c54557, type: 3}
+      propertyPath: m_Name
+      value: TargetPedestal
+      objectReference: {fileID: 0}
+    - target: {fileID: 5469307854302595252, guid: ddcb7e6949679704cbe23b2678c54557, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5469307854302595252, guid: ddcb7e6949679704cbe23b2678c54557, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5469307854302595252, guid: ddcb7e6949679704cbe23b2678c54557, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5469307854302595252, guid: ddcb7e6949679704cbe23b2678c54557, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5469307854302595252, guid: ddcb7e6949679704cbe23b2678c54557, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5469307854302595252, guid: ddcb7e6949679704cbe23b2678c54557, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5469307854302595252, guid: ddcb7e6949679704cbe23b2678c54557, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5469307854302595252, guid: ddcb7e6949679704cbe23b2678c54557, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5469307854302595252, guid: ddcb7e6949679704cbe23b2678c54557, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5469307854302595252, guid: ddcb7e6949679704cbe23b2678c54557, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 922859006647116223, guid: ddcb7e6949679704cbe23b2678c54557, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1400155594}
+  m_SourcePrefab: {fileID: 100100000, guid: ddcb7e6949679704cbe23b2678c54557, type: 3}
+--- !u!4 &1400155592 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5469307854302595252, guid: ddcb7e6949679704cbe23b2678c54557, type: 3}
+  m_PrefabInstance: {fileID: 1400155591}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1400155593 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 922859006647116223, guid: ddcb7e6949679704cbe23b2678c54557, type: 3}
+  m_PrefabInstance: {fileID: 1400155591}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1400155594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1400155593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
+  kind: 3
+  slotIndex: 0
+--- !u!1 &1429266053
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1419,17 +2283,277 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1479184486}
-  - component: {fileID: 1479184485}
-  - component: {fileID: 1479184484}
-  - component: {fileID: 1479184483}
-  - component: {fileID: 1479184482}
-  - component: {fileID: 1479184481}
-  - component: {fileID: 1479184480}
-  - component: {fileID: 1479184479}
-  - component: {fileID: 1479184478}
-  - component: {fileID: 1479184477}
-  - component: {fileID: 1479184476}
+  - component: {fileID: 1429266054}
+  - component: {fileID: 1429266055}
+  m_Layer: 0
+  m_Name: Target Moai Slot 2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1429266054
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1429266053}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 28.328249, y: 7.9569306, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2137184728}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1429266055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1429266053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
+  kind: 9
+  slotIndex: 1
+--- !u!1001 &1511318615
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2137184728}
+    m_Modifications:
+    - target: {fileID: 5894108808096225215, guid: 1f257fc6444c9a6468e695e68abc8403, type: 3}
+      propertyPath: m_Name
+      value: TerrainCollider
+      objectReference: {fileID: 0}
+    - target: {fileID: 6664179084448854167, guid: 1f257fc6444c9a6468e695e68abc8403, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6664179084448854167, guid: 1f257fc6444c9a6468e695e68abc8403, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6664179084448854167, guid: 1f257fc6444c9a6468e695e68abc8403, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6664179084448854167, guid: 1f257fc6444c9a6468e695e68abc8403, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6664179084448854167, guid: 1f257fc6444c9a6468e695e68abc8403, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6664179084448854167, guid: 1f257fc6444c9a6468e695e68abc8403, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6664179084448854167, guid: 1f257fc6444c9a6468e695e68abc8403, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6664179084448854167, guid: 1f257fc6444c9a6468e695e68abc8403, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6664179084448854167, guid: 1f257fc6444c9a6468e695e68abc8403, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6664179084448854167, guid: 1f257fc6444c9a6468e695e68abc8403, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5894108808096225215, guid: 1f257fc6444c9a6468e695e68abc8403, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1511318618}
+  m_SourcePrefab: {fileID: 100100000, guid: 1f257fc6444c9a6468e695e68abc8403, type: 3}
+--- !u!4 &1511318616 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6664179084448854167, guid: 1f257fc6444c9a6468e695e68abc8403, type: 3}
+  m_PrefabInstance: {fileID: 1511318615}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1511318617 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5894108808096225215, guid: 1f257fc6444c9a6468e695e68abc8403, type: 3}
+  m_PrefabInstance: {fileID: 1511318615}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1511318618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1511318617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
+  kind: 1
+  slotIndex: 0
+--- !u!1 &1525139754
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1525139755}
+  - component: {fileID: 1525139756}
+  m_Layer: 0
+  m_Name: Target Moai Slot 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1525139755
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1525139754}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 27.312, y: 7.6228924, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2137184728}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1525139756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1525139754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
+  kind: 9
+  slotIndex: 0
+--- !u!1001 &1558484276
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2137184728}
+    m_Modifications:
+    - target: {fileID: 4232427024110971287, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_Name
+      value: Target Moai Snowman 01
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 31.367523
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 8.79146
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4232427024110971287, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1558484279}
+  m_SourcePrefab: {fileID: 100100000, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+--- !u!4 &1558484277 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+  m_PrefabInstance: {fileID: 1558484276}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1558484278 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4232427024110971287, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+  m_PrefabInstance: {fileID: 1558484276}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1558484279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1558484278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
+  kind: 8
+  slotIndex: 15
+--- !u!1 &1731402001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1731402012}
+  - component: {fileID: 1731402011}
+  - component: {fileID: 1731402010}
+  - component: {fileID: 1731402009}
+  - component: {fileID: 1731402008}
+  - component: {fileID: 1731402007}
+  - component: {fileID: 1731402006}
+  - component: {fileID: 1731402005}
+  - component: {fileID: 1731402004}
+  - component: {fileID: 1731402003}
+  - component: {fileID: 1731402002}
   m_Layer: 0
   m_Name: MoaiGolfGameRoot
   m_TagString: Untagged
@@ -1437,134 +2561,180 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1479184476
+--- !u!114 &1731402002
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1479184475}
+  m_GameObject: {fileID: 1731402001}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1543595074}
+  m_Script: {fileID: 874784644}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfCameraController
---- !u!114 &1479184477
+  mainCamera: {fileID: 519420031}
+  gameController: {fileID: 1731402009}
+  stageView: {fileID: 2137184727}
+  launchAnimator: {fileID: 1731402004}
+  hud: {fileID: 1731402006}
+--- !u!114 &1731402003
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1479184475}
+  m_GameObject: {fileID: 1731402001}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1145f04d63bb5ff4db674eb0299a8707, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfSeController
   volume: 0.2
---- !u!114 &1479184478
+--- !u!114 &1731402004
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1479184475}
+  m_GameObject: {fileID: 1731402001}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4ed69a94edd488d478220466fdec6a3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfLaunchAnimator
---- !u!114 &1479184479
+  mainCamera: {fileID: 519420031}
+  gameController: {fileID: 1731402009}
+  runState: {fileID: 1731402010}
+  stageView: {fileID: 2137184727}
+  seController: {fileID: 1731402003}
+  sfxAudioSource: {fileID: 0}
+--- !u!114 &1731402005
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1479184475}
+  m_GameObject: {fileID: 1731402001}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 55c52956ad80c8148b9f0d52efffab1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfGuideOverlay
---- !u!114 &1479184480
+  mainCamera: {fileID: 519420031}
+  gameController: {fileID: 1731402009}
+  runState: {fileID: 1731402010}
+  stageView: {fileID: 2137184727}
+--- !u!114 &1731402006
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1479184475}
+  m_GameObject: {fileID: 1731402001}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 234c2b39ac16428c898bec82332bdf8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfHud
---- !u!114 &1479184481
+  gameController: {fileID: 1731402009}
+  runState: {fileID: 1731402010}
+  stageView: {fileID: 2137184727}
+  cameraController: {fileID: 1731402002}
+  launchAnimator: {fileID: 1731402004}
+  bgmController: {fileID: 900100003}
+  seController: {fileID: 1731402003}
+--- !u!114 &1731402007
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1479184475}
+  m_GameObject: {fileID: 1731402001}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f46259b25e3f4663959bf3c9eef95ac7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfMousePowerInput
---- !u!114 &1479184482
+  mainCamera: {fileID: 519420031}
+  gameController: {fileID: 1731402009}
+  runState: {fileID: 1731402010}
+  stageView: {fileID: 2137184727}
+  launchAnimator: {fileID: 1731402004}
+  hud: {fileID: 1731402006}
+  cameraController: {fileID: 1731402002}
+--- !u!114 &1731402008
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1479184475}
+  m_GameObject: {fileID: 1731402001}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1a5d0dc4d2084271a16e8dd66f03f2b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfMouseAngleInput
---- !u!114 &1479184483
+  mainCamera: {fileID: 519420031}
+  gameController: {fileID: 1731402009}
+  runState: {fileID: 1731402010}
+  hud: {fileID: 1731402006}
+  cameraController: {fileID: 1731402002}
+--- !u!114 &1731402009
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1479184475}
+  m_GameObject: {fileID: 1731402001}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 06a172750d0348f19d3bed37e371f172, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfGameController
---- !u!114 &1479184484
+--- !u!114 &1731402010
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1479184475}
+  m_GameObject: {fileID: 1731402001}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 22dc7e80d3294ddf8e7b2b71f42d23cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfRunState
---- !u!114 &1479184485
+--- !u!114 &1731402011
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1479184475}
+  m_GameObject: {fileID: 1731402001}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a59629682c549c7a13f9832b4c7ef59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfBootstrap
---- !u!4 &1479184486
+  mainCamera: {fileID: 519420031}
+  runState: {fileID: 1731402010}
+  stageView: {fileID: 2137184727}
+  gameController: {fileID: 1731402009}
+  mouseAngleInput: {fileID: 1731402008}
+  mousePowerInput: {fileID: 1731402007}
+  cameraController: {fileID: 1731402002}
+  bgmController: {fileID: 900100003}
+  seController: {fileID: 1731402003}
+  hud: {fileID: 1731402006}
+  guideOverlay: {fileID: 1731402005}
+  launchAnimator: {fileID: 1731402004}
+--- !u!4 &1731402012
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1479184475}
+  m_GameObject: {fileID: 1731402001}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -1573,127 +2743,197 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!115 &1543595074
-MonoScript:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  serializedVersion: 7
-  m_DefaultReferences: {}
-  m_Icon: {fileID: 0}
-  m_Type: 0
-  m_ExecutionOrder: 0
-  m_ClassName: MoaiGolfCameraController
-  m_Namespace: MoaiGolf
-  m_AssemblyName: Assembly-CSharp
---- !u!1 &1577339839
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1577339841}
-  - component: {fileID: 1577339840}
-  m_Layer: 0
-  m_Name: MoaiGolfStage
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1577339840
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1577339839}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e388ab58e3844ef1815c8787eda93e2b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageView
-  prefabSet: {fileID: 11400000, guid: 8c1d10f3a3abf1b459d4d690022d0c31, type: 2}
-  useScenePlacedElements: 1
---- !u!4 &1577339841
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1577339839}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1235857613}
-  - {fileID: 1182414863}
-  - {fileID: 1474826231}
-  - {fileID: 26485264}
-  - {fileID: 187067689}
-  - {fileID: 103999036}
-  - {fileID: 1427142493}
-  - {fileID: 1691209382}
-  - {fileID: 1959733960}
-  - {fileID: 1474335280}
-  - {fileID: 493195578}
-  - {fileID: 262916803}
-  - {fileID: 1078628535}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1691209381
+--- !u!1001 &1734988002
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1577339841}
+    m_TransformParent: {fileID: 2137184728}
     m_Modifications:
-    - target: {fileID: 540238135468364227, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 540238135468364227, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 540238135468364227, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.24
+      value: 51.4
       objectReference: {fileID: 0}
-    - target: {fileID: 540238135468364227, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.05
+      value: -11
       objectReference: {fileID: 0}
-    - target: {fileID: 547761727623884488, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-      propertyPath: m_Name
-      value: Target Moai Ribbon
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1155988266276105427, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-      propertyPath: m_Size.x
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1155988266276105427, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-      propertyPath: m_Size.y
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4095792416522368124, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 929820139400352660, guid: a0a421c30bac8a2438a7cc29bccc6717, type: 3}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7959447490344865293, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_Name
+      value: Target Moai Ribbon 03
+      objectReference: {fileID: 0}
+    - target: {fileID: 7959447490344865293, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7959447490344865293, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1734988005}
+  m_SourcePrefab: {fileID: 100100000, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+--- !u!4 &1734988003 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6303276212124691044, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+  m_PrefabInstance: {fileID: 1734988002}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1734988004 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7959447490344865293, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
+  m_PrefabInstance: {fileID: 1734988002}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1734988005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1734988004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
+  kind: 8
+  slotIndex: 7
+--- !u!1001 &1866045730
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2137184728}
+    m_Modifications:
+    - target: {fileID: 3733326571793960894, guid: 45874cb2ec0bbc0438a9481748a01b8c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 30.439999
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733326571793960894, guid: 45874cb2ec0bbc0438a9481748a01b8c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 8.83
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733326571793960894, guid: 45874cb2ec0bbc0438a9481748a01b8c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733326571793960894, guid: 45874cb2ec0bbc0438a9481748a01b8c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733326571793960894, guid: 45874cb2ec0bbc0438a9481748a01b8c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733326571793960894, guid: 45874cb2ec0bbc0438a9481748a01b8c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733326571793960894, guid: 45874cb2ec0bbc0438a9481748a01b8c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733326571793960894, guid: 45874cb2ec0bbc0438a9481748a01b8c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733326571793960894, guid: 45874cb2ec0bbc0438a9481748a01b8c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733326571793960894, guid: 45874cb2ec0bbc0438a9481748a01b8c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805609605063210215, guid: 45874cb2ec0bbc0438a9481748a01b8c, type: 3}
+      propertyPath: m_Name
+      value: AimMarker
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4805609605063210215, guid: 45874cb2ec0bbc0438a9481748a01b8c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1866045733}
+  m_SourcePrefab: {fileID: 100100000, guid: 45874cb2ec0bbc0438a9481748a01b8c, type: 3}
+--- !u!4 &1866045731 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3733326571793960894, guid: 45874cb2ec0bbc0438a9481748a01b8c, type: 3}
+  m_PrefabInstance: {fileID: 1866045730}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1866045732 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4805609605063210215, guid: 45874cb2ec0bbc0438a9481748a01b8c, type: 3}
+  m_PrefabInstance: {fileID: 1866045730}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1866045733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1866045732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
+  kind: 5
+  slotIndex: 0
+--- !u!1001 &1882879088
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2137184728}
+    m_Modifications:
+    - target: {fileID: 547761727623884488, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+      propertyPath: m_Name
+      value: Target Moai Sunglasses 01
+      objectReference: {fileID: 0}
     - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 29.314999
+      value: 27.312
       objectReference: {fileID: 0}
     - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.05757
+      value: 7.6228924
       objectReference: {fileID: 0}
     - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1727,43 +2967,39 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4779795909499324541, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-      propertyPath: m_Mass
-      value: 0.82
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 547761727623884488, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1691209384}
+      addedObject: {fileID: 1882879091}
   m_SourcePrefab: {fileID: 100100000, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
---- !u!4 &1691209382 stripped
+--- !u!4 &1882879089 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-  m_PrefabInstance: {fileID: 1691209381}
+  m_PrefabInstance: {fileID: 1882879088}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1691209383 stripped
+--- !u!1 &1882879090 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 547761727623884488, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-  m_PrefabInstance: {fileID: 1691209381}
+  m_PrefabInstance: {fileID: 1882879088}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1691209384
+--- !u!114 &1882879091
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1691209383}
+  m_GameObject: {fileID: 1882879090}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
   kind: 8
-  slotIndex: 1
---- !u!62 &1884236190
+  slotIndex: 0
+--- !u!62 &1941384191
 PhysicsMaterial2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1775,122 +3011,380 @@ PhysicsMaterial2D:
   bounciness: 0.38
   m_FrictionCombine: 1
   m_BounceCombine: 4
---- !u!1001 &1959733959
+--- !u!1001 &2000397393
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1577339841}
+    m_TransformParent: {fileID: 2137184728}
     m_Modifications:
-    - target: {fileID: 540238135468364227, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 540238135468364227, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 540238135468364227, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - target: {fileID: 2641848113778611610, guid: db2b6e1e9a7f72e44b82eb3cd9e0ddcd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.02
+      value: 3.2
       objectReference: {fileID: 0}
-    - target: {fileID: 540238135468364227, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - target: {fileID: 2641848113778611610, guid: db2b6e1e9a7f72e44b82eb3cd9e0ddcd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.04
+      value: 7.576
       objectReference: {fileID: 0}
-    - target: {fileID: 547761727623884488, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-      propertyPath: m_Name
-      value: Target Moai Snowman
-      objectReference: {fileID: 0}
-    - target: {fileID: 1155988266276105427, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-      propertyPath: m_Size.x
-      value: 0.9
-      objectReference: {fileID: 0}
-    - target: {fileID: 1155988266276105427, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-      propertyPath: m_Size.y
-      value: 1.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4095792416522368124, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -8060926041658191225, guid: dec0a412cd0cb404a8cf840a1d205b66, type: 3}
-    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 31.565
-      objectReference: {fileID: 0}
-    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 8.795417
-      objectReference: {fileID: 0}
-    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - target: {fileID: 2641848113778611610, guid: db2b6e1e9a7f72e44b82eb3cd9e0ddcd, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - target: {fileID: 2641848113778611610, guid: db2b6e1e9a7f72e44b82eb3cd9e0ddcd, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.5000001
       objectReference: {fileID: 0}
-    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - target: {fileID: 2641848113778611610, guid: db2b6e1e9a7f72e44b82eb3cd9e0ddcd, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - target: {fileID: 2641848113778611610, guid: db2b6e1e9a7f72e44b82eb3cd9e0ddcd, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - target: {fileID: 2641848113778611610, guid: db2b6e1e9a7f72e44b82eb3cd9e0ddcd, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0.8660253
       objectReference: {fileID: 0}
-    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - target: {fileID: 2641848113778611610, guid: db2b6e1e9a7f72e44b82eb3cd9e0ddcd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - target: {fileID: 2641848113778611610, guid: db2b6e1e9a7f72e44b82eb3cd9e0ddcd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - target: {fileID: 2641848113778611610, guid: db2b6e1e9a7f72e44b82eb3cd9e0ddcd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4779795909499324541, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-      propertyPath: m_Mass
-      value: 1.12
+    - target: {fileID: 4101163047471847699, guid: db2b6e1e9a7f72e44b82eb3cd9e0ddcd, type: 3}
+      propertyPath: m_Name
+      value: GolfClubPivot
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 547761727623884488, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 4101163047471847699, guid: db2b6e1e9a7f72e44b82eb3cd9e0ddcd, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1959733962}
-  m_SourcePrefab: {fileID: 100100000, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
---- !u!4 &1959733960 stripped
+      addedObject: {fileID: 2000397396}
+  m_SourcePrefab: {fileID: 100100000, guid: db2b6e1e9a7f72e44b82eb3cd9e0ddcd, type: 3}
+--- !u!4 &2000397394 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 4675494360175097527, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-  m_PrefabInstance: {fileID: 1959733959}
+  m_CorrespondingSourceObject: {fileID: 2641848113778611610, guid: db2b6e1e9a7f72e44b82eb3cd9e0ddcd, type: 3}
+  m_PrefabInstance: {fileID: 2000397393}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1959733961 stripped
+--- !u!1 &2000397395 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 547761727623884488, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-  m_PrefabInstance: {fileID: 1959733959}
+  m_CorrespondingSourceObject: {fileID: 4101163047471847699, guid: db2b6e1e9a7f72e44b82eb3cd9e0ddcd, type: 3}
+  m_PrefabInstance: {fileID: 2000397393}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1959733962
+--- !u!114 &2000397396
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1959733961}
+  m_GameObject: {fileID: 2000397395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
+  kind: 6
+  slotIndex: 0
+--- !u!1001 &2001881336
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2137184728}
+    m_Modifications:
+    - target: {fileID: 4232427024110971287, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_Name
+      value: Target Moai Snowman 04
+      objectReference: {fileID: 0}
+    - target: {fileID: 4232427024110971287, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 52.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -13
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4232427024110971287, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2001881339}
+  m_SourcePrefab: {fileID: 100100000, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+--- !u!4 &2001881337 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8819555326575034098, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+  m_PrefabInstance: {fileID: 2001881336}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2001881338 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4232427024110971287, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+  m_PrefabInstance: {fileID: 2001881336}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2001881339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2001881338}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
   kind: 8
-  slotIndex: 2
+  slotIndex: 18
+--- !u!1001 &2034729684
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2137184728}
+    m_Modifications:
+    - target: {fileID: 2201911079579417548, guid: 67a7511714205734abfbdb81a904d656, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2201911079579417548, guid: 67a7511714205734abfbdb81a904d656, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2201911079579417548, guid: 67a7511714205734abfbdb81a904d656, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2201911079579417548, guid: 67a7511714205734abfbdb81a904d656, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.3650002
+      objectReference: {fileID: 0}
+    - target: {fileID: 2201911079579417548, guid: 67a7511714205734abfbdb81a904d656, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2201911079579417548, guid: 67a7511714205734abfbdb81a904d656, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2201911079579417548, guid: 67a7511714205734abfbdb81a904d656, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2201911079579417548, guid: 67a7511714205734abfbdb81a904d656, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2201911079579417548, guid: 67a7511714205734abfbdb81a904d656, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2201911079579417548, guid: 67a7511714205734abfbdb81a904d656, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2201911079579417548, guid: 67a7511714205734abfbdb81a904d656, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2201911079579417548, guid: 67a7511714205734abfbdb81a904d656, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7021792254082963262, guid: 67a7511714205734abfbdb81a904d656, type: 3}
+      propertyPath: m_Name
+      value: LaunchPedestal
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7021792254082963262, guid: 67a7511714205734abfbdb81a904d656, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2034729687}
+  m_SourcePrefab: {fileID: 100100000, guid: 67a7511714205734abfbdb81a904d656, type: 3}
+--- !u!4 &2034729685 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2201911079579417548, guid: 67a7511714205734abfbdb81a904d656, type: 3}
+  m_PrefabInstance: {fileID: 2034729684}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2034729686 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7021792254082963262, guid: 67a7511714205734abfbdb81a904d656, type: 3}
+  m_PrefabInstance: {fileID: 2034729684}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2034729687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2034729686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adfe9b1d61402934ab8591134b430dae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageElement
+  kind: 2
+  slotIndex: 0
+--- !u!1 &2137184726
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2137184728}
+  - component: {fileID: 2137184727}
+  m_Layer: 0
+  m_Name: MoaiGolfStage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2137184727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2137184726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e388ab58e3844ef1815c8787eda93e2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStageView
+  prefabSet: {fileID: 11400000, guid: 8c1d10f3a3abf1b459d4d690022d0c31, type: 2}
+  useScenePlacedElements: 1
+  backgroundElement: {fileID: 151934888}
+  terrainElement: {fileID: 1511318618}
+  launchPedestalElement: {fileID: 2034729687}
+  targetPedestalElement: {fileID: 1400155594}
+  successZoneElement: {fileID: 1283717444}
+  aimMarkerElement: {fileID: 1866045733}
+  golfClubPivotElement: {fileID: 2000397396}
+  launchMoaiElement: {fileID: 369175846}
+  targetMoaiPoolElements:
+  - {fileID: 1882879091}
+  - {fileID: 101962032}
+  - {fileID: 601378933}
+  - {fileID: 487549521}
+  - {fileID: 877155048}
+  - {fileID: 628098018}
+  - {fileID: 1202665680}
+  - {fileID: 1734988005}
+  - {fileID: 1145748587}
+  - {fileID: 881514236}
+  - {fileID: 611357395}
+  - {fileID: 1029950586}
+  - {fileID: 1171696847}
+  - {fileID: 1115312672}
+  - {fileID: 957617115}
+  - {fileID: 1558484279}
+  - {fileID: 688248278}
+  - {fileID: 403469111}
+  - {fileID: 2001881339}
+  - {fileID: 840491417}
+  gameController: {fileID: 1731402009}
+  seController: {fileID: 1731402003}
+--- !u!4 &2137184728
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2137184726}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 151934886}
+  - {fileID: 1511318616}
+  - {fileID: 2034729685}
+  - {fileID: 1400155592}
+  - {fileID: 1283717442}
+  - {fileID: 1866045731}
+  - {fileID: 2000397394}
+  - {fileID: 369175844}
+  - {fileID: 1525139755}
+  - {fileID: 1429266054}
+  - {fileID: 1022696613}
+  - {fileID: 1195235482}
+  - {fileID: 989242829}
+  - {fileID: 1882879089}
+  - {fileID: 101962030}
+  - {fileID: 601378931}
+  - {fileID: 487549519}
+  - {fileID: 877155046}
+  - {fileID: 628098016}
+  - {fileID: 1202665678}
+  - {fileID: 1734988003}
+  - {fileID: 1145748585}
+  - {fileID: 881514234}
+  - {fileID: 611357393}
+  - {fileID: 1029950584}
+  - {fileID: 1171696845}
+  - {fileID: 1115312670}
+  - {fileID: 957617113}
+  - {fileID: 1558484277}
+  - {fileID: 688248276}
+  - {fileID: 403469109}
+  - {fileID: 2001881337}
+  - {fileID: 840491415}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1898,5 +3392,5 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 619394802}
   - {fileID: 900100002}
-  - {fileID: 1479184486}
-  - {fileID: 1577339841}
+  - {fileID: 1731402012}
+  - {fileID: 2137184728}

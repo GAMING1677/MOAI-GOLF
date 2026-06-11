@@ -24,22 +24,6 @@ namespace MoaiGolf
             RebuildSceneLayout();
         }
 
-        [MenuItem("Moai Golf/Refresh Target Moai Positions")]
-        public static void RefreshTargetMoaiPositionsMenu()
-        {
-            var stageView = Object.FindAnyObjectByType<MoaiGolfStageView>();
-            if (stageView == null)
-            {
-                Debug.LogError("MoaiGolfStageView not found in the open scene.");
-                return;
-            }
-
-            stageView.RefreshTargetLineupPreview();
-            ConfigureScenePreview(stageView);
-            EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
-            Debug.Log("Target moai positions refreshed from success zone and pedestal colliders.");
-        }
-
         [MenuItem("Moai Golf/Setup Sample Scene")]
         public static void SetupSampleScene()
         {
@@ -61,7 +45,7 @@ namespace MoaiGolf
             RemoveExisting("MoaiGolfStage");
 
             var gameRoot = new GameObject("MoaiGolfGameRoot");
-            AddIfMissing<MoaiGolfBootstrap>(gameRoot);
+            var bootstrap = AddIfMissing<MoaiGolfBootstrap>(gameRoot);
             AddIfMissing<MoaiGolfRunState>(gameRoot);
             AddIfMissing<MoaiGolfGameController>(gameRoot);
             AddIfMissing<MoaiGolfMouseAngleInput>(gameRoot);
@@ -77,7 +61,7 @@ namespace MoaiGolf
             {
                 var bgmObject = new GameObject("MoaiGolfBgm");
                 bgmObject.AddComponent<AudioSource>();
-                bgmObject.AddComponent<MoaiGolfBgmController>();
+                existingBgm = bgmObject.AddComponent<MoaiGolfBgmController>();
             }
 
             var stageRoot = new GameObject("MoaiGolfStage");
@@ -88,9 +72,11 @@ namespace MoaiGolf
             stageSerialized.ApplyModifiedPropertiesWithoutUndo();
 
             PlaceStagePrefabs(stageRoot.transform, prefabSet);
+            stageView.RefreshSerializedSceneReferencesForEditor();
             ConfigureScenePreview(stageView);
 
-            ConfigureMainCamera();
+            var mainCamera = ConfigureMainCamera();
+            bootstrap.RefreshSerializedReferencesForEditor(mainCamera, stageView, existingBgm);
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
             Debug.Log("Moai Golf sample scene setup complete.");
@@ -110,7 +96,7 @@ namespace MoaiGolf
                 new Vector2(previewLaunchX, terrainY + MoaiGolfWorldSettings.LaunchPedestalHeight + 0.02f)
             );
 
-            InstantiateMarked(prefabSet.backgroundVisualPrefab, stageRoot, MoaiGolfStageElementKind.Background, 0, Vector3.zero, Vector3.one);
+            InstantiateMarked(prefabSet.backgroundVisualPrefab, stageRoot, MoaiGolfStageElementKind.Background, 0, ResolveBackgroundScenePosition(prefabSet.backgroundVisualPrefab), Vector3.one);
             InstantiateMarked(prefabSet.terrainColliderPrefab, stageRoot, MoaiGolfStageElementKind.Terrain, 0, Vector3.zero, Vector3.one);
             InstantiateMarked(
                 prefabSet.launchPedestalPrefab,
@@ -154,28 +140,7 @@ namespace MoaiGolf
                 Vector3.one
             );
 
-            var targetPositions = BuildPreviewTargetPositions(stage);
-            for (var index = 0; index < targetPositions.Count; index++)
-            {
-                InstantiateMarked(
-                    prefabSet.targetMoaiPrefab,
-                    stageRoot,
-                    MoaiGolfStageElementKind.TargetMoai,
-                    index,
-                    new Vector3(targetPositions[index].x, targetPositions[index].y, 0f),
-                    Vector3.one
-                );
-            }
         }
-
-        private static readonly MoaiGolfMoaiKind[] PreviewTargetLineup =
-        {
-            MoaiGolfMoaiKind.Sunglasses,
-            MoaiGolfMoaiKind.Ribbon,
-            MoaiGolfMoaiKind.Macho,
-            MoaiGolfMoaiKind.Sunglasses,
-            MoaiGolfMoaiKind.Snowman,
-        };
 
         private static void ConfigureScenePreview(MoaiGolfStageView stageView)
         {
@@ -192,57 +157,26 @@ namespace MoaiGolf
                     }
                     case MoaiGolfStageElementKind.TargetMoai:
                     {
-                        var kindIndex = Mathf.Clamp(element.SlotIndex, 0, PreviewTargetLineup.Length - 1);
-                        var kind = PreviewTargetLineup[kindIndex];
+                        var kind = MoaiGolfStageView.GetTargetMoaiKindForPoolIndex(element.SlotIndex);
+                        var variantIndex = element.SlotIndex % MoaiGolfStageView.TargetMoaiPerKindCount;
                         var entity = element.GetComponent<MoaiGolfMoaiEntity>() ?? element.gameObject.AddComponent<MoaiGolfMoaiEntity>();
                         entity.ConfigureTarget(kind, 2);
-                        element.gameObject.name = $"Target Moai {kind}";
+                        element.gameObject.name = $"Target Moai {kind} {variantIndex + 1:00}";
                         break;
                     }
                 }
             }
         }
 
-        private static List<Vector2> BuildPreviewTargetPositions(MoaiGolfStageDefinition stage)
+        private static Vector3 ResolveBackgroundScenePosition(GameObject prefab)
         {
-            var kinds = PreviewTargetLineup;
-            var rimPoints = MoaiGolfStageView.TargetPedestalTopSurfacePoints;
-            var xs = MoaiGolfStageView.BuildTargetLineupXPositions(kinds, rimPoints[0].x, rimPoints[^1].x);
-
-            var positions = new List<Vector2>();
-            for (var index = 0; index < kinds.Length && index < xs.Count; index++)
+            if (prefab == null)
             {
-                var rootX = xs[index];
-                var visualFeetY = GetTargetPedestalTopY(rootX) + MoaiGolfStageView.TargetMoaiVisualFeetLift;
-                var rootY = MoaiGolfStageView.ResolveTargetMoaiRootY(kinds[index], visualFeetY);
-                positions.Add(new Vector2(rootX, rootY));
+                return Vector3.zero;
             }
 
-            return positions;
-        }
-
-        private static float GetTargetPedestalTopY(float x)
-        {
-            var points = MoaiGolfStageView.TargetPedestalTopSurfacePoints;
-            if (x <= points[0].x)
-            {
-                return points[0].y;
-            }
-
-            for (var index = 1; index < points.Length; index++)
-            {
-                var previous = points[index - 1];
-                var next = points[index];
-                if (x > next.x)
-                {
-                    continue;
-                }
-
-                var t = Mathf.InverseLerp(previous.x, next.x, x);
-                return Mathf.Lerp(previous.y, next.y, t);
-            }
-
-            return points[^1].y;
+            var renderer = prefab.GetComponent<SpriteRenderer>();
+            return MoaiGolfStageView.ResolveBackgroundVisualPosition(renderer != null ? renderer.sprite : null);
         }
 
         private static GameObject InstantiateMarked(
@@ -272,12 +206,12 @@ namespace MoaiGolf
             return instance;
         }
 
-        private static void ConfigureMainCamera()
+        private static Camera ConfigureMainCamera()
         {
             var camera = Camera.main;
             if (camera == null)
             {
-                return;
+                return null;
             }
 
             camera.orthographic = true;
@@ -288,6 +222,7 @@ namespace MoaiGolf
                 MoaiGolfWorldSettings.CameraZ
             );
             camera.backgroundColor = new Color(0.19f, 0.3f, 0.47f);
+            return camera;
         }
 
         private static void RemoveExisting(string objectName)

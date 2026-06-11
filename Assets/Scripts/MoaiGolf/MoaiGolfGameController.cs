@@ -4,6 +4,8 @@ namespace MoaiGolf
 {
     public sealed class MoaiGolfGameController : MonoBehaviour
     {
+        private MoaiGolfSeController seController;
+
         public MoaiGolfGamePhase Phase { get; private set; } = MoaiGolfGamePhase.AngleSelect;
         public float AngleDegrees { get; private set; } = 38f;
         public float Power01 { get; private set; } = 0.55f;
@@ -11,6 +13,11 @@ namespace MoaiGolf
         public bool HasPreviousLaunch { get; private set; }
         public float PreviousLaunchAngleDegrees { get; private set; }
         public float PreviousLaunchPower01 { get; private set; }
+
+        public void ConfigureDependencies(MoaiGolfSeController se)
+        {
+            seController = se;
+        }
 
         public void SetAngle(float angleDegrees)
         {
@@ -67,9 +74,10 @@ namespace MoaiGolf
             }
 
             launchBody.WakeUp();
-            launchBody.linearVelocity = MoaiGolfLaunchPhysics.CalculateThrustVelocity(AngleDegrees, Power01);
+            launchBody.linearVelocity = MoaiGolfLaunchPhysics.CalculateThrustVelocity(AngleDegrees, Power01, launchBody.mass);
             launchBody.angularVelocity = MoaiGolfLaunchPhysics.CalculateSpinVelocity();
             BeginFlying();
+            launchBody.GetComponent<MoaiGolfLandingJudge>()?.BeginFlight();
         }
 
         public void BeginJudging()
@@ -92,7 +100,7 @@ namespace MoaiGolf
 
             if (succeeded)
             {
-                FindAnyObjectByType<MoaiGolfSeController>()?.PlaySuccess();
+                seController?.PlaySuccess();
             }
         }
 

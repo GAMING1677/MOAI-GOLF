@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2710386334023444923
+--- !u!1 &5569319033330148751
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4207147296667964990}
-  - component: {fileID: 5450184454914281116}
+  - component: {fileID: 778880652862590488}
+  - component: {fileID: 2345048003927562879}
   m_Layer: 0
   m_Name: Visual
   m_TagString: Untagged
@@ -17,29 +17,29 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4207147296667964990
+--- !u!4 &778880652862590488
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2710386334023444923}
+  m_GameObject: {fileID: 5569319033330148751}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.041999996, z: 0}
-  m_LocalScale: {x: 1.2, y: 1.2, z: 1}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalScale: {x: 1.05, y: 1.05, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2924656336815334380}
+  m_Father: {fileID: 6303276212124691044}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &5450184454914281116
+--- !u!212 &2345048003927562879
 SpriteRenderer:
   serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2710386334023444923}
+  m_GameObject: {fileID: 5569319033330148751}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -79,19 +79,19 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 2
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 8518249300523676597, guid: 2298bae6aca48444e98eaeab58f26c37, type: 3}
+  m_Sprite: {fileID: 929820139400352660, guid: a0a421c30bac8a2438a7cc29bccc6717, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.02, y: 0.93}
+  m_Size: {x: 0.77, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!1 &6345471154412690676
+--- !u!1 &7959447490344865293
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -99,44 +99,41 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2924656336815334380}
-  - component: {fileID: 8714615613008452972}
-  - component: {fileID: 4920116677237369131}
-  - component: {fileID: 3205611650890693713}
-  - component: {fileID: 84619101970628000}
-  - component: {fileID: 3632591582396067620}
-  - component: {fileID: 2740114617222428711}
-  - component: {fileID: 9008335503012936290}
+  - component: {fileID: 6303276212124691044}
+  - component: {fileID: 6589018172377389403}
+  - component: {fileID: 370550652689342608}
+  - component: {fileID: 2617209863449401425}
+  - component: {fileID: 3720243359621173659}
   m_Layer: 0
-  m_Name: LaunchMoai
+  m_Name: TargetMoai_Ribbon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2924656336815334380
+--- !u!4 &6303276212124691044
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6345471154412690676}
+  m_GameObject: {fileID: 7959447490344865293}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4207147296667964990}
+  - {fileID: 778880652862590488}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!70 &8714615613008452972
+--- !u!70 &6589018172377389403
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6345471154412690676}
+  m_GameObject: {fileID: 7959447490344865293}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -165,21 +162,21 @@ CapsuleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.85, y: 1.05}
+  m_Size: {x: 0.8, y: 1}
   m_Direction: 0
---- !u!50 &4920116677237369131
+--- !u!50 &370550652689342608
 Rigidbody2D:
   serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6345471154412690676}
-  m_BodyType: 0
+  m_GameObject: {fileID: 7959447490344865293}
+  m_BodyType: 2
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.6
+  m_Mass: 1.23
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 1
@@ -194,68 +191,32 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &3205611650890693713
+--- !u!114 &2617209863449401425
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6345471154412690676}
+  m_GameObject: {fileID: 7959447490344865293}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fb21c3664338080429dbb2fa4e096e51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfMoaiEntity
-  specAsset: {fileID: 11400000, guid: 71a0eb65d6e3ff34786b8e89e0ca12fd, type: 2}
-  role: 0
-  visualRenderer: {fileID: 5450184454914281116}
-  capsuleCollider: {fileID: 8714615613008452972}
-  body: {fileID: 4920116677237369131}
---- !u!114 &84619101970628000
+  specAsset: {fileID: 11400000, guid: 37c6221d45593d74693a903073dbe535, type: 2}
+  role: 1
+  visualRenderer: {fileID: 2345048003927562879}
+  capsuleCollider: {fileID: 6589018172377389403}
+  body: {fileID: 370550652689342608}
+--- !u!114 &3720243359621173659
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6345471154412690676}
+  m_GameObject: {fileID: 7959447490344865293}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4e9b2a17d3f48c6b5e8019f2a6d7c31, type: 3}
+  m_Script: {fileID: 11500000, guid: 4ad7b080bfa248c4ebaee083b47bbd69, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfBounceSfx
---- !u!114 &3632591582396067620
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6345471154412690676}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e4ca665a0f734f48a724e85458e108d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfTargetMoaiVoiceSfx
---- !u!114 &2740114617222428711
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6345471154412690676}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bd1b3d7f6e64e33b54e594a6895d9e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfWorldBoundsBounce
---- !u!114 &9008335503012936290
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6345471154412690676}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88d71faf36f44d6ba362c02a64cc28d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfLandingJudge
+  m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfTargetMoaiMarker

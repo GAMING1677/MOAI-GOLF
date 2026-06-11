@@ -7,6 +7,7 @@ namespace MoaiGolf
     {
         private const float LaunchOffsetRangePixels = 400f;
         private const int MaxHistoryCount = 3;
+        private const int DefaultTargetLineupCount = 5;
 
         private readonly List<Vector2[]> previousTrajectories = new();
         private readonly List<Vector2> previousLandingPoints = new();
@@ -20,6 +21,7 @@ namespace MoaiGolf
         public bool NeedsLaunchRandomization => !launchRandomized;
         public bool NeedsTargetRandomization => !targetLineupRandomized;
         public MoaiGolfMoaiKind[] TargetLineup { get; private set; }
+        public int[] SelectedTargetMoaiPoolIndices { get; private set; }
         private MoaiGolfSceneLayout sceneLayout;
         private bool launchRandomized;
         private bool targetLineupRandomized;
@@ -35,6 +37,7 @@ namespace MoaiGolf
             launchRandomized = false;
             targetLineupRandomized = false;
             TargetLineup = null;
+            SelectedTargetMoaiPoolIndices = null;
             previousTrajectories.Clear();
             previousLandingPoints.Clear();
             HistoryVersion++;
@@ -107,15 +110,28 @@ namespace MoaiGolf
 
         private void RandomizeTargetLineup()
         {
-            var slotCount = sceneLayout.TargetMoaiSlotPositions?.Length ?? 5;
+            var slotCount = DefaultTargetLineupCount;
             if (TargetLineup == null || TargetLineup.Length != slotCount)
             {
                 TargetLineup = new MoaiGolfMoaiKind[slotCount];
             }
 
+            if (SelectedTargetMoaiPoolIndices == null || SelectedTargetMoaiPoolIndices.Length != slotCount)
+            {
+                SelectedTargetMoaiPoolIndices = new int[slotCount];
+            }
+
+            var usedPerKind = new int[4];
             for (var index = 0; index < slotCount; index++)
             {
-                TargetLineup[index] = (MoaiGolfMoaiKind)Random.Range(0, 4);
+                var kind = (MoaiGolfMoaiKind)Random.Range(0, 4);
+                TargetLineup[index] = kind;
+
+                var kindIndex = (int)kind;
+                var poolOffset = usedPerKind[kindIndex];
+                usedPerKind[kindIndex]++;
+                SelectedTargetMoaiPoolIndices[index] =
+                    kindIndex * MoaiGolfStageView.TargetMoaiPerKindCount + poolOffset;
             }
 
             targetLineupRandomized = true;

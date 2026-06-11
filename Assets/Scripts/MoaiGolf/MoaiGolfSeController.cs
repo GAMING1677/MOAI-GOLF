@@ -22,6 +22,8 @@ namespace MoaiGolf
         private AudioSource voiceAudioSource;
         private AudioClip successClip;
         private AudioClip[] targetMoaiVoiceClips;
+        private ResourceRequest successClipRequest;
+        private ResourceRequest[] targetMoaiVoiceClipRequests;
         private int nextTargetMoaiVoiceIndex;
 
         public float Volume
@@ -35,35 +37,41 @@ namespace MoaiGolf
             Volume = volume01;
         }
 
+        private void Awake()
+        {
+            EnsureVoiceAudioSource();
+        }
+
         public void PlaySuccess()
         {
             EnsureVoiceAudioSource();
-            successClip ??= Resources.Load<AudioClip>(SuccessResourcePath);
-            if (voiceAudioSource == null || successClip == null)
+            PreloadAudio();
+            var clip = GetLoadedClip(ref successClip, ref successClipRequest);
+            if (voiceAudioSource == null || clip == null)
             {
                 return;
             }
 
-            voiceAudioSource.PlayOneShot(successClip, volume);
+            voiceAudioSource.PlayOneShot(clip, volume);
         }
 
         public bool TryPlayNextTargetMoaiVoice()
         {
             EnsureVoiceAudioSource();
-            EnsureTargetMoaiVoiceClips();
+            PreloadAudio();
 
             if (voiceAudioSource == null || targetMoaiVoiceClips == null || targetMoaiVoiceClips.Length == 0)
             {
                 return false;
             }
 
-            var clip = targetMoaiVoiceClips[nextTargetMoaiVoiceIndex];
-            nextTargetMoaiVoiceIndex = (nextTargetMoaiVoiceIndex + 1) % targetMoaiVoiceClips.Length;
+            var clip = GetLoadedTargetMoaiVoiceClip(nextTargetMoaiVoiceIndex);
             if (clip == null)
             {
                 return false;
             }
 
+            nextTargetMoaiVoiceIndex = (nextTargetMoaiVoiceIndex + 1) % targetMoaiVoiceClips.Length;
             voiceAudioSource.PlayOneShot(clip, TargetMoaiVoiceVolume * volume);
             return true;
         }
@@ -82,7 +90,17 @@ namespace MoaiGolf
             voiceAudioSource.spatialBlend = 0f;
         }
 
-        private void EnsureTargetMoaiVoiceClips()
+        public void PreloadAudio()
+        {
+            if (successClip == null && successClipRequest == null)
+            {
+                successClipRequest = Resources.LoadAsync<AudioClip>(SuccessResourcePath);
+            }
+
+            PreloadTargetMoaiVoiceClips();
+        }
+
+        private void PreloadTargetMoaiVoiceClips()
         {
             if (targetMoaiVoiceClips != null)
             {
@@ -90,10 +108,41 @@ namespace MoaiGolf
             }
 
             targetMoaiVoiceClips = new AudioClip[TargetMoaiVoiceResourcePaths.Length];
+            targetMoaiVoiceClipRequests = new ResourceRequest[TargetMoaiVoiceResourcePaths.Length];
             for (var index = 0; index < TargetMoaiVoiceResourcePaths.Length; index++)
             {
-                targetMoaiVoiceClips[index] = Resources.Load<AudioClip>(TargetMoaiVoiceResourcePaths[index]);
+                targetMoaiVoiceClipRequests[index] = Resources.LoadAsync<AudioClip>(TargetMoaiVoiceResourcePaths[index]);
             }
+        }
+
+        private AudioClip GetLoadedTargetMoaiVoiceClip(int index)
+        {
+            if (targetMoaiVoiceClips == null
+                || targetMoaiVoiceClipRequests == null
+                || index < 0
+                || index >= targetMoaiVoiceClips.Length)
+            {
+                return null;
+            }
+
+            return GetLoadedClip(ref targetMoaiVoiceClips[index], ref targetMoaiVoiceClipRequests[index]);
+        }
+
+        private static AudioClip GetLoadedClip(ref AudioClip clip, ref ResourceRequest request)
+        {
+            if (clip != null)
+            {
+                return clip;
+            }
+
+            if (request == null || !request.isDone)
+            {
+                return null;
+            }
+
+            clip = request.asset as AudioClip;
+            request = null;
+            return clip;
         }
 
         private void OnValidate()

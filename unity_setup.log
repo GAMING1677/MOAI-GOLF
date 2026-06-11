@@ -1,0 +1,68 @@
+[Licensing::Module] Trying to connect to existing licensing client channel...
+Built from '6000.3/staging' branch; Version is '6000.3.7f1 (696ec25a53d1) revision 6909634'; Using compiler version '194234433'; Build Type 'Release'
+OS: 'Windows 11  (10.0.26200) Professional' Language: 'ja' Physical Memory: 65465 MB
+[Licensing::IpcConnector] Connection to channel LicenseClient-welld refused
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1
+System  architecture: x64
+Process architecture: x64
+Date: 2026-06-11T07:20:00Z
+[Licensing::Module] Successfully launched the LicensingClient (PId: 49632)
+Assertion failed on expression: 'SUCCEEDED(hr)'
+Assertion failed on expression: 'SUCCEEDED(hr)'
+
+COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\6000.3.7f1\Editor\Unity.exe
+-quit
+-batchmode
+-projectPath
+D:\Develop\MOAI_GOLF
+-executeMethod
+MoaiGolf.MoaiGolfSceneSetupUtility.SetupSampleScene
+-logFile
+D:\Develop\MOAI_GOLF\unity_setup.log
+Successfully changed project path to: D:\Develop\MOAI_GOLF
+D:/Develop/MOAI_GOLF
+Exiting without the bug reporter. Application will terminate with return code 1Exception caught while configuring logging
+Attempting with simple FileAppender
+System.UnauthorizedAccessException: Access to the path 'C:\Users\welld\AppData\Local\Unity' is denied.
+   at System.IO.Enumeration.FileSystemEnumerator`1.CreateDirectoryHandle(String path, Boolean ignoreNotFound)
+   at System.IO.Enumeration.FileSystemEnumerator`1.Init()
+   at System.IO.Enumeration.FileSystemEnumerable`1..ctor(String directory, FindTransform transform, EnumerationOptions options, Boolean isNormalized)
+   at System.IO.Enumeration.FileSystemEnumerableFactory.UserFiles(String directory, String expression, EnumerationOptions options)
+   at System.IO.Directory.InternalEnumeratePaths(String path, String searchPattern, SearchTarget searchTarget, EnumerationOptions options)
+   at System.IO.Directory.GetFiles(String path, String searchPattern, EnumerationOptions enumerationOptions)
+   at log4net.Appender.RollingFileAppender.GetExistingFiles(String baseFilePath)
+   at log4net.Appender.RollingFileAppender.DetermineCurSizeRollBackups()
+   at log4net.Appender.RollingFileAppender.ExistingInit()
+   at log4net.Appender.RollingFileAppender.ActivateOptions()
+   at Unity.Licensing.Logging.Log4Net.Log4NetProviderBuilder.WithRollingFile(String logFilePath, String logPattern, Int32 maxFileSizeMb, Int32 maxBackups)
+An unexpected error has occurred: System.UnauthorizedAccessException: Access to the path 'C:\Users\welld\AppData\Local\Unity\config\production.json' is denied.
+   at Microsoft.Win32.SafeHandles.SafeFileHandle.CreateFile(String fullPath, FileMode mode, FileAccess access, FileShare share, FileOptions options)
+   at Microsoft.Win32.SafeHandles.SafeFileHandle.Open(String fullPath, FileMode mode, FileAccess access, FileShare share, FileOptions options, Int64 preallocationSize, Nullable`1 unixCreateMode)
+   at System.IO.Strategies.OSFileStreamStrategy..ctor(String path, FileMode mode, FileAccess access, FileShare share, FileOptions options, Int64 preallocationSize, Nullable`1 unixCreateMode)
+   at System.IO.Strategies.FileStreamHelpers.ChooseStrategyCore(String path, FileMode mode, FileAccess access, FileShare share, FileOptions options, Int64 preallocationSize, Nullable`1 unixCreateMode)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, Int64 preallocationSize)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options)
+   at Microsoft.Extensions.Configuration.FileConfigurationProvider.<Load>g__OpenRead|6_0(IFileInfo fileInfo)
+   at Microsoft.Extensions.Configuration.FileConfigurationProvider.Load(Boolean reload)
+   at Microsoft.Extensions.Configuration.ConfigurationRoot..ctor(IList`1 providers)
+   at Microsoft.Extensions.Configuration.ConfigurationBuilder.Build()
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitRootCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitRootCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.Resolve(ServiceCallSite callSite, ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.CreateServiceAccessor(Type serviceType)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.GetOrAdd(TKey key, Func`2 valueFactory)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService(Type serviceType, ServiceProviderEngineScope serviceProviderEngineScope)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetService[T](IServiceProvider provider)
+   at Unity.Licensing.Client.MainProgram.Main(String[] args)
+   at Unity.Licensing.Client.MainProgram.Main(String[] args)
+No logging will be generated. (EPERM: operation not permitted, mkdir 'C:\Users\welld\AppData\Local\Unity\Editor')
+[winston] Attempt to write logs with no transports, which can increase memory usage: {"message":"Command-line: 'C:\\\\Program Files\\\\Unity\\\\Hub\\\\Editor\\\\6000.3.7f1\\\\Editor\\\\Data\\\\Resources\\\\PackageManager\\\\Server\\\\UnityPackageManager.exe' -s 45992 -ipc -ipc-path Unity-Upm-45992 -l 2","level":"info"}
+[winston] Attempt to write logs with no transports, which can increase memory usage: {"message":"Error while reading config from C:\\Users\\welld\\AppData\\Local\\Unity\\config\\production.json: EPERM: operation not permitted, open 'C:\\Users\\welld\\AppData\\Local\\Unity\\config\\production.json'","level":"error"}
+[winston] Attempt to write logs with no transports, which can increase memory usage: {"message":"IPC server started (IPC path=Unity-Upm-45992).","level":"info"}
+[winston] Attempt to write logs with no transports, which can increase memory usage: {"message":"Hint: To connect to this UPM instance, launch Unity with the command-line parameter -upmIpcPath Upm-45992.","level":"info"}
+[winston] Attempt to write logs with no transports, which can increase memory usage: {"message":"Shutting down UnityPackageManager.exe: parent process [45992] is no longer running.","level":"info"}
+[winston] Attempt to write logs with no transports, which can increase memory usage: {"message":"Exiting with exit code 100. Goodbye!","level":"info"}

@@ -12,6 +12,12 @@ namespace MoaiGolf
         private MoaiGolfSeController seController;
         private float lastPlayedTime = float.NegativeInfinity;
 
+        public void ConfigureDependencies(MoaiGolfGameController controller, MoaiGolfSeController se)
+        {
+            gameController = controller;
+            seController = se;
+        }
+
         private void OnCollisionEnter2D(Collision2D collision)
         {
             if (collision.collider.GetComponentInParent<MoaiGolfTargetMoaiMarker>() == null)
@@ -29,13 +35,11 @@ namespace MoaiGolf
                 return;
             }
 
-            gameController ??= FindAnyObjectByType<MoaiGolfGameController>();
             if (gameController == null || gameController.Phase != MoaiGolfGamePhase.Flying)
             {
                 return;
             }
 
-            seController ??= FindAnyObjectByType<MoaiGolfSeController>();
             if (seController == null || !seController.TryPlayNextTargetMoaiVoice())
             {
                 return;

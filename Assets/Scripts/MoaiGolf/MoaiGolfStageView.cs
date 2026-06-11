@@ -9,6 +9,10 @@ namespace MoaiGolf
         public const float RightPedestalTopY = 7.2f;
         public const float RightPedestalBaseY = 3.0f;
         public const float TargetMoaiVisualFeetLift = 0.08f;
+        public const int TargetMoaiPerKindCount = 5;
+        public const int ActiveTargetMoaiSlotCount = 5;
+        public const int SceneTargetMoaiPoolCount = TargetMoaiPerKindCount * 4;
+        private const float TargetMoaiSuccessZonePadding = 0.28f;
 
         public static readonly Vector2[] TargetPedestalTopSurfacePoints =
         {
@@ -25,9 +29,23 @@ namespace MoaiGolf
 
         [SerializeField] private MoaiGolfStagePrefabSet prefabSet;
         [SerializeField] private bool useScenePlacedElements = true;
+        [SerializeField] private MoaiGolfStageElement backgroundElement;
+        [SerializeField] private MoaiGolfStageElement terrainElement;
+        [SerializeField] private MoaiGolfStageElement launchPedestalElement;
+        [SerializeField] private MoaiGolfStageElement targetPedestalElement;
+        [SerializeField] private MoaiGolfStageElement successZoneElement;
+        [SerializeField] private MoaiGolfStageElement aimMarkerElement;
+        [SerializeField] private MoaiGolfStageElement golfClubPivotElement;
+        [SerializeField] private MoaiGolfStageElement launchMoaiElement;
+        [SerializeField] private MoaiGolfStageElement[] targetMoaiPoolElements = System.Array.Empty<MoaiGolfStageElement>();
+        [SerializeField] private MoaiGolfGameController gameController;
+        [SerializeField] private MoaiGolfSeController seController;
 
         private MoaiGolfSceneLayout? capturedSceneLayout;
         private Vector2[] resolvedTargetPedestalTopSurfacePoints;
+        private MoaiGolfGameController runtimeGameController;
+        private MoaiGolfRunState runtimeRunState;
+        private MoaiGolfSeController runtimeSeController;
 
         private static readonly MoaiGolfMoaiKind[] DefaultTargetLineup =
         {
@@ -41,6 +59,22 @@ namespace MoaiGolf
         public Rigidbody2D LaunchBody { get; private set; }
         public Transform LaunchVisual { get; private set; }
         public Transform GolfClubPivot { get; private set; }
+
+        private void Reset()
+        {
+            RefreshSerializedSceneReferencesForEditor();
+        }
+
+        private void OnValidate()
+        {
+            RefreshSerializedSceneReferencesForEditor();
+        }
+
+        public void ConfigureDependencies(MoaiGolfGameController controller, MoaiGolfSeController se)
+        {
+            gameController = controller;
+            seController = se;
+        }
 
         public Vector2 LaunchVisualFocusPosition
         {
@@ -114,54 +148,54 @@ namespace MoaiGolf
 
         public void RefreshTargetLineupPreview()
         {
-            resolvedTargetPedestalTopSurfacePoints = null;
-            PlaceTargetMoaiLineupOnPedestal(
-                DefaultTargetLineup,
-                TryGetSuccessZoneRect(),
-                2,
-                CaptureTargetMoaiSlotPositions()
-            );
+            ApplyTargetMoaiPoolVisibility(GetDefaultPreviewPoolIndices(), 2);
+        }
+
+        public static MoaiGolfMoaiKind GetTargetMoaiKindForPoolIndex(int poolIndex)
+        {
+            return (MoaiGolfMoaiKind)Mathf.Clamp(poolIndex / TargetMoaiPerKindCount, 0, 3);
+        }
+
+        public static int GetTargetMoaiPoolBaseIndex(MoaiGolfMoaiKind kind)
+        {
+            return (int)kind * TargetMoaiPerKindCount;
+        }
+
+        private static int[] GetDefaultPreviewPoolIndices()
+        {
+            return new[]
+            {
+                GetTargetMoaiPoolBaseIndex(MoaiGolfMoaiKind.Sunglasses),
+                GetTargetMoaiPoolBaseIndex(MoaiGolfMoaiKind.Ribbon),
+                GetTargetMoaiPoolBaseIndex(MoaiGolfMoaiKind.Macho),
+                GetTargetMoaiPoolBaseIndex(MoaiGolfMoaiKind.Sunglasses) + 1,
+                GetTargetMoaiPoolBaseIndex(MoaiGolfMoaiKind.Snowman),
+            };
         }
 
         public void Build(MoaiGolfRunState runState)
         {
-            if (useScenePlacedElements && TryBuildFromScene(runState))
+            if (runState == null)
             {
+                Debug.LogError($"{nameof(MoaiGolfStageView)} requires a {nameof(MoaiGolfRunState)} before Build.", this);
                 return;
             }
 
-            capturedSceneLayout = null;
-            if (!runState.UsesSceneLayout && runState.NeedsLaunchRandomization)
+            if (!useScenePlacedElements)
             {
-                runState.RandomizeLaunchForBuild();
+                Debug.LogError($"{nameof(MoaiGolfStageView)} is configured to build runtime objects. Place stage objects in the scene and assign them with [SerializeField].", this);
+                return;
             }
 
-            if (!runState.UsesSceneLayout && runState.NeedsTargetRandomization)
+            if (!TryBuildFromScene(runState))
             {
-                runState.RandomizeTargetLineupForBuild();
+                Debug.LogError($"{nameof(MoaiGolfStageView)} could not build because one or more serialized scene references are missing.", this);
             }
-
-            ClearExistingStage();
-
-            var prefabs = ResolvePrefabSet();
-            var stage = runState.Stage;
-
-            PlaceBackground(prefabs);
-            PlaceTerrainCollider(prefabs);
-            var launchPedestalCenter = runState.LaunchPedestalCenter;
-            PlaceGolfClub(prefabs, runState);
-            PlaceLaunchPedestal(prefabs, launchPedestalCenter);
-            PlaceTargetPedestal(prefabs);
-            PlaceTargetMoaiLineup(ResolveTargetLineup(runState), stage.SuccessZone, 2, prefabs);
-            PlaceSuccessZone(prefabs, stage.SuccessZone.center, stage.SuccessZone.size);
-            PlaceAimMarker(prefabs, stage);
-            PlaceLaunchMoai(prefabs, runState);
         }
 
         private bool TryBuildFromScene(MoaiGolfRunState runState)
         {
-            var elements = GetComponentsInChildren<MoaiGolfStageElement>(true);
-            if (elements.Length == 0)
+            if (!ValidateSceneReferences())
             {
                 return false;
             }
@@ -178,12 +212,7 @@ namespace MoaiGolf
 
             BindLaunchMoaiFromScene(runState);
             BindGolfClubFromScene();
-            PlaceTargetMoaiLineupOnPedestal(
-                ResolveTargetLineup(runState),
-                TryGetSuccessZoneRect(),
-                2,
-                capturedSceneLayout.Value.TargetMoaiSlotPositions
-            );
+            ApplyTargetMoaiPoolVisibility(runState.SelectedTargetMoaiPoolIndices, 2);
             ApplyLaunchPlacement(runState);
 
             return LaunchBody != null;
@@ -210,23 +239,8 @@ namespace MoaiGolf
                 launchPedestalCenter,
                 launchVisualFeetY,
                 successZone,
-                CaptureTargetMoaiSlotPositions()
+                null
             );
-        }
-
-        private Vector2[] CaptureTargetMoaiSlotPositions()
-        {
-            var slots = FindTargetMoaiElements();
-            var positions = new Vector2[slots.Length];
-            for (var index = 0; index < slots.Length; index++)
-            {
-                positions[index] = new Vector2(
-                    GetTargetMoaiVisualCenterX(slots[index]),
-                    slots[index].transform.position.y
-                );
-            }
-
-            return positions;
         }
 
         public static float GetTargetMoaiVisualCenterX(MoaiGolfStageElement slot)
@@ -247,6 +261,20 @@ namespace MoaiGolf
             }
 
             return slot.transform.position.x;
+        }
+
+        public static Vector3 ResolveBackgroundVisualPosition(Sprite sprite)
+        {
+            if (sprite == null)
+            {
+                return Vector3.zero;
+            }
+
+            return new Vector3(
+                sprite.pivot.x / sprite.pixelsPerUnit,
+                sprite.pivot.y / sprite.pixelsPerUnit,
+                0f
+            );
         }
 
         private static MoaiGolfMoaiKind[] ResolveTargetLineup(MoaiGolfRunState runState)
@@ -271,6 +299,12 @@ namespace MoaiGolf
             }
 
             return fallbackLaunchPosition;
+        }
+
+        public bool TryGetSuccessZoneRect(out Rect rect)
+        {
+            rect = TryGetSuccessZoneRect();
+            return rect.width > 0f && rect.height > 0f;
         }
 
         private Rect TryGetSuccessZoneRect()
@@ -310,11 +344,20 @@ namespace MoaiGolf
             var element = FindElement(MoaiGolfStageElementKind.LaunchMoai);
             if (element == null)
             {
+                Debug.LogError($"{nameof(MoaiGolfStageView)} requires a serialized Launch Moai reference.", this);
                 return;
             }
 
-            var entity = element.GetComponent<MoaiGolfMoaiEntity>() ?? element.gameObject.AddComponent<MoaiGolfMoaiEntity>();
+            var entity = element.GetComponent<MoaiGolfMoaiEntity>();
+            if (entity == null)
+            {
+                Debug.LogError($"{element.name} requires a {nameof(MoaiGolfMoaiEntity)} component assigned in the scene or prefab.", element);
+                return;
+            }
+
             entity.ConfigureLaunch(runState.LaunchMoaiKind);
+            CacheRuntimeDependencies(runState);
+            ConfigureLaunchRuntimeComponents(element.gameObject);
             LaunchBody = entity.Body;
             LaunchVisual = entity.Visual;
         }
@@ -330,41 +373,96 @@ namespace MoaiGolf
             GolfClubPivot = element.transform;
         }
 
+        public void ApplyTargetMoaiPoolVisibility(int[] selectedPoolIndices, int sortingOrder = 2)
+        {
+            var pool = FindTargetMoaiPoolElements();
+            if (pool.Length == 0 || selectedPoolIndices == null || selectedPoolIndices.Length == 0)
+            {
+                Debug.LogError($"{nameof(MoaiGolfStageView)} requires serialized target Moai pool references before showing the lineup.", this);
+                return;
+            }
+
+            foreach (var element in pool)
+            {
+                if (element != null)
+                {
+                    element.gameObject.SetActive(false);
+                }
+            }
+
+            var kinds = new System.Collections.Generic.List<MoaiGolfMoaiKind>(selectedPoolIndices.Length);
+            foreach (var poolIndex in selectedPoolIndices)
+            {
+                if (poolIndex >= 0 && poolIndex < pool.Length)
+                {
+                    kinds.Add(GetTargetMoaiKindForPoolIndex(poolIndex));
+                }
+            }
+
+            var lineupXs = BuildTargetLineupXPositionsAvoidingSuccessZone(kinds.ToArray(), TryGetSuccessZoneRect());
+            var activeIndex = 0;
+            foreach (var poolIndex in selectedPoolIndices)
+            {
+                if (poolIndex < 0 || poolIndex >= pool.Length)
+                {
+                    continue;
+                }
+
+                var element = pool[poolIndex];
+                if (element == null)
+                {
+                    continue;
+                }
+
+                var kind = GetTargetMoaiKindForPoolIndex(poolIndex);
+                var rootX = activeIndex < lineupXs.Count ? lineupXs[activeIndex] : element.transform.position.x;
+                ConfigureTargetMoaiOnSlot(element, kind, sortingOrder, null, rootX);
+                activeIndex++;
+            }
+        }
+
         private void PlaceTargetMoaiLineupOnPedestal(
             MoaiGolfMoaiKind[] kinds,
             Rect successZone,
             int sortingOrder,
-            Vector2[] fixedSlotPositions = null
+            Vector2[] fixedSlotPositions = null,
+            int[] selectedPoolIndices = null
         )
         {
-            var slots = FindTargetMoaiElements();
-            if (kinds == null || kinds.Length == 0 || slots.Length == 0)
+            if (selectedPoolIndices != null && selectedPoolIndices.Length > 0)
+            {
+                ApplyTargetMoaiPoolVisibility(selectedPoolIndices, sortingOrder);
+                return;
+            }
+
+            var pool = FindTargetMoaiPoolElements();
+            if (kinds == null || kinds.Length == 0 || pool.Length == 0)
             {
                 return;
             }
 
             if (fixedSlotPositions != null && fixedSlotPositions.Length > 0)
             {
-                for (var index = 0; index < kinds.Length && index < slots.Length; index++)
+                for (var index = 0; index < kinds.Length && index < pool.Length; index++)
                 {
                     var position = index < fixedSlotPositions.Length
                         ? fixedSlotPositions[index]
                         : fixedSlotPositions[^1];
-                    ConfigureTargetMoaiOnSlot(slots[index], kinds[index], sortingOrder, position);
+                    ConfigureTargetMoaiOnSlot(pool[index], kinds[index], sortingOrder, position);
                 }
             }
             else
             {
-                var lineupXs = BuildTargetLineupXPositions(kinds);
-                for (var index = 0; index < kinds.Length && index < slots.Length; index++)
+                var lineupXs = BuildTargetLineupXPositionsAvoidingSuccessZone(kinds, successZone);
+                for (var index = 0; index < kinds.Length && index < pool.Length; index++)
                 {
-                    ConfigureTargetMoaiOnSlot(slots[index], kinds[index], sortingOrder, null, lineupXs[index]);
+                    ConfigureTargetMoaiOnSlot(pool[index], kinds[index], sortingOrder, null, lineupXs[index]);
                 }
             }
 
-            for (var index = kinds.Length; index < slots.Length; index++)
+            for (var index = kinds.Length; index < pool.Length; index++)
             {
-                slots[index].gameObject.SetActive(false);
+                pool[index].gameObject.SetActive(false);
             }
         }
 
@@ -377,7 +475,13 @@ namespace MoaiGolf
         )
         {
             slot.gameObject.SetActive(true);
-            var entity = slot.GetComponent<MoaiGolfMoaiEntity>() ?? slot.gameObject.AddComponent<MoaiGolfMoaiEntity>();
+            var entity = slot.GetComponent<MoaiGolfMoaiEntity>();
+            if (entity == null)
+            {
+                Debug.LogError($"{slot.name} requires a serialized {nameof(MoaiGolfMoaiEntity)} component. Add it in the prefab or scene instead of creating it at runtime.", slot);
+                return;
+            }
+
             entity.ConfigureTarget(kind, sortingOrder);
             if (fixedRootPosition.HasValue)
             {
@@ -476,6 +580,48 @@ namespace MoaiGolf
             return BuildTargetLineupXPositions(kinds, points[0].x, points[^1].x);
         }
 
+        private System.Collections.Generic.List<float> BuildTargetLineupXPositionsAvoidingSuccessZone(
+            MoaiGolfMoaiKind[] kinds,
+            Rect successZone
+        )
+        {
+            var points = ResolveTargetPedestalTopSurfacePoints();
+            var rimLeft = points[0].x;
+            var rimRight = points[^1].x;
+            var positions = new System.Collections.Generic.List<float>(kinds?.Length ?? 0);
+            if (kinds == null || kinds.Length == 0)
+            {
+                return positions;
+            }
+
+            var leftVisualX = rimLeft;
+            var rightVisualX = Mathf.Min(successZone.xMax + TargetMoaiSuccessZonePadding, rimRight);
+            var leftLimit = Mathf.Max(rimLeft, successZone.xMin - TargetMoaiSuccessZonePadding);
+            var useRightSide = false;
+
+            for (var index = 0; index < kinds.Length; index++)
+            {
+                var kind = kinds[index];
+                var halfWidth = GetTargetMoaiVisualHalfWidth(kind);
+                var width = halfWidth * 2f;
+
+                if (!useRightSide && leftVisualX + width <= leftLimit)
+                {
+                    var visualCenterX = leftVisualX + halfWidth;
+                    positions.Add(GetTargetMoaiRootXForVisualCenter(kind, visualCenterX));
+                    leftVisualX += width;
+                    continue;
+                }
+
+                useRightSide = true;
+                var rightCenterX = Mathf.Min(rightVisualX + halfWidth, rimRight - halfWidth);
+                positions.Add(GetTargetMoaiRootXForVisualCenter(kind, rightCenterX));
+                rightVisualX = rightCenterX + halfWidth;
+            }
+
+            return positions;
+        }
+
         private Vector2[] ResolveTargetPedestalTopSurfacePoints()
         {
             if (resolvedTargetPedestalTopSurfacePoints != null)
@@ -529,6 +675,7 @@ namespace MoaiGolf
             {
                 LaunchBody.rotation = 0f;
                 runState.ResetBodyForRetry(LaunchBody);
+                LaunchBody.GetComponent<MoaiGolfLandingJudge>()?.ResetForReuse();
             }
 
             var launchElement = FindElement(MoaiGolfStageElementKind.LaunchMoai);
@@ -557,228 +704,134 @@ namespace MoaiGolf
 
         private MoaiGolfStageElement FindElement(MoaiGolfStageElementKind kind, int slotIndex = 0)
         {
-            foreach (var element in GetComponentsInChildren<MoaiGolfStageElement>(true))
+            return kind switch
             {
-                if (element.Kind == kind && element.SlotIndex == slotIndex)
+                MoaiGolfStageElementKind.Background => backgroundElement,
+                MoaiGolfStageElementKind.Terrain => terrainElement,
+                MoaiGolfStageElementKind.LaunchPedestal => launchPedestalElement,
+                MoaiGolfStageElementKind.TargetPedestal => targetPedestalElement,
+                MoaiGolfStageElementKind.SuccessZone => successZoneElement,
+                MoaiGolfStageElementKind.AimMarker => aimMarkerElement,
+                MoaiGolfStageElementKind.GolfClubPivot => golfClubPivotElement,
+                MoaiGolfStageElementKind.LaunchMoai => launchMoaiElement,
+                MoaiGolfStageElementKind.TargetMoai => FindTargetMoaiPoolElement(slotIndex),
+                _ => null
+            };
+        }
+
+        private MoaiGolfStageElement[] FindTargetMoaiPoolElements()
+        {
+            return targetMoaiPoolElements ?? System.Array.Empty<MoaiGolfStageElement>();
+        }
+
+        private MoaiGolfStageElement FindTargetMoaiPoolElement(int slotIndex)
+        {
+            var pool = FindTargetMoaiPoolElements();
+            for (var index = 0; index < pool.Length; index++)
+            {
+                var element = pool[index];
+                if (element != null && element.SlotIndex == slotIndex)
                 {
                     return element;
                 }
             }
 
-            return null;
+            return slotIndex >= 0 && slotIndex < pool.Length ? pool[slotIndex] : null;
         }
 
-        private MoaiGolfStageElement[] FindTargetMoaiElements()
+        private void CacheRuntimeDependencies(MoaiGolfRunState runState)
         {
-            var targets = new System.Collections.Generic.List<MoaiGolfStageElement>();
-            foreach (var element in GetComponentsInChildren<MoaiGolfStageElement>(true))
+            runtimeRunState = runState;
+            runtimeGameController = gameController;
+            runtimeSeController = seController;
+            runtimeGameController?.ConfigureDependencies(runtimeSeController);
+        }
+
+        private bool ValidateSceneReferences()
+        {
+            var isValid = true;
+            isValid &= ValidateReference(launchPedestalElement, nameof(launchPedestalElement));
+            isValid &= ValidateReference(targetPedestalElement, nameof(targetPedestalElement));
+            isValid &= ValidateReference(successZoneElement, nameof(successZoneElement));
+            isValid &= ValidateReference(golfClubPivotElement, nameof(golfClubPivotElement));
+            isValid &= ValidateReference(launchMoaiElement, nameof(launchMoaiElement));
+            isValid &= ValidateReference(gameController, nameof(gameController));
+            isValid &= ValidateReference(seController, nameof(seController));
+
+            if (targetMoaiPoolElements == null || targetMoaiPoolElements.Length < SceneTargetMoaiPoolCount)
             {
-                if (element.Kind == MoaiGolfStageElementKind.TargetMoai)
+                Debug.LogError($"{nameof(MoaiGolfStageView)} requires {SceneTargetMoaiPoolCount} serialized target Moai pool references.", this);
+                isValid = false;
+            }
+            else
+            {
+                for (var index = 0; index < targetMoaiPoolElements.Length; index++)
                 {
-                    targets.Add(element);
+                    isValid &= ValidateReference(targetMoaiPoolElements[index], $"{nameof(targetMoaiPoolElements)}[{index}]");
+                }
+            }
+
+            return isValid;
+        }
+
+        private bool ValidateReference(UnityEngine.Object reference, string fieldName)
+        {
+            if (reference != null)
+            {
+                return true;
+            }
+
+            Debug.LogError($"{nameof(MoaiGolfStageView)} missing serialized reference: {fieldName}.", this);
+            return false;
+        }
+
+        public void RefreshSerializedSceneReferencesForEditor()
+        {
+            var elements = GetComponentsInChildren<MoaiGolfStageElement>(true);
+            var targets = new System.Collections.Generic.List<MoaiGolfStageElement>();
+            foreach (var element in elements)
+            {
+                switch (element.Kind)
+                {
+                    case MoaiGolfStageElementKind.Background:
+                        backgroundElement = element;
+                        break;
+                    case MoaiGolfStageElementKind.Terrain:
+                        terrainElement = element;
+                        break;
+                    case MoaiGolfStageElementKind.LaunchPedestal:
+                        launchPedestalElement = element;
+                        break;
+                    case MoaiGolfStageElementKind.TargetPedestal:
+                        targetPedestalElement = element;
+                        break;
+                    case MoaiGolfStageElementKind.SuccessZone:
+                        successZoneElement = element;
+                        break;
+                    case MoaiGolfStageElementKind.AimMarker:
+                        aimMarkerElement = element;
+                        break;
+                    case MoaiGolfStageElementKind.GolfClubPivot:
+                        golfClubPivotElement = element;
+                        break;
+                    case MoaiGolfStageElementKind.LaunchMoai:
+                        launchMoaiElement = element;
+                        break;
+                    case MoaiGolfStageElementKind.TargetMoai:
+                        targets.Add(element);
+                        break;
                 }
             }
 
             targets.Sort((left, right) => left.SlotIndex.CompareTo(right.SlotIndex));
-            return targets.ToArray();
+            targetMoaiPoolElements = targets.ToArray();
         }
 
-        private MoaiGolfStagePrefabSet ResolvePrefabSet()
+        private void ConfigureLaunchRuntimeComponents(GameObject instance)
         {
-            return prefabSet != null ? prefabSet : MoaiGolfStagePrefabSet.LoadDefault();
-        }
-
-        private void ClearExistingStage()
-        {
-            for (var childIndex = transform.childCount - 1; childIndex >= 0; childIndex--)
-            {
-                Destroy(transform.GetChild(childIndex).gameObject);
-            }
-
-            LaunchBody = null;
-            LaunchVisual = null;
-            GolfClubPivot = null;
-        }
-
-        private void PlaceBackground(MoaiGolfStagePrefabSet prefabs)
-        {
-            if (prefabs != null && prefabs.backgroundVisualPrefab != null)
-            {
-                var instance = Instantiate(prefabs.backgroundVisualPrefab, transform);
-                instance.name = prefabs.backgroundVisualPrefab.name;
-                instance.transform.position = Vector3.zero;
-                return;
-            }
-
-            CreatePixelPerfectSprite("Background Visual", MoaiGolfSpriteCatalog.Background, Vector2.zero, Color.white, -10);
-        }
-
-        private void PlaceTerrainCollider(MoaiGolfStagePrefabSet prefabs)
-        {
-            if (prefabs != null && prefabs.terrainColliderPrefab != null)
-            {
-                var instance = Instantiate(prefabs.terrainColliderPrefab, transform);
-                instance.name = prefabs.terrainColliderPrefab.name;
-                instance.transform.position = Vector3.zero;
-                return;
-            }
-
-            CreateTerrainColliderFallback();
-        }
-
-        private void PlaceLaunchPedestal(MoaiGolfStagePrefabSet prefabs, Vector2 launchPedestalCenter)
-        {
-            if (prefabs != null && prefabs.launchPedestalPrefab != null)
-            {
-                var instance = Instantiate(prefabs.launchPedestalPrefab, transform);
-                instance.name = prefabs.launchPedestalPrefab.name;
-                instance.transform.position = new Vector3(launchPedestalCenter.x, launchPedestalCenter.y, 0f);
-                return;
-            }
-
-            CreateBoxFallback(
-                "Launch Pedestal Collider",
-                launchPedestalCenter,
-                new Vector2(MoaiGolfWorldSettings.LaunchPedestalWidth, MoaiGolfWorldSettings.LaunchPedestalHeight),
-                new Color(0.45f, 0.34f, 0.25f, 0.45f),
-                true,
-                false,
-                1
-            );
-        }
-
-        private void PlaceTargetPedestal(MoaiGolfStagePrefabSet prefabs)
-        {
-            if (prefabs != null && prefabs.targetPedestalPrefab != null)
-            {
-                var instance = Instantiate(prefabs.targetPedestalPrefab, transform);
-                instance.name = prefabs.targetPedestalPrefab.name;
-                instance.transform.position = Vector3.zero;
-                return;
-            }
-
-            CreateTargetPedestalColliderFallback();
-        }
-
-        private void PlaceSuccessZone(MoaiGolfStagePrefabSet prefabs, Vector2 center, Vector2 size)
-        {
-            if (prefabs != null && prefabs.successZonePrefab != null)
-            {
-                var instance = Instantiate(prefabs.successZonePrefab, transform);
-                instance.name = prefabs.successZonePrefab.name;
-                instance.transform.position = new Vector3(center.x, center.y, 0f);
-                instance.transform.localScale = new Vector3(size.x, size.y, 1f);
-                return;
-            }
-
-            CreateBoxFallback("Success Zone Trigger", center, size, new Color(1f, 0.1f, 0.08f, 0.32f), true, true, 3);
-        }
-
-        private void PlaceGolfClub(MoaiGolfStagePrefabSet prefabs, MoaiGolfRunState runState)
-        {
-            if (prefabs != null && prefabs.golfClubPivotPrefab != null)
-            {
-                var instance = Instantiate(prefabs.golfClubPivotPrefab, transform);
-                instance.name = prefabs.golfClubPivotPrefab.name;
-                var pivotPos = runState.LaunchPosition + MoaiGolfLaunchAnimator.ClubAnchorOffsetFromMoai;
-                instance.transform.position = new Vector3(pivotPos.x, pivotPos.y, 0f);
-                instance.transform.rotation = Quaternion.Euler(0f, 0f, MoaiGolfLaunchAnimator.ClubWindupAngleDeg);
-                GolfClubPivot = instance.transform;
-                return;
-            }
-
-            GolfClubPivot = CreateGolfClubFallback(runState).transform;
-        }
-
-        private void PlaceAimMarker(MoaiGolfStagePrefabSet prefabs, MoaiGolfStageDefinition stage)
-        {
-            var zone = stage.SuccessZone;
-            var hereSprite = MoaiGolfSpriteCatalog.Here;
-            var dashedBoxSize = new Vector2(0.87f, 1.17f);
-            var dashedBoxOffsetFromCenter = new Vector2(-0.415f, -0.115f);
-            var padding = new Vector2(0.6f, 0.5f);
-            var scale = new Vector2(
-                (zone.width + padding.x) / dashedBoxSize.x,
-                (zone.height + padding.y) / dashedBoxSize.y
-            );
-            var center = zone.center - new Vector2(
-                dashedBoxOffsetFromCenter.x * scale.x,
-                dashedBoxOffsetFromCenter.y * scale.y
-            );
-
-            if (prefabs != null && prefabs.aimMarkerPrefab != null)
-            {
-                var instance = Instantiate(prefabs.aimMarkerPrefab, transform);
-                instance.name = prefabs.aimMarkerPrefab.name;
-                instance.transform.localScale = new Vector3(scale.x, scale.y, 1f);
-                var renderer = instance.GetComponent<SpriteRenderer>();
-                if (renderer != null && renderer.sprite != null)
-                {
-                    var boundsCenter = renderer.sprite.bounds.center;
-                    instance.transform.position = new Vector3(
-                        center.x - boundsCenter.x * scale.x,
-                        center.y - boundsCenter.y * scale.y,
-                        0f
-                    );
-                }
-                else
-                {
-                    instance.transform.position = new Vector3(center.x, center.y, 0f);
-                }
-
-                return;
-            }
-
-            CreateCenteredSprite("Here Label Visual", hereSprite, center, scale, Color.white, 5);
-        }
-
-        private void PlaceTargetMoaiLineup(MoaiGolfMoaiKind[] kinds, Rect successZone, int sortingOrder, MoaiGolfStagePrefabSet prefabs)
-        {
-            if (kinds == null || kinds.Length == 0)
-            {
-                return;
-            }
-
-            var lineupXs = BuildTargetLineupXPositions(kinds);
-            for (var index = 0; index < kinds.Length && index < lineupXs.Count; index++)
-            {
-                var x = lineupXs[index];
-                PlaceTargetMoai(kinds[index], x, GetTargetPedestalTopY(x) + TargetMoaiVisualFeetLift, sortingOrder, prefabs);
-            }
-        }
-
-        private void PlaceTargetMoai(MoaiGolfMoaiKind kind, float rootX, float visualFeetY, int sortingOrder, MoaiGolfStagePrefabSet prefabs)
-        {
-            var rootY = ResolveTargetMoaiRootY(kind, visualFeetY);
-
-            if (prefabs != null && prefabs.targetMoaiPrefab != null)
-            {
-                var instance = Instantiate(prefabs.targetMoaiPrefab, transform);
-                instance.name = $"Target Moai {kind}";
-                var entity = instance.GetComponent<MoaiGolfMoaiEntity>() ?? instance.AddComponent<MoaiGolfMoaiEntity>();
-                entity.ConfigureTarget(kind, sortingOrder);
-                instance.transform.position = new Vector2(rootX, rootY);
-                return;
-            }
-
-            CreateTargetMoaiFallback(kind, rootX, rootY, sortingOrder);
-        }
-
-        private void PlaceLaunchMoai(MoaiGolfStagePrefabSet prefabs, MoaiGolfRunState runState)
-        {
-            if (prefabs != null && prefabs.launchMoaiPrefab != null)
-            {
-                var instance = Instantiate(prefabs.launchMoaiPrefab, transform);
-                instance.name = "Launch Moai";
-                instance.transform.position = runState.LaunchPosition;
-                var entity = instance.GetComponent<MoaiGolfMoaiEntity>() ?? instance.AddComponent<MoaiGolfMoaiEntity>();
-                entity.ConfigureLaunch(runState.LaunchMoaiKind);
-                LaunchBody = entity.Body;
-                LaunchVisual = entity.Visual;
-                return;
-            }
-
-            CreateLaunchMoaiFallback(runState);
+            instance.GetComponent<MoaiGolfBounceSfx>()?.ConfigureDependencies(runtimeGameController, runtimeSeController);
+            instance.GetComponent<MoaiGolfTargetMoaiVoiceSfx>()?.ConfigureDependencies(runtimeGameController, runtimeSeController);
+            instance.GetComponent<MoaiGolfLandingJudge>()?.ConfigureDependencies(runtimeGameController, runtimeRunState, this);
         }
 
         private float GetTargetPedestalTopY(float x)
@@ -805,218 +858,5 @@ namespace MoaiGolf
             return points[^1].y;
         }
 
-        #region Runtime fallback
-
-        private static Sprite whiteSprite;
-
-        private GameObject CreateBoxFallback(string objectName, Vector2 center, Vector2 size, Color color, bool addCollider, bool isTrigger, int sortingOrder)
-        {
-            var box = new GameObject(objectName);
-            box.transform.SetParent(transform);
-            box.transform.position = new Vector3(center.x, center.y, 0f);
-            box.transform.localScale = new Vector3(size.x, size.y, 1f);
-
-            var renderer = box.AddComponent<SpriteRenderer>();
-            renderer.sprite = GetWhiteSprite();
-            renderer.color = color;
-            renderer.sortingOrder = sortingOrder;
-
-            if (addCollider)
-            {
-                var collider = box.AddComponent<BoxCollider2D>();
-                collider.isTrigger = isTrigger;
-            }
-
-            return box;
-        }
-
-        private void CreateTerrainColliderFallback()
-        {
-            var terrainObject = new GameObject("Terrain Black Line Collider");
-            terrainObject.transform.SetParent(transform);
-            terrainObject.transform.position = Vector3.zero;
-
-            var collider = terrainObject.AddComponent<EdgeCollider2D>();
-            collider.points = MoaiGolfTerrainProfile.ColliderPoints;
-            collider.edgeRadius = 0.035f;
-        }
-
-        private void CreateTargetPedestalColliderFallback()
-        {
-            var pedestal = new GameObject("Target Pedestal Collider");
-            pedestal.transform.SetParent(transform);
-            pedestal.transform.position = Vector3.zero;
-
-            var collider = pedestal.AddComponent<PolygonCollider2D>();
-            collider.points = new[]
-            {
-                new Vector2(RightPedestalLeftX, RightPedestalBaseY),
-                new Vector2(RightPedestalRightX, RightPedestalBaseY),
-                new Vector2(RightPedestalRightX, TargetPedestalTopSurfacePoints[^1].y),
-                TargetPedestalTopSurfacePoints[7],
-                TargetPedestalTopSurfacePoints[6],
-                TargetPedestalTopSurfacePoints[5],
-                TargetPedestalTopSurfacePoints[4],
-                TargetPedestalTopSurfacePoints[3],
-                TargetPedestalTopSurfacePoints[2],
-                TargetPedestalTopSurfacePoints[1],
-                TargetPedestalTopSurfacePoints[0]
-            };
-
-            var body = pedestal.AddComponent<Rigidbody2D>();
-            body.bodyType = RigidbodyType2D.Static;
-        }
-
-        private GameObject CreateGolfClubFallback(MoaiGolfRunState runState)
-        {
-            var spriteScale = MoaiGolfLaunchAnimator.ClubSpriteScale;
-            var anchorLocal = new Vector2(
-                MoaiGolfLaunchAnimator.ClubAnchorLocalXPixels,
-                MoaiGolfLaunchAnimator.ClubAnchorLocalYPixels
-            ) / MoaiGolfWorldSettings.PixelsPerUnit * spriteScale;
-
-            var pivot = new GameObject("Golf Club Pivot");
-            pivot.transform.SetParent(transform, false);
-            var pivotPos = runState.LaunchPosition + MoaiGolfLaunchAnimator.ClubAnchorOffsetFromMoai;
-            pivot.transform.position = new Vector3(pivotPos.x, pivotPos.y, 0f);
-            pivot.transform.rotation = Quaternion.Euler(0f, 0f, MoaiGolfLaunchAnimator.ClubWindupAngleDeg);
-
-            var visual = new GameObject("Golf Club Visual");
-            visual.transform.SetParent(pivot.transform, false);
-            visual.transform.localPosition = new Vector3(-anchorLocal.x, -anchorLocal.y, 0f);
-            visual.transform.localScale = new Vector3(spriteScale, spriteScale, 1f);
-
-            var renderer = visual.AddComponent<SpriteRenderer>();
-            renderer.sprite = MoaiGolfSpriteCatalog.GolfClub;
-            renderer.sortingOrder = 3;
-            return pivot;
-        }
-
-        private void CreateTargetMoaiFallback(MoaiGolfMoaiKind kind, float x, float centerY, int sortingOrder)
-        {
-            var spec = MoaiGolfMoaiSpecRegistry.GetSpec(kind);
-            var moai = new GameObject($"Target Moai {kind}");
-            moai.transform.SetParent(transform);
-            moai.transform.position = new Vector2(x, centerY);
-            CreateCenteredSpriteChild(
-                "Target Moai Visual",
-                moai.transform,
-                MoaiGolfMoaiSpecRegistry.GetSprite(kind) ?? MoaiGolfSpriteCatalog.GetMoai(kind),
-                spec.VisualScale,
-                Color.white,
-                sortingOrder
-            );
-
-            var collider = moai.AddComponent<CapsuleCollider2D>();
-            collider.size = spec.ColliderSize;
-            collider.direction = CapsuleDirection2D.Vertical;
-
-            var body = moai.AddComponent<Rigidbody2D>();
-            body.bodyType = RigidbodyType2D.Static;
-            moai.AddComponent<MoaiGolfTargetMoaiMarker>();
-        }
-
-        private void CreateLaunchMoaiFallback(MoaiGolfRunState runState)
-        {
-            var spec = MoaiGolfMoaiSpecRegistry.GetSpec(runState.LaunchMoaiKind);
-            var moai = new GameObject("Launch Moai Collider");
-            moai.transform.SetParent(transform);
-            moai.transform.position = runState.LaunchPosition;
-            LaunchVisual = CreateCenteredSpriteChild(
-                "Launch Moai Visual",
-                moai.transform,
-                MoaiGolfMoaiSpecRegistry.GetSprite(runState.LaunchMoaiKind) ?? MoaiGolfSpriteCatalog.GetMoai(runState.LaunchMoaiKind),
-                spec.VisualScale,
-                Color.white,
-                4
-            ).transform;
-
-            var collider = moai.AddComponent<CapsuleCollider2D>();
-            collider.size = spec.ColliderSize;
-            collider.direction = CapsuleDirection2D.Vertical;
-
-            var material = new PhysicsMaterial2D($"{runState.LaunchMoaiKind} Material")
-            {
-                bounciness = spec.Bounciness,
-                friction = spec.Friction
-            };
-            collider.sharedMaterial = material;
-
-            LaunchBody = moai.AddComponent<Rigidbody2D>();
-            LaunchBody.mass = spec.Mass;
-            LaunchBody.bodyType = RigidbodyType2D.Dynamic;
-            LaunchBody.Sleep();
-            moai.AddComponent<MoaiGolfBounceSfx>();
-            moai.AddComponent<MoaiGolfTargetMoaiVoiceSfx>();
-            moai.AddComponent<MoaiGolfWorldBoundsBounce>();
-            moai.AddComponent<MoaiGolfLandingJudge>();
-        }
-
-        private GameObject CreatePixelPerfectSprite(string objectName, Sprite sprite, Vector2 bottomLeft, Color color, int sortingOrder)
-        {
-            return CreateSprite(objectName, sprite, bottomLeft, Vector2.one, color, sortingOrder);
-        }
-
-        private GameObject CreateSprite(string objectName, Sprite sprite, Vector2 bottomLeft, Vector2 scale, Color color, int sortingOrder)
-        {
-            var spriteObject = new GameObject(objectName);
-            spriteObject.transform.SetParent(transform);
-            spriteObject.transform.position = new Vector3(bottomLeft.x, bottomLeft.y, 0f);
-            spriteObject.transform.localScale = new Vector3(scale.x, scale.y, 1f);
-
-            var renderer = spriteObject.AddComponent<SpriteRenderer>();
-            renderer.sprite = sprite != null ? sprite : GetWhiteSprite();
-            renderer.color = color;
-            renderer.sortingOrder = sortingOrder;
-            return spriteObject;
-        }
-
-        private GameObject CreateCenteredSprite(string objectName, Sprite sprite, Vector2 center, Vector2 scale, Color color, int sortingOrder)
-        {
-            var spriteObject = new GameObject(objectName);
-            spriteObject.transform.SetParent(transform);
-            spriteObject.transform.localScale = new Vector3(scale.x, scale.y, 1f);
-
-            var renderer = spriteObject.AddComponent<SpriteRenderer>();
-            renderer.sprite = sprite != null ? sprite : GetWhiteSprite();
-            renderer.color = color;
-            renderer.sortingOrder = sortingOrder;
-
-            var boundsCenter = renderer.sprite.bounds.center;
-            spriteObject.transform.position = new Vector3(center.x - boundsCenter.x * scale.x, center.y - boundsCenter.y * scale.y, 0f);
-            return spriteObject;
-        }
-
-        private GameObject CreateCenteredSpriteChild(string objectName, Transform parent, Sprite sprite, Vector2 scale, Color color, int sortingOrder)
-        {
-            var spriteObject = new GameObject(objectName);
-            spriteObject.transform.SetParent(parent);
-            spriteObject.transform.localScale = new Vector3(scale.x, scale.y, 1f);
-
-            var renderer = spriteObject.AddComponent<SpriteRenderer>();
-            renderer.sprite = sprite != null ? sprite : GetWhiteSprite();
-            renderer.color = color;
-            renderer.sortingOrder = sortingOrder;
-
-            var boundsCenter = renderer.sprite.bounds.center;
-            spriteObject.transform.localPosition = new Vector3(-boundsCenter.x * scale.x, -boundsCenter.y * scale.y, 0f);
-            return spriteObject;
-        }
-
-        private static Sprite GetWhiteSprite()
-        {
-            if (whiteSprite != null)
-            {
-                return whiteSprite;
-            }
-
-            var texture = new Texture2D(1, 1);
-            texture.SetPixel(0, 0, Color.white);
-            texture.Apply();
-            whiteSprite = Sprite.Create(texture, new Rect(0f, 0f, 1f, 1f), new Vector2(0.5f, 0.5f), 1f);
-            return whiteSprite;
-        }
-
-        #endregion
     }
 }

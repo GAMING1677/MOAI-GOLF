@@ -5,24 +5,34 @@ namespace MoaiGolf
 {
     public sealed class MoaiGolfMouseAngleInput : MonoBehaviour
     {
-        private MoaiGolfGameController gameController;
-        private MoaiGolfRunState runState;
-        private MoaiGolfHud hud;
-        private MoaiGolfCameraController cameraController;
-        private Camera mainCamera;
+        [SerializeField] private Camera mainCamera;
+        [SerializeField] private MoaiGolfGameController gameController;
+        [SerializeField] private MoaiGolfRunState runState;
+        [SerializeField] private MoaiGolfHud hud;
+        [SerializeField] private MoaiGolfCameraController cameraController;
 
-        private void Start()
+        public void ConfigureDependencies(
+            Camera camera,
+            MoaiGolfGameController controller,
+            MoaiGolfRunState state,
+            MoaiGolfHud hudController,
+            MoaiGolfCameraController cameraControl
+        )
         {
-            gameController = FindAnyObjectByType<MoaiGolfGameController>();
-            runState = FindAnyObjectByType<MoaiGolfRunState>();
-            hud = FindAnyObjectByType<MoaiGolfHud>();
-            cameraController = FindAnyObjectByType<MoaiGolfCameraController>();
-            mainCamera = Camera.main;
+            mainCamera = camera;
+            gameController = controller;
+            runState = state;
+            hud = hudController;
+            cameraController = cameraControl;
+            ValidateReference(mainCamera, nameof(mainCamera));
+            ValidateReference(gameController, nameof(gameController));
+            ValidateReference(runState, nameof(runState));
+            ValidateReference(hud, nameof(hud));
+            ValidateReference(cameraController, nameof(cameraController));
         }
 
         private void Update()
         {
-            hud ??= FindAnyObjectByType<MoaiGolfHud>();
             if (hud != null && hud.ShouldBlockWorldInput)
             {
                 return;
@@ -46,11 +56,21 @@ namespace MoaiGolf
                 gameController.SetAngle(Mathf.Atan2(aimVector.y, aimVector.x) * Mathf.Rad2Deg);
             }
 
-            cameraController ??= FindAnyObjectByType<MoaiGolfCameraController>();
             if (mouse.leftButton.wasReleasedThisFrame && (cameraController == null || !cameraController.IsPointerPanning))
             {
                 gameController.ConfirmAngle();
             }
+        }
+
+        private bool ValidateReference(UnityEngine.Object reference, string fieldName)
+        {
+            if (reference != null)
+            {
+                return true;
+            }
+
+            Debug.LogError($"{nameof(MoaiGolfMouseAngleInput)} missing serialized reference: {fieldName}.", this);
+            return false;
         }
     }
 }

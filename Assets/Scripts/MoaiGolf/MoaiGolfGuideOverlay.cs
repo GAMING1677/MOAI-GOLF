@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,9 +26,10 @@ namespace MoaiGolf
 
         private static Sprite whitePixelSprite;
 
-        private MoaiGolfGameController gameController;
-        private MoaiGolfRunState runState;
-        private Camera mainCamera;
+        [SerializeField] private Camera mainCamera;
+        [SerializeField] private MoaiGolfGameController gameController;
+        [SerializeField] private MoaiGolfRunState runState;
+        [SerializeField] private MoaiGolfStageView stageView;
 
         private Transform angleArrowPivot;
         private SpriteRenderer angleArrowRenderer;
@@ -41,28 +43,43 @@ namespace MoaiGolf
         private Transform historyRoot;
         private readonly List<GameObject> historyVisuals = new();
         private int lastHistoryVersion = -1;
+        private bool powerVisualsPrewarmStarted;
 
-        private void Start()
+        public void ConfigureDependencies(
+            Camera camera,
+            MoaiGolfGameController controller,
+            MoaiGolfRunState state,
+            MoaiGolfStageView view
+        )
         {
-            gameController = FindAnyObjectByType<MoaiGolfGameController>();
-            runState = FindAnyObjectByType<MoaiGolfRunState>();
-            mainCamera = Camera.main;
-            EnsureVisuals();
+            mainCamera = camera;
+            gameController = controller;
+            runState = state;
+            stageView = view;
+            ValidateReference(mainCamera, nameof(mainCamera));
+            ValidateReference(gameController, nameof(gameController));
+            ValidateReference(runState, nameof(runState));
+            ValidateReference(stageView, nameof(stageView));
         }
 
         private void LateUpdate()
         {
-            gameController ??= FindAnyObjectByType<MoaiGolfGameController>();
-            runState ??= FindAnyObjectByType<MoaiGolfRunState>();
-            mainCamera ??= Camera.main;
             if (gameController == null || runState == null)
             {
                 return;
             }
 
-            EnsureVisuals();
-
             var phase = gameController.Phase;
+            if (phase == MoaiGolfGamePhase.AngleSelect)
+            {
+                EnsureAngleVisuals();
+            }
+            else if (phase == MoaiGolfGamePhase.PowerSelect)
+            {
+                EnsurePowerVisuals();
+            }
+
+            EnsureHistoryRoot();
 
             UpdateAngleArrow(phase == MoaiGolfGamePhase.AngleSelect);
             UpdatePreviousAngleArrow(phase == MoaiGolfGamePhase.AngleSelect);
@@ -72,7 +89,7 @@ namespace MoaiGolf
             UpdateHistoryVisuals();
         }
 
-        private void EnsureVisuals()
+        private void EnsureAngleVisuals()
         {
             if (angleArrowPivot == null)
             {
@@ -83,22 +100,53 @@ namespace MoaiGolf
             {
                 CreatePreviousAngleArrow();
             }
+        }
 
+        private void EnsurePowerVisuals()
+        {
+            if (powerVisualsPrewarmStarted)
+            {
+                return;
+            }
+
+            StartCoroutine(PrewarmPowerVisuals());
+            powerVisualsPrewarmStarted = true;
+        }
+
+        private bool ValidateReference(UnityEngine.Object reference, string fieldName)
+        {
+            if (reference != null)
+            {
+                return true;
+            }
+
+            Debug.LogError($"{nameof(MoaiGolfGuideOverlay)} missing serialized reference: {fieldName}.", this);
+            return false;
+        }
+
+        private IEnumerator PrewarmPowerVisuals()
+        {
             if (trajectoryDots == null)
             {
                 CreateTrajectoryDots();
+                yield return null;
             }
 
             if (powerGaugeRoot == null)
             {
                 CreatePowerGauge();
+                yield return null;
             }
 
             if (launchButtonRoot == null)
             {
                 CreateLaunchButton();
+                yield return null;
             }
+        }
 
+        private void EnsureHistoryRoot()
+        {
             if (historyRoot == null)
             {
                 var rootObj = new GameObject("History Trails");
@@ -136,16 +184,13 @@ namespace MoaiGolf
             renderer.sprite = arrowSprite != null ? arrowSprite : GetWhitePixelSprite();
             renderer.color = color;
             renderer.sortingOrder = sortingOrder;
-            // arrow.png は上向きの赤矢印（ピボット左下、bounds は (~0.96, ~1.45)）。
-            // 子スプライトをローカル -90° 回し、頭がローカル +X 方向を向くようにする。
-            // 親 (Pivot) を Z 軸で AngleDegrees だけ回せば、その向きに矢印が伸びる。
+            // arrow.png points up. Rotate the child sprite so the parent pivot's +X
+            // direction is the visible arrow direction used by launch angles.
             var renderedSprite = renderer.sprite;
             var spriteSize = renderedSprite != null ? renderedSprite.bounds.size : new Vector3(1f, 1f, 0f);
             var scale = AngleArrowWorldLength / Mathf.Max(spriteSize.y, 0.001f);
             spriteObj.transform.localScale = new Vector3(scale, scale, 1f);
             spriteObj.transform.localRotation = Quaternion.Euler(0f, 0f, -90f);
-            // -90° 回転後、矢印は (0, -spriteSize.x*scale) → (spriteSize.y*scale, 0) の範囲。
-            // 矢印の縦方向中央 (元の x 中心 = spriteSize.x*0.5) が原点と並ぶよう Y を補正する。
             spriteObj.transform.localPosition = new Vector3(0f, spriteSize.x * scale * 0.5f, 0f);
             return pivot.transform;
         }
@@ -285,7 +330,7 @@ namespace MoaiGolf
             // 矢印を予測放物線そのものに沿わせる。
             // 重力込みでミニシミュレーションし、モアイから AngleArrowMoaiClearance だけ進んだ地点に
             // 矢印の尾を置き、その時点の速度ベクトルの向きに矢印を回す。
-            var velocity = MoaiGolfLaunchPhysics.CalculateThrustVelocity(angleDegrees, power01);
+            var velocity = MoaiGolfLaunchPhysics.CalculateThrustVelocity(angleDegrees, power01, GetLaunchMass());
             var gravity = new Vector2(0f, MoaiGolfWorldSettings.GravityY);
             var start = runState.LaunchPosition;
             var pos = start;
@@ -378,7 +423,7 @@ namespace MoaiGolf
             }
 
             var startPos = runState.LaunchPosition;
-            var velocity = MoaiGolfLaunchPhysics.CalculateThrustVelocity(gameController.AngleDegrees, gameController.Power01);
+            var velocity = MoaiGolfLaunchPhysics.CalculateThrustVelocity(gameController.AngleDegrees, gameController.Power01, GetLaunchMass());
             var gravity = new Vector2(0f, MoaiGolfWorldSettings.GravityY);
             var pos = startPos;
             var hitTerrain = false;
@@ -479,6 +524,16 @@ namespace MoaiGolf
             }
 
             lastHistoryVersion = runState.HistoryVersion;
+        }
+
+        private float GetLaunchMass()
+        {
+            if (stageView?.LaunchBody != null)
+            {
+                return stageView.LaunchBody.mass;
+            }
+
+            return MoaiGolfWorldSettings.ReferenceLaunchMass;
         }
 
         private static Sprite GetWhitePixelSprite()

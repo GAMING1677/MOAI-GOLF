@@ -37,6 +37,9 @@ namespace MoaiGolf
         public const float LandingDwellPositionTolerance = 0.12f;
         public const float MinimumLaunchSpeed = 10f;
         public const float MaximumLaunchSpeed = 24f;
+        public const float ReferenceLaunchMass = 1f;
+        public const float MinimumLaunchMassSpeedMultiplier = 0.65f;
+        public const float MaximumLaunchMassSpeedMultiplier = 1.35f;
         public const float LaunchAngularVelocity = -520f;
     }
 }

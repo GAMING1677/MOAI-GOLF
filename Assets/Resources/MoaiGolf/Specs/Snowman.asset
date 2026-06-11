@@ -16,7 +16,7 @@ MonoBehaviour:
   sprite: {fileID: -8060926041658191225, guid: dec0a412cd0cb404a8cf840a1d205b66, type: 3}
   visualScale: {x: 1.15, y: 1.25}
   colliderSize: {x: 0.9, y: 1.1}
-  mass: 1.12
+  mass: 0.896
   bounciness: 0.58
   friction: 0.18
   feetOffset: 0

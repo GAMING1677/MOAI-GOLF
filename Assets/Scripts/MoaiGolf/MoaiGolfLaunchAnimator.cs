@@ -41,25 +41,47 @@ namespace MoaiGolf
         private const string ImpactHitResourcePath = "Audio/MO_WS_160_kick_hardstyle_raw_piep_F";
         private const float ImpactHitVolume = 0.451f;
 
-        private MoaiGolfGameController gameController;
-        private MoaiGolfRunState runState;
-        private MoaiGolfStageView stageView;
-        private MoaiGolfSeController seController;
-        private Camera mainCamera;
-        private AudioSource sfxAudioSource;
+        [SerializeField] private Camera mainCamera;
+        [SerializeField] private MoaiGolfGameController gameController;
+        [SerializeField] private MoaiGolfRunState runState;
+        [SerializeField] private MoaiGolfStageView stageView;
+        [SerializeField] private MoaiGolfSeController seController;
+        [SerializeField] private AudioSource sfxAudioSource;
         private AudioClip clubSpinWhooshClip;
         private AudioClip impactHitClip;
+        private ResourceRequest clubSpinWhooshClipRequest;
+        private ResourceRequest impactHitClipRequest;
 
         public bool IsPlaying { get; private set; }
 
-        private void Start()
+        public void ConfigureDependencies(
+            Camera camera,
+            MoaiGolfGameController controller,
+            MoaiGolfRunState state,
+            MoaiGolfStageView view,
+            MoaiGolfSeController se
+        )
         {
-            gameController = FindAnyObjectByType<MoaiGolfGameController>();
-            runState = FindAnyObjectByType<MoaiGolfRunState>();
-            stageView = FindAnyObjectByType<MoaiGolfStageView>();
-            mainCamera = Camera.main;
-            seController = FindAnyObjectByType<MoaiGolfSeController>();
-            EnsureSfxAudioSource();
+            mainCamera = camera;
+            gameController = controller;
+            runState = state;
+            stageView = view;
+            seController = se;
+            ValidateReference(mainCamera, nameof(mainCamera));
+            ValidateReference(gameController, nameof(gameController));
+            ValidateReference(runState, nameof(runState));
+            ValidateReference(stageView, nameof(stageView));
+            ValidateReference(seController, nameof(seController));
+            ValidateReference(sfxAudioSource, nameof(sfxAudioSource));
+        }
+
+        public void PreloadLaunchAssets()
+        {
+            PreloadLaunchAudio();
+            seController?.PreloadAudio();
+            stageView?.LaunchBody?.GetComponent<MoaiGolfBounceSfx>()?.PreloadBounceClip();
+            MoaiGolfImpactBlurOverlay.Prewarm(mainCamera);
+            MoaiGolfImpactParticles.Prewarm();
         }
 
         public void BeginLaunchSequence()
@@ -69,12 +91,7 @@ namespace MoaiGolf
                 return;
             }
 
-            gameController ??= FindAnyObjectByType<MoaiGolfGameController>();
-            runState ??= FindAnyObjectByType<MoaiGolfRunState>();
-            stageView ??= FindAnyObjectByType<MoaiGolfStageView>();
-            mainCamera ??= Camera.main;
-            seController ??= FindAnyObjectByType<MoaiGolfSeController>();
-            EnsureSfxAudioSource();
+            PreloadLaunchAssets();
 
             if (gameController == null || runState == null || stageView == null || mainCamera == null)
             {
@@ -104,47 +121,77 @@ namespace MoaiGolf
             Time.fixedDeltaTime = MoaiGolfWorldSettings.FixedTimestep;
         }
 
-        private void EnsureSfxAudioSource()
+        private void PreloadLaunchAudio()
         {
-            if (sfxAudioSource != null)
+            if (clubSpinWhooshClip == null && clubSpinWhooshClipRequest == null)
             {
-                return;
+                clubSpinWhooshClipRequest = Resources.LoadAsync<AudioClip>(ClubSpinWhooshResourcePath);
             }
 
-            sfxAudioSource = gameObject.AddComponent<AudioSource>();
-            sfxAudioSource.playOnAwake = false;
-            sfxAudioSource.loop = false;
-            sfxAudioSource.spatialBlend = 0f;
+            if (impactHitClip == null && impactHitClipRequest == null)
+            {
+                impactHitClipRequest = Resources.LoadAsync<AudioClip>(ImpactHitResourcePath);
+            }
+        }
+
+        private static AudioClip GetLoadedClip(ref AudioClip clip, ref ResourceRequest request)
+        {
+            if (clip != null)
+            {
+                return clip;
+            }
+
+            if (request == null)
+            {
+                return null;
+            }
+
+            if (!request.isDone)
+            {
+                return null;
+            }
+
+            clip = request.asset as AudioClip;
+            request = null;
+            return clip;
         }
 
         private void PlayClubSpinWhoosh()
         {
-            EnsureSfxAudioSource();
-            clubSpinWhooshClip ??= Resources.Load<AudioClip>(ClubSpinWhooshResourcePath);
-            if (sfxAudioSource == null || clubSpinWhooshClip == null)
+            var clip = GetLoadedClip(ref clubSpinWhooshClip, ref clubSpinWhooshClipRequest);
+            if (sfxAudioSource == null || clip == null)
             {
                 return;
             }
 
-            sfxAudioSource.PlayOneShot(clubSpinWhooshClip, ClubSpinWhooshVolume * GetSeVolume());
+            sfxAudioSource.PlayOneShot(clip, ClubSpinWhooshVolume * GetSeVolume());
         }
 
         private void PlayImpactHitSound()
         {
-            EnsureSfxAudioSource();
-            impactHitClip ??= Resources.Load<AudioClip>(ImpactHitResourcePath);
-            if (sfxAudioSource == null || impactHitClip == null)
+            var clip = GetLoadedClip(ref impactHitClip, ref impactHitClipRequest);
+            if (sfxAudioSource == null || clip == null)
             {
                 return;
             }
 
-            sfxAudioSource.PlayOneShot(impactHitClip, ImpactHitVolume * GetSeVolume());
+            sfxAudioSource.PlayOneShot(clip, ImpactHitVolume * GetSeVolume());
         }
 
         private float GetSeVolume()
         {
-            seController ??= FindAnyObjectByType<MoaiGolfSeController>();
             return seController != null ? seController.Volume : MoaiGolfSeController.DefaultVolume;
+        }
+
+        private bool ValidateReference(UnityEngine.Object reference, string fieldName)
+        {
+            if (reference != null)
+            {
+                return true;
+            }
+
+            Debug.LogError($"{nameof(MoaiGolfLaunchAnimator)} missing serialized reference: {fieldName}.", this);
+            return false;
         }
 
         private IEnumerator PlaySequence()
@@ -463,6 +510,24 @@ namespace MoaiGolf
             overlay.Play(camera);
         }
 
+        public static void Prewarm(Camera camera)
+        {
+            if (camera == null)
+            {
+                return;
+            }
+
+            var overlay = camera.GetComponent<MoaiGolfImpactBlurOverlay>();
+            if (overlay == null)
+            {
+                overlay = camera.gameObject.AddComponent<MoaiGolfImpactBlurOverlay>();
+            }
+
+            overlay.EnsureStreaks();
+            overlay.SetVisible(false);
+            overlay.enabled = false;
+        }
+
         private void Awake()
         {
             EnsureStreaks();
@@ -652,6 +717,11 @@ namespace MoaiGolf
                 color = Color.white
             };
             return particleMaterial;
+        }
+
+        public static void Prewarm()
+        {
+            GetParticleMaterial();
         }
     }
 }
