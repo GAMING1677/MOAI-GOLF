@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
 using System.IO;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace MoaiGolf
@@ -24,7 +25,7 @@ namespace MoaiGolf
             EnsureSpecAssets();
             var prefabSet = LoadOrCreatePrefabSet();
             prefabSet.launchMoaiPrefab = CreateLaunchMoaiPrefab();
-            prefabSet.targetMoaiPrefab = CreateTargetMoaiPrefab();
+            prefabSet.targetMoaiPrefabs = CreateTargetMoaiPrefabs();
             prefabSet.launchPedestalPrefab = CreateLaunchPedestalPrefab();
             prefabSet.targetPedestalPrefab = CreateTargetPedestalPrefab();
             prefabSet.terrainColliderPrefab = CreateTerrainColliderPrefab();
@@ -36,7 +37,40 @@ namespace MoaiGolf
             EditorUtility.SetDirty(prefabSet);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
+
+            var stageView = Object.FindAnyObjectByType<MoaiGolfStageView>();
+            if (stageView != null)
+            {
+                PlaceTargetMoaiPoolInScene(stageView, prefabSet);
+            }
+
             Debug.Log("Moai Golf stage prefabs and MoaiGolfStagePrefabSet generated.");
+        }
+
+        [MenuItem("Moai Golf/Place Target Moai Pool")]
+        public static void PlaceTargetMoaiPoolMenu()
+        {
+            var stageView = Object.FindAnyObjectByType<MoaiGolfStageView>();
+            if (stageView == null)
+            {
+                Debug.LogError("MoaiGolfStageView not found in the open scene.");
+                return;
+            }
+
+            var serializedStageView = new SerializedObject(stageView);
+            var assignedPrefabSet = serializedStageView.FindProperty("prefabSet").objectReferenceValue as MoaiGolfStagePrefabSet;
+            var prefabSet = assignedPrefabSet != null
+                ? assignedPrefabSet
+                : AssetDatabase.LoadAssetAtPath<MoaiGolfStagePrefabSet>(PrefabSetPath);
+            if (prefabSet == null || prefabSet.targetMoaiPrefabs == null || prefabSet.targetMoaiPrefabs.Length < MoaiGolfStageView.SceneTargetMoaiPoolCount)
+            {
+                Debug.LogError("Target Moai prefabs are missing. Run Moai Golf/Generate Stage Prefabs first.");
+                return;
+            }
+
+            PlaceTargetMoaiPoolInScene(stageView, prefabSet);
+            EditorSceneManager.MarkSceneDirty(stageView.gameObject.scene);
+            Debug.Log($"Placed {MoaiGolfStageView.SceneTargetMoaiPoolCount} target Moai pool instances and refreshed serialized references.");
         }
 
         [MenuItem("Moai Golf/Create Moai Prefab")]
@@ -123,12 +157,84 @@ namespace MoaiGolf
             return SavePrefab(root, $"{PrefabRoot}/LaunchMoai.prefab");
         }
 
-        private static GameObject CreateTargetMoaiPrefab()
+        private static GameObject[] CreateTargetMoaiPrefabs()
         {
-            var root = CreateMoaiRoot("Target Moai", MoaiGolfMoaiKind.Sunglasses, MoaiGolfMoaiRole.Target);
+            var prefabs = new GameObject[MoaiGolfStageView.SceneTargetMoaiPoolCount];
+            for (var poolIndex = 0; poolIndex < prefabs.Length; poolIndex++)
+            {
+                var kind = MoaiGolfStageView.GetTargetMoaiKindForPoolIndex(poolIndex);
+                var variantIndex = poolIndex % MoaiGolfStageView.TargetMoaiPerKindCount;
+                prefabs[poolIndex] = CreateTargetMoaiPrefab(kind, poolIndex, variantIndex);
+            }
+
+            return prefabs;
+        }
+
+        private static GameObject CreateTargetMoaiPrefab(MoaiGolfMoaiKind kind, int poolIndex, int variantIndex)
+        {
+            var root = CreateMoaiRoot(
+                $"Target Moai {kind} {variantIndex + 1:00}",
+                kind,
+                MoaiGolfMoaiRole.Target
+            );
             root.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
             root.AddComponent<MoaiGolfTargetMoaiMarker>();
-            return SavePrefab(root, $"{PrefabRoot}/TargetMoai.prefab");
+            var marker = root.AddComponent<MoaiGolfStageElement>();
+            marker.Configure(MoaiGolfStageElementKind.TargetMoai, poolIndex);
+            return SavePrefab(root, $"{PrefabRoot}/TargetMoai_{kind}_{variantIndex:00}.prefab");
+        }
+
+        public static void PlaceTargetMoaiPoolInScene(MoaiGolfStageView stageView, MoaiGolfStagePrefabSet prefabSet)
+        {
+            if (stageView == null || prefabSet?.targetMoaiPrefabs == null)
+            {
+                return;
+            }
+
+            RemoveExistingTargetMoais(stageView.transform);
+            for (var poolIndex = 0; poolIndex < MoaiGolfStageView.SceneTargetMoaiPoolCount; poolIndex++)
+            {
+                var prefab = poolIndex < prefabSet.targetMoaiPrefabs.Length
+                    ? prefabSet.targetMoaiPrefabs[poolIndex]
+                    : null;
+                if (prefab == null)
+                {
+                    Debug.LogError($"Missing target Moai prefab for pool index {poolIndex}.", stageView);
+                    continue;
+                }
+
+                var kind = MoaiGolfStageView.GetTargetMoaiKindForPoolIndex(poolIndex);
+                var variantIndex = poolIndex % MoaiGolfStageView.TargetMoaiPerKindCount;
+                var instance = PrefabUtility.InstantiatePrefab(prefab, stageView.transform) as GameObject;
+                if (instance == null)
+                {
+                    continue;
+                }
+
+                instance.name = $"Target Moai {kind} {variantIndex + 1:00}";
+                instance.transform.position = Vector3.zero;
+                var marker = instance.GetComponent<MoaiGolfStageElement>() ?? instance.AddComponent<MoaiGolfStageElement>();
+                marker.Configure(MoaiGolfStageElementKind.TargetMoai, poolIndex);
+                var entity = instance.GetComponent<MoaiGolfMoaiEntity>();
+                entity?.ConfigureTarget(kind, 2);
+                instance.SetActive(false);
+            }
+
+            stageView.RefreshSerializedSceneReferencesForEditor();
+            stageView.RefreshTargetLineupPreview();
+            EditorUtility.SetDirty(stageView);
+        }
+
+        private static void RemoveExistingTargetMoais(Transform stageRoot)
+        {
+            var elements = stageRoot.GetComponentsInChildren<MoaiGolfStageElement>(true);
+            foreach (var element in elements)
+            {
+                if (element != null && element.Kind == MoaiGolfStageElementKind.TargetMoai)
+                {
+                    Object.DestroyImmediate(element.gameObject);
+                }
+            }
         }
 
         private static GameObject CreateMoaiRoot(string objectName, MoaiGolfMoaiKind kind, MoaiGolfMoaiRole role)

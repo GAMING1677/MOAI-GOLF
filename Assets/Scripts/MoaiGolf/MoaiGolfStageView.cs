@@ -12,7 +12,16 @@ namespace MoaiGolf
         public const int TargetMoaiPerKindCount = 5;
         public const int ActiveTargetMoaiSlotCount = 5;
         public const int SceneTargetMoaiPoolCount = TargetMoaiPerKindCount * 4;
-        private const float TargetMoaiSuccessZonePadding = 0.28f;
+        private const float TargetMoaiSuccessZonePadding = 0.10f;
+
+        public static readonly float[] DefaultTargetLineupSlotRootX =
+        {
+            27.1f,
+            28.2f,
+            31.2f,
+            32.5f,
+            33.6f,
+        };
 
         public static readonly Vector2[] TargetPedestalTopSurfacePoints =
         {
@@ -195,7 +204,9 @@ namespace MoaiGolf
 
         private bool TryBuildFromScene(MoaiGolfRunState runState)
         {
-            if (!ValidateSceneReferences())
+            EnsureRuntimeDependencies();
+            RefreshSerializedSceneReferencesForEditor();
+            if (!ValidateSceneReferences() && !TryEnsureTargetMoaiPoolFromPrefabSet())
             {
                 return false;
             }
@@ -399,7 +410,6 @@ namespace MoaiGolf
                 }
             }
 
-            var lineupXs = BuildTargetLineupXPositionsAvoidingSuccessZone(kinds.ToArray(), TryGetSuccessZoneRect());
             var activeIndex = 0;
             foreach (var poolIndex in selectedPoolIndices)
             {
@@ -415,7 +425,7 @@ namespace MoaiGolf
                 }
 
                 var kind = GetTargetMoaiKindForPoolIndex(poolIndex);
-                var rootX = activeIndex < lineupXs.Count ? lineupXs[activeIndex] : element.transform.position.x;
+                var rootX = GetTargetLineupSlotRootX(activeIndex, element.transform.position.x);
                 ConfigureTargetMoaiOnSlot(element, kind, sortingOrder, null, rootX);
                 activeIndex++;
             }
@@ -494,6 +504,16 @@ namespace MoaiGolf
             var rootX = computedRootX ?? slot.transform.position.x;
             var visualFeetY = GetTargetPedestalTopY(rootX) + TargetMoaiVisualFeetLift;
             slot.transform.position = new Vector2(rootX, ResolveTargetMoaiRootY(kind, visualFeetY));
+        }
+
+        public static float GetTargetLineupSlotRootX(int slotIndex, float fallbackRootX = 0f)
+        {
+            if (slotIndex >= 0 && slotIndex < DefaultTargetLineupSlotRootX.Length)
+            {
+                return DefaultTargetLineupSlotRootX[slotIndex];
+            }
+
+            return fallbackRootX;
         }
 
         public static float GetTargetMoaiVisualHalfWidth(MoaiGolfMoaiKind kind)
@@ -586,6 +606,11 @@ namespace MoaiGolf
         )
         {
             var points = ResolveTargetPedestalTopSurfacePoints();
+            if (points == null || points.Length < 2)
+            {
+                points = TargetPedestalTopSurfacePoints;
+            }
+
             var rimLeft = points[0].x;
             var rimRight = points[^1].x;
             var positions = new System.Collections.Generic.List<float>(kinds?.Length ?? 0);
@@ -624,7 +649,7 @@ namespace MoaiGolf
 
         private Vector2[] ResolveTargetPedestalTopSurfacePoints()
         {
-            if (resolvedTargetPedestalTopSurfacePoints != null)
+            if (resolvedTargetPedestalTopSurfacePoints != null && resolvedTargetPedestalTopSurfacePoints.Length >= 2)
             {
                 return resolvedTargetPedestalTopSurfacePoints;
             }
@@ -746,6 +771,68 @@ namespace MoaiGolf
             runtimeSeController = seController;
         }
 
+        private void EnsureRuntimeDependencies()
+        {
+            if (gameController == null)
+            {
+                gameController = FindAnyObjectByType<MoaiGolfGameController>();
+            }
+
+            if (seController == null)
+            {
+                seController = FindAnyObjectByType<MoaiGolfSeController>();
+            }
+        }
+
+        private bool TryEnsureTargetMoaiPoolFromPrefabSet()
+        {
+            if (prefabSet?.targetMoaiPrefabs == null || prefabSet.targetMoaiPrefabs.Length < SceneTargetMoaiPoolCount)
+            {
+                return false;
+            }
+
+            RemoveExistingTargetMoais();
+            for (var poolIndex = 0; poolIndex < SceneTargetMoaiPoolCount; poolIndex++)
+            {
+                var prefab = poolIndex < prefabSet.targetMoaiPrefabs.Length
+                    ? prefabSet.targetMoaiPrefabs[poolIndex]
+                    : null;
+                if (prefab == null)
+                {
+                    Debug.LogError($"{nameof(MoaiGolfStageView)} missing target Moai prefab for pool index {poolIndex}.", this);
+                    return false;
+                }
+
+                var kind = GetTargetMoaiKindForPoolIndex(poolIndex);
+                var variantIndex = poolIndex % TargetMoaiPerKindCount;
+                var instance = Instantiate(prefab, transform);
+                instance.name = $"Target Moai {kind} {variantIndex + 1:00}";
+                instance.transform.position = Vector3.zero;
+                var marker = instance.GetComponent<MoaiGolfStageElement>() ?? instance.AddComponent<MoaiGolfStageElement>();
+                marker.Configure(MoaiGolfStageElementKind.TargetMoai, poolIndex);
+                var entity = instance.GetComponent<MoaiGolfMoaiEntity>();
+                entity?.ConfigureTarget(kind, 2);
+                instance.SetActive(false);
+            }
+
+            RefreshSerializedSceneReferencesForEditor();
+            return ValidateSceneReferences();
+        }
+
+        private void RemoveExistingTargetMoais()
+        {
+            var elements = GetComponentsInChildren<MoaiGolfStageElement>(true);
+            foreach (var element in elements)
+            {
+                if (element != null && element.Kind == MoaiGolfStageElementKind.TargetMoai)
+                {
+                    Destroy(element.gameObject);
+                }
+            }
+
+            targetMoaiPoolElements = System.Array.Empty<MoaiGolfStageElement>();
+        }
+
         private bool ValidateSceneReferences()
         {
             var isValid = true;
@@ -836,6 +923,11 @@ namespace MoaiGolf
         private float GetTargetPedestalTopY(float x)
         {
             var points = ResolveTargetPedestalTopSurfacePoints();
+            if (points == null || points.Length == 0)
+            {
+                return RightPedestalTopY;
+            }
+
             if (x <= points[0].x)
             {
                 return points[0].y;

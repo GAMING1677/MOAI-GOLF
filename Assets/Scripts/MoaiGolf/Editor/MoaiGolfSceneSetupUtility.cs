@@ -12,18 +12,6 @@ namespace MoaiGolf
         private const string SampleScenePath = "Assets/Scenes/SampleScene.unity";
         private const string PrefabSetPath = "Assets/Resources/MoaiGolfStagePrefabSet.asset";
 
-        public static void RebuildSceneLayout()
-        {
-            MoaiGolfStagePrefabUtility.GenerateAll();
-            SetupSampleScene();
-        }
-
-        [MenuItem("Moai Golf/Rebuild Scene Layout")]
-        public static void RebuildSceneLayoutMenu()
-        {
-            RebuildSceneLayout();
-        }
-
         [MenuItem("Moai Golf/Setup Sample Scene")]
         public static void SetupSampleScene()
         {
@@ -51,7 +39,8 @@ namespace MoaiGolf
             AddIfMissing<MoaiGolfMouseAngleInput>(gameRoot);
             AddIfMissing<MoaiGolfMousePowerInput>(gameRoot);
             AddIfMissing<MoaiGolfHud>(gameRoot);
-            AddIfMissing<MoaiGolfGuideOverlay>(gameRoot);
+            var guideOverlay = AddIfMissing<MoaiGolfGuideOverlay>(gameRoot);
+            MoaiGolfGuideOverlaySetupUtility.EnsureGuideVisuals(guideOverlay);
             var launchAnimator = AddIfMissing<MoaiGolfLaunchAnimator>(gameRoot);
             AddIfMissing<MoaiGolfSeController>(gameRoot);
             AddIfMissing<MoaiGolfCameraController>(gameRoot);
@@ -72,7 +61,7 @@ namespace MoaiGolf
             stageSerialized.FindProperty("useScenePlacedElements").boolValue = true;
             stageSerialized.ApplyModifiedPropertiesWithoutUndo();
 
-            PlaceStagePrefabs(stageRoot.transform, prefabSet);
+            PlaceStagePrefabs(stageView, stageRoot.transform, prefabSet);
             stageView.RefreshSerializedSceneReferencesForEditor();
             ConfigureScenePreview(stageView);
 
@@ -86,7 +75,7 @@ namespace MoaiGolf
             Debug.Log("Moai Golf sample scene setup complete.");
         }
 
-        private static void PlaceStagePrefabs(Transform stageRoot, MoaiGolfStagePrefabSet prefabSet)
+        private static void PlaceStagePrefabs(MoaiGolfStageView stageView, Transform stageRoot, MoaiGolfStagePrefabSet prefabSet)
         {
             var stage = MoaiGolfStageDefinition.CreateFirstStage();
             var previewLaunchX = stage.LaunchPosition.x;
@@ -143,7 +132,7 @@ namespace MoaiGolf
                 new Vector3(launchPosition.x, launchPosition.y, 0f),
                 Vector3.one
             );
-
+            MoaiGolfStagePrefabUtility.PlaceTargetMoaiPoolInScene(stageView, prefabSet);
         }
 
         private static void ConfigureScenePreview(MoaiGolfStageView stageView)

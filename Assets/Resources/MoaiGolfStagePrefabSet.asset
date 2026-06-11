@@ -13,12 +13,27 @@ MonoBehaviour:
   m_Name: MoaiGolfStagePrefabSet
   m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfStagePrefabSet
   launchMoaiPrefab: {fileID: 6345471154412690676, guid: 598e6a5cf2660e34aa67cd3bfa5724ca, type: 3}
-  targetMoaiPrefab: {fileID: 547761727623884488, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-  targetMoaiPrefabsByKind:
-  - {fileID: 547761727623884488, guid: 1305f6f69133e3841b7d83ce6566ddbc, type: 3}
-  - {fileID: 7959447490344865293, guid: 5b0d438dfac2f684e80e72b9c3bf4207, type: 3}
-  - {fileID: 6085828732903316517, guid: 2d1f7a195ce4e9c4087f3e5c58a57673, type: 3}
-  - {fileID: 4232427024110971287, guid: f5f6b3187b232f340987b53a2c095197, type: 3}
+  targetMoaiPrefabs:
+  - {fileID: 6506691468141468442, guid: 2c5baed75f0bad24ea18af10c6cc442a, type: 3}
+  - {fileID: 6119485939017327517, guid: cba8aa3be55012a4d9245c9d050eb16e, type: 3}
+  - {fileID: 6077819358319737829, guid: f39b45c1e942be143b69a80c5605fbc8, type: 3}
+  - {fileID: 37647042328456243, guid: 9015ba5c5f2b2ba409f2adfd6b9fd8b6, type: 3}
+  - {fileID: 2349859851370458040, guid: 91d8493a7897a8c4a966529055aa9200, type: 3}
+  - {fileID: 140404290162184060, guid: 1687c02586f72434d9c92fd15e6914ff, type: 3}
+  - {fileID: 3376484020716530180, guid: 7347f1f7f865f724eb88f463fdf85efd, type: 3}
+  - {fileID: 2339679442715081044, guid: abbb4b4c9bc077943a8bc5adc96f0a7c, type: 3}
+  - {fileID: 7569647968623031633, guid: 62b6bcee01b0c34468dd3637f3943e51, type: 3}
+  - {fileID: 6957641578942298299, guid: 884771f4d497615448b997820c3fd704, type: 3}
+  - {fileID: 9156928078734319820, guid: f155ccf56b070044dbf63963577933ed, type: 3}
+  - {fileID: 8577002934906805460, guid: 90d2053429dbf2649a7485da431620df, type: 3}
+  - {fileID: 3636788198391293753, guid: 9648d2bbdcce8ce4e907e09c3d971330, type: 3}
+  - {fileID: 2599895214536996966, guid: fdc79eb5255010147b78da14343a66f1, type: 3}
+  - {fileID: 7144632603135358478, guid: cb80b55cab83dcd488c512c198691518, type: 3}
+  - {fileID: 2539944680083107951, guid: cb8dea502a260cd4ab6becf62949485b, type: 3}
+  - {fileID: 3631789657675793406, guid: 12a6dd59128d5df45a1913bff98adf74, type: 3}
+  - {fileID: 1858837491474948362, guid: 1072272385f557840898e25b4a144269, type: 3}
+  - {fileID: 7441987955844013371, guid: 3be08fbf6c7f1e24da9eec01d0560190, type: 3}
+  - {fileID: 3275612536568094800, guid: f057a4a405e18ef4c87dbbb7e7f0417b, type: 3}
   launchPedestalPrefab: {fileID: 7021792254082963262, guid: 67a7511714205734abfbdb81a904d656, type: 3}
   targetPedestalPrefab: {fileID: 922859006647116223, guid: ddcb7e6949679704cbe23b2678c54557, type: 3}
   terrainColliderPrefab: {fileID: 5894108808096225215, guid: 1f257fc6444c9a6468e695e68abc8403, type: 3}

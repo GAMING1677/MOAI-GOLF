@@ -8,7 +8,7 @@ namespace MoaiGolf
         public const string DefaultResourcePath = "MoaiGolfStagePrefabSet";
 
         public GameObject launchMoaiPrefab;
-        public GameObject targetMoaiPrefab;
+        public GameObject[] targetMoaiPrefabs = System.Array.Empty<GameObject>();
         public GameObject launchPedestalPrefab;
         public GameObject targetPedestalPrefab;
         public GameObject terrainColliderPrefab;

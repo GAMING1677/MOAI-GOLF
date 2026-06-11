@@ -57,6 +57,8 @@ namespace MoaiGolf
         private void Awake()
         {
             ResolveUiReferencesFromHierarchy();
+            EnsureHudCanvasScale();
+            EnsureResultSprites();
 
             if (!ValidateReferences())
             {
@@ -121,8 +123,10 @@ namespace MoaiGolf
             resultImage ??= canvas.Find("ResultOverlay/ResultImage")?.GetComponent<Image>();
             resultFallbackLabel ??= canvas.Find("ResultOverlay/ResultImage/FallbackLabel")?.GetComponent<Text>();
             resultOptionsButton ??= FindUiButton(canvas, "ResultOverlay/OptionsButton");
-            resultRetrySameButton ??= FindUiButton(canvas, "ResultOverlay/RetrySameButton");
-            resultRetryRerollButton ??= FindUiButton(canvas, "ResultOverlay/RetryRerollButton");
+            resultRetrySameButton ??= FindUiButton(canvas, "ResultOverlay/BottomButtonRow/RetrySameButton")
+                ?? FindUiButton(canvas, "ResultOverlay/RetrySameButton");
+            resultRetryRerollButton ??= FindUiButton(canvas, "ResultOverlay/BottomButtonRow/RetryRerollButton")
+                ?? FindUiButton(canvas, "ResultOverlay/RetryRerollButton");
         }
 
         private static GameObject FindUiObject(Transform root, string path)
@@ -326,6 +330,10 @@ namespace MoaiGolf
             if (optionsDialogRoot != null)
             {
                 optionsDialogRoot.SetActive(isMenuOpen);
+                if (isMenuOpen)
+                {
+                    optionsDialogRoot.transform.SetAsLastSibling();
+                }
             }
 
             if (isResultPhase)
@@ -336,26 +344,91 @@ namespace MoaiGolf
 
         private void RefreshResultPresentation()
         {
+            EnsureResultSprites();
+
             var succeeded = gameController.LastResultSucceeded == true;
             var sprite = succeeded ? resultSuccessSprite : resultFailedSprite;
             if (resultImage != null)
             {
                 resultImage.sprite = sprite;
-                resultImage.enabled = sprite != null;
+                resultImage.enabled = sprite;
+                resultImage.preserveAspect = true;
+                resultImage.type = Image.Type.Simple;
             }
 
             if (resultFallbackLabel != null)
             {
-                var showFallback = sprite == null;
-                resultFallbackLabel.gameObject.SetActive(showFallback);
-                if (showFallback)
+                if (sprite)
                 {
-                    resultFallbackLabel.text = succeeded ? "SUCCESS!!" : "FAILED";
-                    resultFallbackLabel.color = succeeded
-                        ? new Color(1f, 0.12f, 0.08f)
-                        : new Color(0.88f, 0.94f, 1f);
+                    resultFallbackLabel.gameObject.SetActive(false);
+                }
+                else
+                {
+                    resultFallbackLabel.text = succeeded ? "SUCCESS!!" : "FAILED...";
+                    resultFallbackLabel.gameObject.SetActive(true);
                 }
             }
+        }
+
+        private void EnsureHudCanvasScale()
+        {
+            var canvas = transform.Find(HudCanvasObjectName) as RectTransform;
+            if (canvas == null)
+            {
+                return;
+            }
+
+            if (canvas.localScale == Vector3.zero)
+            {
+                canvas.localScale = Vector3.one;
+            }
+
+            canvas.anchorMin = Vector2.zero;
+            canvas.anchorMax = Vector2.one;
+            canvas.offsetMin = Vector2.zero;
+            canvas.offsetMax = Vector2.zero;
+            canvas.pivot = new Vector2(0.5f, 0.5f);
+        }
+
+        private void EnsureResultSprites()
+        {
+            if (!resultSuccessSprite)
+            {
+                resultSuccessSprite = LoadResultSprite("MoaiGolf/UI/result_success");
+            }
+
+            if (!resultFailedSprite)
+            {
+                resultFailedSprite = LoadResultSprite("MoaiGolf/UI/result_failed");
+            }
+        }
+
+        private static Sprite LoadResultSprite(string resourcePath)
+        {
+            var sprites = Resources.LoadAll<Sprite>(resourcePath);
+            if (sprites.Length > 0)
+            {
+                return sprites[0];
+            }
+
+            var sprite = Resources.Load<Sprite>(resourcePath);
+            if (sprite)
+            {
+                return sprite;
+            }
+
+            var texture = Resources.Load<Texture2D>(resourcePath);
+            if (!texture)
+            {
+                return null;
+            }
+
+            return Sprite.Create(
+                texture,
+                new Rect(0f, 0f, texture.width, texture.height),
+                new Vector2(0.5f, 0.5f),
+                100f
+            );
         }
 
         private void OpenOptionsMenu()

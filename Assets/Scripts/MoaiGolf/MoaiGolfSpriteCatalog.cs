@@ -20,8 +20,8 @@ namespace MoaiGolf
             {
                 MoaiGolfMoaiKind.Sunglasses => "Assets/Textures/moai.png",
                 MoaiGolfMoaiKind.Ribbon => "Assets/Textures/moai2.png",
-                MoaiGolfMoaiKind.Macho => "Assets/Textures/moai3.png",
-                MoaiGolfMoaiKind.Snowman => "Assets/Textures/moai4.png",
+                MoaiGolfMoaiKind.Macho => "Assets/Textures/moai4.png",
+                MoaiGolfMoaiKind.Snowman => "Assets/Textures/moai3.png",
                 _ => "Assets/Textures/moai.png"
             };
             return LoadWholeTextureSprite(path, MoaiGolfWorldSettings.PixelsPerUnit);
@@ -34,8 +34,8 @@ namespace MoaiGolf
             {
                 MoaiGolfMoaiKind.Sunglasses => "Assets/Textures/moai.png",
                 MoaiGolfMoaiKind.Ribbon => "Assets/Textures/moai2.png",
-                MoaiGolfMoaiKind.Macho => "Assets/Textures/moai3.png",
-                MoaiGolfMoaiKind.Snowman => "Assets/Textures/moai4.png",
+                MoaiGolfMoaiKind.Macho => "Assets/Textures/moai4.png",
+                MoaiGolfMoaiKind.Snowman => "Assets/Textures/moai3.png",
                 _ => "Assets/Textures/moai.png"
             };
             return LoadPrimarySpriteAsset(path);
@@ -52,9 +52,43 @@ namespace MoaiGolf
             return LoadPrimarySpriteAsset("Assets/Textures/here.png");
         }
 
+        public static Sprite GetPersistedArrow()
+        {
+            return LoadNamedSpriteAsset("Assets/Textures/arrow.png", "arrow_0");
+        }
+
+        public static Sprite GetPersistedResultSuccess()
+        {
+            return LoadFullTextureSpriteAsset("Assets/Textures/result_success.png");
+        }
+
+        public static Sprite GetPersistedResultFailed()
+        {
+            return LoadFullTextureSpriteAsset("Assets/Textures/result_failed.png");
+        }
+
+        public static Sprite GetPersistedTitleLogo()
+        {
+            return LoadFullTextureSpriteAsset("Assets/Textures/MOAI_GOLF_LOGO.png", 100f)
+                ?? LoadPrimarySpriteAsset("Assets/Textures/MOAI_GOLF_LOGO.png");
+        }
+
         public static Sprite GetPersistedWhite()
         {
             return LoadPrimarySpriteAsset("Assets/Textures/generated/white1x1.png");
+        }
+
+        public static Sprite LoadNamedSpriteAsset(string assetPath, string spriteName)
+        {
+            if (string.IsNullOrEmpty(assetPath) || string.IsNullOrEmpty(spriteName))
+            {
+                return null;
+            }
+
+            return AssetDatabase
+                .LoadAllAssetsAtPath(assetPath)
+                .OfType<Sprite>()
+                .FirstOrDefault(sprite => sprite.name == spriteName);
         }
 
         public static Sprite LoadPrimarySpriteAsset(string assetPath)
@@ -88,6 +122,34 @@ namespace MoaiGolf
             }
 
             return best;
+        }
+
+        public static Sprite LoadFullTextureSpriteAsset(string assetPath, float pixelsPerUnit = 100f)
+        {
+            if (string.IsNullOrEmpty(assetPath))
+            {
+                return null;
+            }
+
+            var texture = AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath);
+            if (texture == null)
+            {
+                return null;
+            }
+
+            var fullRect = new Rect(0f, 0f, texture.width, texture.height);
+            foreach (var sprite in AssetDatabase.LoadAllAssetsAtPath(assetPath).OfType<Sprite>())
+            {
+                if (Mathf.Approximately(sprite.rect.x, fullRect.x)
+                    && Mathf.Approximately(sprite.rect.y, fullRect.y)
+                    && Mathf.Approximately(sprite.rect.width, fullRect.width)
+                    && Mathf.Approximately(sprite.rect.height, fullRect.height))
+                {
+                    return sprite;
+                }
+            }
+
+            return Sprite.Create(texture, fullRect, new Vector2(0.5f, 0.5f), pixelsPerUnit);
         }
 #endif
 

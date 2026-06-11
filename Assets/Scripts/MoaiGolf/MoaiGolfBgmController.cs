@@ -19,12 +19,14 @@ namespace MoaiGolf
             set
             {
                 volume = Mathf.Clamp01(value);
+                MoaiGolfAudioSettingsStore.BgmVolume = volume;
                 ApplyVolume();
             }
         }
 
         private void Awake()
         {
+            volume = MoaiGolfAudioSettingsStore.BgmVolume;
             EnsureAudioSource();
             ApplyVolume();
         }

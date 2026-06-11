@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Macho
   m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfMoaiSpecAsset
   kind: 2
-  sprite: {fileID: 5669107140713340431, guid: 9be93b04c5db86b448519053993579a3, type: 3}
+  sprite: {fileID: -8060926041658191225, guid: dec0a412cd0cb404a8cf840a1d205b66, type: 3}
   visualScale: {x: 1.35, y: 1.2}
   colliderSize: {x: 1.05, y: 1}
   mass: 2.025

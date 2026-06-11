@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace MoaiGolf
 {
-    internal static class MoaiGolfPowerControlsLayout
+    public static class MoaiGolfPowerControlsLayout
     {
         public const float GaugeWidth = 7.8f;
         public const float GaugeHeight = 0.46f;

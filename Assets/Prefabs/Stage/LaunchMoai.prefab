@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 2710386334023444923}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.041999996, z: 0}
+  m_LocalPosition: {x: -0.031068208, y: 0.042000055, z: 0}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -259,3 +259,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88d71faf36f44d6ba362c02a64cc28d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoaiGolf.MoaiGolfLandingJudge
+  gameController: {fileID: 0}
+  runState: {fileID: 0}
+  stageView: {fileID: 0}

@@ -1,0 +1,676 @@
+fileFormatVersion: 2
+guid: 692d93e83f2962b45812e0576b16efdc
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 220510055180347739
+    second: MOAI_GOLF_LOGO_0
+  - first:
+      213: -8729149342625880569
+    second: MOAI_GOLF_LOGO_1
+  - first:
+      213: 8208554335489491297
+    second: MOAI_GOLF_LOGO_2
+  - first:
+      213: 8267074049890543608
+    second: MOAI_GOLF_LOGO_3
+  - first:
+      213: 7674025943229725471
+    second: MOAI_GOLF_LOGO_4
+  - first:
+      213: -2391314659663203407
+    second: MOAI_GOLF_LOGO_5
+  - first:
+      213: 7430784772640792026
+    second: MOAI_GOLF_LOGO_6
+  - first:
+      213: -4310792325395793335
+    second: MOAI_GOLF_LOGO_7
+  - first:
+      213: 5312538328806316455
+    second: MOAI_GOLF_LOGO_8
+  - first:
+      213: -7764020530104978794
+    second: MOAI_GOLF_LOGO_9
+  - first:
+      213: 4699120190172592927
+    second: MOAI_GOLF_LOGO_10
+  - first:
+      213: 9026309323043419354
+    second: MOAI_GOLF_LOGO_11
+  - first:
+      213: -763839190122082372
+    second: MOAI_GOLF_LOGO_12
+  - first:
+      213: 676166158981848025
+    second: MOAI_GOLF_LOGO_13
+  - first:
+      213: 7514057929796274246
+    second: MOAI_GOLF_LOGO_14
+  - first:
+      213: 5737094233468151476
+    second: MOAI_GOLF_LOGO_15
+  - first:
+      213: -3495680809203458395
+    second: MOAI_GOLF_LOGO_16
+  - first:
+      213: -417762897364362790
+    second: MOAI_GOLF_LOGO_17
+  - first:
+      213: -6534135260685477394
+    second: MOAI_GOLF_LOGO_18
+  - first:
+      213: -5121795783902834800
+    second: MOAI_GOLF_LOGO_19
+  - first:
+      213: -6367641125210282851
+    second: MOAI_GOLF_LOGO_20
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 1
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: MOAI_GOLF_LOGO_0
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 429
+        width: 141
+        height: 225
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b592d641ab86f0300800000000000000
+      internalID: 220510055180347739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MOAI_GOLF_LOGO_1
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 429
+        width: 97
+        height: 225
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70623710ce4dbd680800000000000000
+      internalID: -8729149342625880569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MOAI_GOLF_LOGO_2
+      rect:
+        serializedVersion: 2
+        x: 304
+        y: 429
+        width: 101
+        height: 225
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16108566da4aae170800000000000000
+      internalID: 8208554335489491297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MOAI_GOLF_LOGO_3
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 427
+        width: 93
+        height: 249
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8f7639b2c0c8ab270800000000000000
+      internalID: 8267074049890543608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MOAI_GOLF_LOGO_4
+      rect:
+        serializedVersion: 2
+        x: 530
+        y: 521
+        width: 38
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1bf657cfed9f7a60800000000000000
+      internalID: 7674025943229725471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MOAI_GOLF_LOGO_5
+      rect:
+        serializedVersion: 2
+        x: 574
+        y: 429
+        width: 101
+        height: 225
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1b3379c9cf750ded0800000000000000
+      internalID: -2391314659663203407
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MOAI_GOLF_LOGO_6
+      rect:
+        serializedVersion: 2
+        x: 685
+        y: 429
+        width: 98
+        height: 225
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: addd2a771637f1760800000000000000
+      internalID: 7430784772640792026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MOAI_GOLF_LOGO_7
+      rect:
+        serializedVersion: 2
+        x: 794
+        y: 429
+        width: 79
+        height: 225
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 94abd48383dfc24c0800000000000000
+      internalID: -4310792325395793335
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MOAI_GOLF_LOGO_8
+      rect:
+        serializedVersion: 2
+        x: 881
+        y: 429
+        width: 92
+        height: 225
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a9d528867de9b940800000000000000
+      internalID: 5312538328806316455
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MOAI_GOLF_LOGO_9
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 299
+        width: 439
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 692b042a678a04490800000000000000
+      internalID: -7764020530104978794
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MOAI_GOLF_LOGO_10
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 269
+        width: 918
+        height: 144
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1b7a1c7ae0a63140800000000000000
+      internalID: 4699120190172592927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MOAI_GOLF_LOGO_11
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 196
+        width: 57
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad4bcc08184e34d70800000000000000
+      internalID: 9026309323043419354
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MOAI_GOLF_LOGO_12
+      rect:
+        serializedVersion: 2
+        x: 388
+        y: 196
+        width: 58
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cbf4047bd4c4665f0800000000000000
+      internalID: -763839190122082372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MOAI_GOLF_LOGO_13
+      rect:
+        serializedVersion: 2
+        x: 453
+        y: 196
+        width: 54
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9dbd0430a89326900800000000000000
+      internalID: 676166158981848025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MOAI_GOLF_LOGO_14
+      rect:
+        serializedVersion: 2
+        x: 519
+        y: 196
+        width: 52
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 648c63f30eb474860800000000000000
+      internalID: 7514057929796274246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MOAI_GOLF_LOGO_15
+      rect:
+        serializedVersion: 2
+        x: 570
+        y: 240
+        width: 13
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4b6afc41fc04e9f40800000000000000
+      internalID: 5737094233468151476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MOAI_GOLF_LOGO_16
+      rect:
+        serializedVersion: 2
+        x: 585
+        y: 196
+        width: 28
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ae174f23d8dc7fc0800000000000000
+      internalID: -3495680809203458395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MOAI_GOLF_LOGO_17
+      rect:
+        serializedVersion: 2
+        x: 615
+        y: 196
+        width: 34
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad95246bbdec33af0800000000000000
+      internalID: -417762897364362790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MOAI_GOLF_LOGO_18
+      rect:
+        serializedVersion: 2
+        x: 653
+        y: 196
+        width: 54
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee9dc7889961255a0800000000000000
+      internalID: -6534135260685477394
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MOAI_GOLF_LOGO_19
+      rect:
+        serializedVersion: 2
+        x: 254
+        y: 219
+        width: 51
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09fc068fed9bbe8b0800000000000000
+      internalID: -5121795783902834800
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MOAI_GOLF_LOGO_20
+      rect:
+        serializedVersion: 2
+        x: 719
+        y: 219
+        width: 50
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d942ca2422891a7a0800000000000000
+      internalID: -6367641125210282851
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      MOAI_GOLF_LOGO_0: 220510055180347739
+      MOAI_GOLF_LOGO_1: -8729149342625880569
+      MOAI_GOLF_LOGO_10: 4699120190172592927
+      MOAI_GOLF_LOGO_11: 9026309323043419354
+      MOAI_GOLF_LOGO_12: -763839190122082372
+      MOAI_GOLF_LOGO_13: 676166158981848025
+      MOAI_GOLF_LOGO_14: 7514057929796274246
+      MOAI_GOLF_LOGO_15: 5737094233468151476
+      MOAI_GOLF_LOGO_16: -3495680809203458395
+      MOAI_GOLF_LOGO_17: -417762897364362790
+      MOAI_GOLF_LOGO_18: -6534135260685477394
+      MOAI_GOLF_LOGO_19: -5121795783902834800
+      MOAI_GOLF_LOGO_2: 8208554335489491297
+      MOAI_GOLF_LOGO_20: -6367641125210282851
+      MOAI_GOLF_LOGO_3: 8267074049890543608
+      MOAI_GOLF_LOGO_4: 7674025943229725471
+      MOAI_GOLF_LOGO_5: -2391314659663203407
+      MOAI_GOLF_LOGO_6: 7430784772640792026
+      MOAI_GOLF_LOGO_7: -4310792325395793335
+      MOAI_GOLF_LOGO_8: 5312538328806316455
+      MOAI_GOLF_LOGO_9: -7764020530104978794
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

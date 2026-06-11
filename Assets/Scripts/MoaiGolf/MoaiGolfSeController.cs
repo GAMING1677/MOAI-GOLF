@@ -29,7 +29,11 @@ namespace MoaiGolf
         public float Volume
         {
             get => volume;
-            set => volume = Mathf.Clamp01(value);
+            set
+            {
+                volume = Mathf.Clamp01(value);
+                MoaiGolfAudioSettingsStore.SeVolume = volume;
+            }
         }
 
         public void SetVolume(float volume01)
@@ -39,6 +43,7 @@ namespace MoaiGolf
 
         private void Awake()
         {
+            volume = MoaiGolfAudioSettingsStore.SeVolume;
             EnsureVoiceAudioSource();
         }
 

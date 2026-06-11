@@ -11,6 +11,16 @@ namespace MoaiGolf
     {
         private static string HudCanvasName => MoaiGolfHud.HudCanvasObjectName;
         private const string EventSystemName = "MoaiGolfEventSystem";
+        private const float TopRightMargin = 20f;
+        private const float TopRightButtonGap = 10f;
+        private const float BottomButtonMargin = 36f;
+        private const float BottomButtonGap = 14f;
+        private const int HudButtonFontSize = 18;
+        private static readonly Color HudButtonColor = new(0.2f, 0.24f, 0.3f, 0.95f);
+        private static readonly Vector2 GameplayTopRightButtonSize = new(108f, 44f);
+        private static readonly Vector2 ActionButtonSize = new(260f, 48f);
+        private static readonly Vector2 ResultImageSize = new(1680f, 520f);
+        private const float ResultImageYOffset = 60f;
 
         [MenuItem("Moai Golf/Setup Hud UI")]
         public static void SetupHudUiMenu()
@@ -37,12 +47,16 @@ namespace MoaiGolf
             EnsureEventSystem();
             var canvasRoot = EnsureCanvasRoot(hud.transform);
             var gameplayChrome = EnsureChild(canvasRoot, "GameplayChrome");
-            var optionsDialog = EnsureChild(canvasRoot, "OptionsDialog");
             var resultOverlay = EnsureChild(canvasRoot, "ResultOverlay");
+            var optionsDialog = EnsureChild(canvasRoot, "OptionsDialog");
 
             ConfigureGameplayChrome(gameplayChrome);
-            ConfigureOptionsDialog(optionsDialog);
             ConfigureResultOverlay(resultOverlay);
+            ConfigureOptionsDialog(optionsDialog);
+
+            gameplayChrome.transform.SetSiblingIndex(0);
+            resultOverlay.transform.SetSiblingIndex(1);
+            optionsDialog.transform.SetAsLastSibling();
 
             optionsDialog.SetActive(false);
             resultOverlay.SetActive(false);
@@ -91,16 +105,55 @@ namespace MoaiGolf
             var existing = hudTransform.Find(HudCanvasName);
             if (existing != null)
             {
-                return existing.gameObject;
+                var canvasRect = existing as RectTransform;
+                var canvas = existing.GetComponent<Canvas>();
+                if (canvasRect == null || !canvas)
+                {
+                    Object.DestroyImmediate(existing.gameObject);
+                }
+                else
+                {
+                    canvasRect.localScale = Vector3.one;
+                    canvasRect.anchorMin = Vector2.zero;
+                    canvasRect.anchorMax = Vector2.one;
+                    canvasRect.offsetMin = Vector2.zero;
+                    canvasRect.offsetMax = Vector2.zero;
+                    canvasRect.pivot = new Vector2(0.5f, 0.5f);
+                    EnsureCanvasComponents(existing.gameObject);
+                    return existing.gameObject;
+                }
             }
 
-            var canvasObject = new GameObject(HudCanvasName);
+            var canvasObject = new GameObject(HudCanvasName, typeof(RectTransform));
             canvasObject.transform.SetParent(hudTransform, false);
-            var canvas = canvasObject.AddComponent<Canvas>();
+            var rect = canvasObject.GetComponent<RectTransform>();
+            rect.localScale = Vector3.one;
+            rect.anchorMin = Vector2.zero;
+            rect.anchorMax = Vector2.one;
+            rect.offsetMin = Vector2.zero;
+            rect.offsetMax = Vector2.zero;
+            rect.pivot = new Vector2(0.5f, 0.5f);
+            EnsureCanvasComponents(canvasObject);
+            return canvasObject;
+        }
+
+        private static void EnsureCanvasComponents(GameObject canvasObject)
+        {
+            var canvas = canvasObject.GetComponent<Canvas>();
+            if (!canvas)
+            {
+                canvas = canvasObject.AddComponent<Canvas>();
+            }
+
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
             canvas.sortingOrder = 100;
 
-            var scaler = canvasObject.AddComponent<CanvasScaler>();
+            var scaler = canvasObject.GetComponent<CanvasScaler>();
+            if (!scaler)
+            {
+                scaler = canvasObject.AddComponent<CanvasScaler>();
+            }
+
             scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
             scaler.referenceResolution = new Vector2(
                 MoaiGolfWorldSettings.ViewportWidthPixels,
@@ -108,8 +161,10 @@ namespace MoaiGolf
             );
             scaler.matchWidthOrHeight = 0.5f;
 
-            canvasObject.AddComponent<GraphicRaycaster>();
-            return canvasObject;
+            if (!canvasObject.GetComponent<GraphicRaycaster>())
+            {
+                canvasObject.AddComponent<GraphicRaycaster>();
+            }
         }
 
         private static GameObject EnsureChild(GameObject parent, string childName)
@@ -143,14 +198,17 @@ namespace MoaiGolf
 
         private static void ConfigureGameplayChrome(GameObject root)
         {
+            var resetRight = TopRightMargin;
+            var optionsRight = TopRightMargin + GameplayTopRightButtonSize.x + TopRightButtonGap;
             var optionsButton = EnsureButton(
                 root,
                 "OptionsButton",
                 "オプション",
                 new Vector2(1f, 1f),
                 new Vector2(1f, 1f),
-                new Vector2(-148f, -40f),
-                new Vector2(132f, 48f)
+                new Vector2(-optionsRight, -TopRightMargin),
+                GameplayTopRightButtonSize,
+                TextAnchor.UpperRight
             );
             EnsureButton(
                 root,
@@ -158,8 +216,9 @@ namespace MoaiGolf
                 "リセット",
                 new Vector2(1f, 1f),
                 new Vector2(1f, 1f),
-                new Vector2(-16f, -40f),
-                new Vector2(112f, 48f)
+                new Vector2(-resetRight, -TopRightMargin),
+                GameplayTopRightButtonSize,
+                TextAnchor.UpperRight
             );
             optionsButton.transform.SetSiblingIndex(0);
         }
@@ -186,8 +245,15 @@ namespace MoaiGolf
         private static void ConfigureResultOverlay(GameObject root)
         {
             CreateDimmer(root, "Dimmer");
-            var imageObject = CreateImage(root, "ResultImage", new Vector2(0f, 40f), new Vector2(720f, 720f));
-            imageObject.GetComponent<Image>().preserveAspect = true;
+            var imageObject = CreateImage(
+                root,
+                "ResultImage",
+                new Vector2(0f, ResultImageYOffset),
+                ResultImageSize
+            );
+            var resultImage = imageObject.GetComponent<Image>();
+            resultImage.preserveAspect = true;
+            resultImage.type = Image.Type.Simple;
 
             var fallbackLabel = CreateLabel(
                 imageObject,
@@ -204,34 +270,57 @@ namespace MoaiGolf
                 root,
                 "OptionsButton",
                 "オプション",
-                new Vector2(0f, 1f),
-                new Vector2(0f, 1f),
-                new Vector2(24f, -24f),
-                new Vector2(132f, 48f),
-                TextAnchor.UpperLeft
+                new Vector2(1f, 1f),
+                new Vector2(1f, 1f),
+                new Vector2(-TopRightMargin, -TopRightMargin),
+                GameplayTopRightButtonSize,
+                TextAnchor.UpperRight
             );
 
-            var retryRerollButton = EnsureButton(
-                root,
-                "RetryRerollButton",
-                "条件を変えてリトライ",
-                new Vector2(0.5f, 0f),
-                new Vector2(0.5f, 0f),
-                new Vector2(-127f, 24f),
-                new Vector2(240f, 54f),
-                TextAnchor.LowerCenter
-            );
-            EnsureButton(
-                root,
-                "RetrySameButton",
-                "そのままリトライ",
-                new Vector2(0.5f, 0f),
-                new Vector2(0.5f, 0f),
-                new Vector2(127f, 24f),
-                new Vector2(240f, 54f),
-                TextAnchor.LowerCenter
-            );
-            retryRerollButton.transform.SetSiblingIndex(2);
+            EnsureResultBottomButtons(root);
+        }
+
+        private static void EnsureResultBottomButtons(GameObject root)
+        {
+            RemoveLegacyResultButtons(root);
+
+            var row = EnsureChild(root, "BottomButtonRow");
+            var rowRect = row.GetComponent<RectTransform>();
+            rowRect.anchorMin = new Vector2(0.5f, 0f);
+            rowRect.anchorMax = new Vector2(0.5f, 0f);
+            rowRect.pivot = new Vector2(0.5f, 0f);
+            rowRect.anchoredPosition = new Vector2(0f, BottomButtonMargin);
+            rowRect.sizeDelta = Vector2.zero;
+
+            var layout = row.GetComponent<HorizontalLayoutGroup>() ?? row.AddComponent<HorizontalLayoutGroup>();
+            layout.spacing = BottomButtonGap;
+            layout.childAlignment = TextAnchor.MiddleCenter;
+            layout.childControlWidth = false;
+            layout.childControlHeight = false;
+            layout.childForceExpandWidth = false;
+            layout.childForceExpandHeight = false;
+
+            var fitter = row.GetComponent<ContentSizeFitter>() ?? row.AddComponent<ContentSizeFitter>();
+            fitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+            fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+
+            var retryRerollButton = EnsureLayoutButton(row, "RetryRerollButton", "条件を変えてリトライ", ActionButtonSize);
+            var retrySameButton = EnsureLayoutButton(row, "RetrySameButton", "そのままリトライ", ActionButtonSize);
+            retryRerollButton.transform.SetSiblingIndex(0);
+            retrySameButton.transform.SetSiblingIndex(1);
+            row.transform.SetSiblingIndex(3);
+        }
+
+        private static void RemoveLegacyResultButtons(GameObject root)
+        {
+            foreach (var buttonName in new[] { "RetryRerollButton", "RetrySameButton" })
+            {
+                var legacy = root.transform.Find(buttonName);
+                if (legacy != null && legacy.parent == root.transform)
+                {
+                    Object.DestroyImmediate(legacy.gameObject);
+                }
+            }
         }
 
         private static void WireHudReferences(
@@ -273,10 +362,17 @@ namespace MoaiGolf
                 resultOverlay.transform.Find("ResultImage/FallbackLabel")?.GetComponent<Text>();
             serialized.FindProperty("resultOptionsButton").objectReferenceValue =
                 resultOverlay.transform.Find("OptionsButton")?.GetComponent<Button>();
+            var resultButtonRow = resultOverlay.transform.Find("BottomButtonRow");
             serialized.FindProperty("resultRetrySameButton").objectReferenceValue =
-                resultOverlay.transform.Find("RetrySameButton")?.GetComponent<Button>();
+                resultButtonRow?.Find("RetrySameButton")?.GetComponent<Button>();
             serialized.FindProperty("resultRetryRerollButton").objectReferenceValue =
-                resultOverlay.transform.Find("RetryRerollButton")?.GetComponent<Button>();
+                resultButtonRow?.Find("RetryRerollButton")?.GetComponent<Button>();
+            serialized.FindProperty("resultSuccessSprite").objectReferenceValue =
+                Resources.Load<Sprite>("MoaiGolf/UI/result_success")
+                ?? MoaiGolfSpriteCatalog.GetPersistedResultSuccess();
+            serialized.FindProperty("resultFailedSprite").objectReferenceValue =
+                Resources.Load<Sprite>("MoaiGolf/UI/result_failed")
+                ?? MoaiGolfSpriteCatalog.GetPersistedResultFailed();
 
             serialized.ApplyModifiedPropertiesWithoutUndo();
         }
@@ -362,12 +458,42 @@ namespace MoaiGolf
             var rect = buttonObject.GetComponent<RectTransform>();
             rect.anchorMin = anchorMin;
             rect.anchorMax = anchorMax;
-            rect.pivot = alignment == TextAnchor.UpperLeft ? new Vector2(0f, 1f) : new Vector2(0.5f, 0.5f);
+            rect.pivot = alignment switch
+            {
+                TextAnchor.UpperLeft => new Vector2(0f, 1f),
+                TextAnchor.UpperRight => new Vector2(1f, 1f),
+                TextAnchor.LowerCenter => new Vector2(0.5f, 0f),
+                _ => new Vector2(0.5f, 0.5f),
+            };
             rect.sizeDelta = size;
             rect.anchoredPosition = anchoredPosition;
 
+            ApplyHudButtonVisuals(buttonObject, label);
+            return buttonObject.GetComponent<Button>() ?? buttonObject.AddComponent<Button>();
+        }
+
+        private static Button EnsureLayoutButton(GameObject parent, string objectName, string label, Vector2 size)
+        {
+            var buttonObject = EnsureChild(parent, objectName);
+            var rect = buttonObject.GetComponent<RectTransform>();
+            rect.anchorMin = new Vector2(0.5f, 0.5f);
+            rect.anchorMax = new Vector2(0.5f, 0.5f);
+            rect.pivot = new Vector2(0.5f, 0.5f);
+            rect.sizeDelta = size;
+            rect.anchoredPosition = Vector2.zero;
+
+            var layoutElement = buttonObject.GetComponent<LayoutElement>() ?? buttonObject.AddComponent<LayoutElement>();
+            layoutElement.preferredWidth = size.x;
+            layoutElement.preferredHeight = size.y;
+
+            ApplyHudButtonVisuals(buttonObject, label);
+            return buttonObject.GetComponent<Button>() ?? buttonObject.AddComponent<Button>();
+        }
+
+        private static void ApplyHudButtonVisuals(GameObject buttonObject, string label)
+        {
             var image = buttonObject.GetComponent<Image>() ?? buttonObject.AddComponent<Image>();
-            image.color = new Color(0.2f, 0.24f, 0.3f, 0.95f);
+            image.color = HudButtonColor;
 
             var button = buttonObject.GetComponent<Button>() ?? buttonObject.AddComponent<Button>();
             button.targetGraphic = image;
@@ -381,11 +507,10 @@ namespace MoaiGolf
             var labelText = labelRect.GetComponent<Text>() ?? labelRect.gameObject.AddComponent<Text>();
             labelText.text = label;
             labelText.font = GetDefaultFont();
-            labelText.fontSize = alignment == TextAnchor.UpperLeft ? 18 : 18;
-            labelText.alignment = alignment;
+            labelText.fontSize = HudButtonFontSize;
+            labelText.alignment = TextAnchor.MiddleCenter;
             labelText.color = Color.white;
             labelText.raycastTarget = false;
-            return button;
         }
 
         private static Button CreateDialogButton(GameObject parent, string objectName, string label, Vector2 anchoredPosition)
@@ -397,7 +522,7 @@ namespace MoaiGolf
                 new Vector2(0.5f, 0.5f),
                 new Vector2(0.5f, 0.5f),
                 anchoredPosition,
-                new Vector2(260f, 48f)
+                ActionButtonSize
             );
         }
 
